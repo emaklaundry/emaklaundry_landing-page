@@ -1,83 +1,126 @@
-# Emak Laundry
+Pengembangan Website React Emak Laundry
 
-## 📍 Tentang Emak Laundry
-Emak Laundry adalah layanan laundry profesional yang berlokasi di **Banjar, Jawa Barat, Indonesia**. Kami menawarkan berbagai layanan laundry dengan kualitas terbaik, mengutamakan **kebersihan, keharuman, dan kerapihan**.
+Panduan ini menjelaskan langkah-langkah untuk mengambil kode app.jsx dari Canvas dan menjalankannya secara lokal di komputer Anda menggunakan Visual Studio Code (VS Code) dan Vite.
 
-## 🏡 Sejarah Emak Laundry
-Emak Laundry terinspirasi dari sosok **Hj. Siti Rodiyah** (1926–2018), seorang wanita hebat yang dikenal sebagai ibu, nenek, dan cicit bagi keluarganya. Rumah beliau kini telah dialihfungsikan menjadi **Emak Laundry** sebagai bentuk penghormatan dan kelanjutan nilai-nilai kebersihan, kerapihan, serta kasih sayang yang selalu beliau tanamkan.
+1. Prasyarat (Yang Anda Butuhkan)
 
-Kami ingin setiap pelanggan merasakan kehangatan dan perhatian dalam setiap layanan kami, seolah-olah dirawat oleh seorang **emak yang penuh kasih**. 💙
+Sebelum memulai, pastikan Anda telah menginstal:
 
----
+Node.js: Versi 18 atau lebih baru. Ini akan otomatis menyertakan npm.
 
-## 🎯 Identitas Brand
-**Nama Brand:** Emak Laundry  
-**Filosofi:** Seperti seorang emak yang memastikan pakaian keluarganya selalu bersih, rapi, dan wangi.  
-**Tagline:**  
-✅ "Bersih, Wangi, dan Rapi Seperti Baru!"  
-✅ "Solusi Laundry Andalan Keluarga!"  
-✅ "Cuci Bersih, Hati Pun Tenang!"
+Visual Studio Code: Editor kode Anda.
 
-**Logo & Warna:**  
-🔹 Warna utama: **Biru (Kepercayaan & Kebersihan)** dan **Hijau (Kesegaran & Ramah Lingkungan)**.  
-🔹 Desain logo mencerminkan elemen air, gelembung sabun, atau ikon ibu rumah tangga yang profesional.
+Logo: Pastikan Anda memiliki file logo (Head w Text Putih.jpg).
 
----
+2. Langkah-Langkah Setup Proyek
 
-## 🌟 Unique Selling Point (USP)
-Apa yang membuat Emak Laundry berbeda dari yang lain?  
-✅ **Harga Fleksibel:** Banyak pilihan layanan, dari kiloan, satuan, hingga ekspres.  
-✅ **Pelayanan Cepat:** Ada layanan **Ekspres 3 Jam** dan **6 Jam** untuk pelanggan yang butuh cepat.  
-✅ **Wangi Tahan Lama:** Pilihan parfum laundry yang bisa dipilih pelanggan.  
-✅ **Ramah Lingkungan:** Menggunakan deterjen aman dan air yang diolah dengan baik.  
-✅ **Layanan Antar Jemput:** Memudahkan pelanggan yang sibuk dan tidak sempat datang langsung.  
+Langkah 1: Buat Proyek React Baru (Menggunakan Vite)
 
----
+Buka terminal (Command Prompt, PowerShell, atau Terminal di VS Code) dan jalankan perintah berikut untuk membuat proyek React baru:
 
-## 📢 Strategi Branding & Pemasaran
-📌 **Media Sosial:**  
-- Instagram & Facebook: Upload foto hasil laundry, testimoni pelanggan, dan promo menarik.  
-- TikTok: Video edukasi tentang perawatan pakaian, behind the scenes proses laundry, dan tips mencuci.  
-- WhatsApp Business: Untuk komunikasi langsung dengan pelanggan dan update promo.  
-
-📌 **Program Loyalitas:**  
-- **Member Card:** Setiap 10x cuci dapat 1x cuci gratis.  
-- **Cashback:** Untuk pelanggan yang rutin menggunakan layanan selama 3 bulan berturut-turut.  
-- **Referral Program:** Pelanggan yang merekomendasikan Emak Laundry ke teman bisa dapat diskon khusus.
-
-📌 **Kemitraan & Jaringan:**  
-- Bekerjasama dengan kos-kosan, hotel kecil, salon, dan tempat usaha lain yang butuh laundry reguler.  
-- Promo khusus untuk komunitas tertentu (mahasiswa, pekerja kantoran, dll.).  
-
-📌 **Testimoni & Review:**  
-- Ajak pelanggan memberikan review positif di Google Maps dan media sosial.  
-- Buat konten video testimoni dari pelanggan yang puas dengan layanan Emak Laundry.  
-
----
-
-## 🚀 Layanan Unggulan
-💧 **Laundry Kiloan:** Pilihan cuci lipat, cuci setrika, dan ekspres.  
-👕 **Laundry Satuan:** Jas, gaun, boneka, bed cover, dan lainnya.  
-👟 **Cuci Sepatu & Tas:** Perawatan khusus untuk sepatu dan tas agar tetap bersih dan awet.  
-🚗 **Layanan Antar Jemput:** Gratis untuk pesanan minimal tertentu.
-
----
-
-## 📦 Layanan yang Direkomendasikan untuk Dikembangkan
-🚀 **Paket Langganan**: Bayar bulanan untuk layanan laundry tanpa ribet.  
-🚀 **Laundry Premium**: Dry cleaning untuk jas, kebaya, dan pakaian mewah lainnya.  
-🚀 **Cuci Sepatu Premium**: Dengan treatment khusus agar lebih awet dan bersih.  
-🚀 **Kemitraan Bisnis**: Menjalin kerjasama dengan usaha lokal untuk layanan laundry reguler.
-
----
-
-## 📞 Hubungi Kami
-📍 **Alamat:** Banjar, Jawa Barat, Indonesia  
-📲 **WhatsApp:** (Tambahkan nomor)  
-📧 **Email:** (Tambahkan email)  
-🌐 **Website:** (Tambahkan website jika ada)  
-📱 **Instagram & Facebook:** @EmakLaundry
+# Ganti 'emak-laundry-web' dengan nama folder yang Anda inginkan
+npm create vite@latest emak-laundry-web -- --template react
 
 
-Terima kasih telah memilih **Emak Laundry!** 💙✨
+Langkah 2: Masuk ke Folder Proyek
 
+Setelah proyek dibuat, masuk ke direktori folder tersebut:
+
+cd emak-laundry-web
+
+
+Langkah 3: Buka Proyek di VS Code
+
+Buka seluruh folder proyek di VS Code dengan perintah:
+
+code .
+
+
+Langkah 4: Instal Ketergantungan (Dependencies)
+
+Di terminal VS Code (buka dengan `Ctrl + ``), instal semua paket dasar React:
+
+npm install
+
+
+Langkah 5: Instal Paket Tambahan
+
+Proyek ini membutuhkan Tailwind CSS (untuk styling) dan Lucide React (untuk ikon). Instal paket-paket tersebut:
+
+npm install -D tailwindcss postcss autoprefixer
+npm install lucide-react
+
+
+Langkah 6: Konfigurasi Tailwind CSS
+
+Jalankan perintah ini untuk membuat file konfigurasi Tailwind:
+
+npx tailwindcss init -p
+
+
+Ini akan membuat dua file: tailwind.config.js dan postcss.config.js.
+
+Buka file tailwind.config.js dan perbarui bagian content agar Tailwind tahu file mana yang harus dipindai:
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}", // <-- Pastikan baris ini ada
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+
+Langkah 7: Tambahkan CSS Dasar Tailwind
+
+Buka file src/index.css. Hapus semua isinya dan ganti dengan tiga baris arahan Tailwind ini:
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+Langkah 8: Tempatkan Logo Anda
+
+Di dalam folder proyek Anda, temukan folder public. Salin file logo Anda (Head w Text Putih.jpg) ke dalam folder public tersebut.
+
+Langkah 9: Ganti Kode App.jsx
+
+Buka folder src.
+
+Hapus file App.css (kita tidak membutuhkannya lagi).
+
+Buka file src/App.jsx.
+
+Hapus semua kode yang ada di dalamnya.
+
+Salin seluruh kode dari Canvas "Emak Laundry Website" dan tempelkan ke dalam file src/App.jsx Anda.
+
+3. Menjalankan Proyek Secara Lokal
+
+Setelah semua langkah di atas selesai, jalankan server pengembangan lokal Anda:
+
+npm run dev
+
+
+Buka browser Anda dan kunjungi http://localhost:5173 (atau alamat apa pun yang muncul di terminal). Anda sekarang akan melihat website Emak Laundry berjalan!
+
+4. Deployment ke Vercel
+
+Buat repository baru di GitHub.
+
+Unggah (push) seluruh folder proyek Anda ke repository GitHub tersebut.
+
+Daftar atau masuk ke Vercel.
+
+Hubungkan akun GitHub Anda ke Vercel.
+
+Pilih "Import Project" dan pilih repository website Emak Laundry Anda.
+
+Vercel akan otomatis mendeteksi bahwa ini adalah proyek Vite/React.
+
+Klik "Deploy". Website Anda akan online dalam beberapa menit!
