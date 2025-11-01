@@ -23,11 +23,11 @@
       transform: translateX(0);
     }
     to {
-      transform: translateX(-100%);
+      /* Menggeser 1 set (setengah dari total lebar) untuk loop mulus */
+      transform: translateX(-50%);
     }
   }
   .animate-scroll-x {
-    /* Durasi 40s. Anda bisa sesuaikan (misal: 20s untuk lebih cepat) */
     animation: scroll-x 40s linear infinite;
   }
   .pause-animation:hover {

@@ -15,9 +15,9 @@ import {
   Facebook,
   Smartphone,
   Quote,
-  Mail,
   HelpCircle,
-  Sparkles
+  Sparkles,
+  Camera // PERUBAHAN: Ikon baru untuk Galeri
 } from 'lucide-react';
 
 // --- Data Kontak Global ---
@@ -103,7 +103,7 @@ const testimonials = [
   }
 ];
 
-// --- Data FAQ (BARU) ---
+// --- Data FAQ ---
 const faqData = [
   {
     question: "Apa bedanya layanan Kiloan dan Satuan?",
@@ -122,6 +122,17 @@ const faqData = [
     answer: "Waktu pengerjaan untuk item satuan bervariasi tergantung tingkat kesulitan dan jenis bahan. Rata-rata pengerjaan adalah 2-4 hari. Untuk layanan khusus seperti perawatan noda membandel mungkin memerlukan waktu lebih lama."
   }
 ];
+
+// --- PERUBAHAN: Data Galeri Foto ditambahkan ---
+const galleryImages = [
+  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Fasilitas+Bersih+Kami", alt: "Fasilitas Emak Laundry yang bersih dan terorganisir" },
+  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Mesin+Cuci+Modern", alt: "Jajaran mesin cuci modern di Emak Laundry" },
+  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Proses+Setrika+Rapi", alt: "Proses setrika uap yang rapi dan profesional" },
+  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Pakaian+Siap+Diambil", alt: "Tumpukan pakaian bersih yang sudah dikemas rapi" },
+  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Pelayanan+Ramah", alt: "Staf Emak Laundry yang melayani dengan ramah" },
+  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Hasil+Wangi+%26+Bersih", alt: "Hasil cucian yang bersih dan wangi" },
+];
+
 
 // --- Komponen "Tanya Emak" (GEMINI API) ---
 const TanyaEmak = () => {
@@ -337,13 +348,13 @@ const NavLink = ({ children, onClick, isActive }) => (
 // --- Komponen Header ---
 const Header = ({ page, setPage }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // Halaman "Kontak" sudah dihapus dari sini
   const navItems = [
     { name: "Home", page: "home" },
     { name: "Tentang Kami", page: "about" },
     { name: "Layanan & Harga", page: "services" },
     { name: "Mitra Usaha", page: "partners" },
     { name: "FAQ", page: "faq" },
-    { name: "Kontak", page: "contact" },
   ];
 
   const handleSetPage = (pageName) => {
@@ -354,27 +365,8 @@ const Header = ({ page, setPage }) => {
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
-      {/* Info Bar Atas */}
-      <div className="hidden lg:block bg-fuchsia-600 text-white py-2">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-between items-center text-sm">
-            <div className="flex gap-6">
-              <span className="flex items-center gap-2">
-                <MapPin size={16} />
-                {KONTAK.alamat}
-              </span>
-              <span className="flex items-center gap-2">
-                <Clock size={16} />
-                {KONTAK.jam}
-              </span>
-            </div>
-            <a href={KONTAK.waLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-fuchsia-100 transition-colors">
-              <Phone size={16} />
-              {KONTAK.telp}
-            </a>
-          </div>
-        </div>
-      </div>
+      
+      {/* Info Bar Atas (Alamat & Jam) sudah dihapus */}
 
       {/* Main Nav */}
       <div className="container mx-auto px-4">
@@ -407,15 +399,6 @@ const Header = ({ page, setPage }) => {
                 {item.name}
               </NavLink>
             ))}
-            <a
-              href={KONTAK.waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-fuchsia-600 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500"
-            >
-              <Smartphone size={18} className="mr-2" />
-              WhatsApp Kami
-            </a>
           </div>
 
           {/* Tombol Menu Mobile */}
@@ -454,16 +437,7 @@ const Header = ({ page, setPage }) => {
             ))}
           </div>
           <div className="border-t border-gray-200 pt-4 pb-3">
-            <a
-              href={KONTAK.waLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center mx-4 px-4 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-fuchsia-600 hover:bg-fuchsia-700"
-            >
-              <Smartphone size={20} className="mr-2" />
-              WhatsApp Kami
-            </a>
-            <div className="mt-4 px-4 text-center text-sm text-gray-600">
+            <div className="px-4 text-center text-sm text-gray-600">
               <p className="font-medium">{KONTAK.telp}</p>
               <p>{KONTAK.jam}</p>
             </div>
@@ -535,7 +509,8 @@ const HomePage = ({ setPage }) => {
           {/* Gambar Hero (Golden Ratio: 2/5) */}
           <div className="hidden lg:block lg:col-span-2">
             <img 
-              src="https://placehold.co/600x500/fbe8f3/c02e89?text=Emak+Laundry\nBersih+%26+Wangi" 
+              // PERUBAHAN: Teks placeholder diperbarui
+              src="https://placehold.co/600x500/fbe8f3/c02e89?text=Pakaian+Bersih+%26+Wangi" 
               alt="Tumpukan pakaian bersih dan wangi" 
               className="rounded-lg shadow-xl"
             />
@@ -586,8 +561,8 @@ const HomePage = ({ setPage }) => {
           <div className="absolute top-0 right-0 z-10 h-full w-16 bg-gradient-to-l from-white"></div>
 
           {/* Scrolling Container */}
+          {/* PERUBAHAN: Duplikasi array [testimonials] untuk loop mulus */}
           <div className="w-max flex animate-scroll-x pause-animation">
-            {/* Render items twice for seamless loop */}
             {[...testimonials, ...testimonials].map((testimonial, index) => (
               <div key={`${testimonial.name}-${index}`} className="flex-shrink-0 w-80 sm:w-96 p-4">
                 <div className="bg-white h-full p-8 rounded-lg shadow-md border border-gray-100">
@@ -654,7 +629,7 @@ const AboutPage = () => {
       {/* Hero About */}
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32">
         <div className="absolute inset-0 opacity-10">
-          {/* Ganti dengan URL gambar fasilitas Anda jika ada */}
+          {/* PERUBAHAN: Teks placeholder diperbarui */}
           <img src="https://placehold.co/1920x800/d549a2/white?text=Fasilitas+Emak+Laundry" alt="Fasilitas Emak Laundry" className="w-full h-full object-cover"/>
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
@@ -687,7 +662,8 @@ const AboutPage = () => {
             {/* Gambar About (2/5) */}
             <div className="order-first lg:order-last lg:col-span-2">
               <img 
-                src="https://placehold.co/600x500/fbe8f3/c02e89?text=Tim+Emak+Laundry" 
+                // PERUBAHAN: Teks placeholder diperbarui
+                src="https://placehold.co/600x500/fbe8f3/c02e89?text=Tim+Kami+Siap+Melayani" 
                 alt="Tim Emak Laundry" 
                 className="rounded-lg shadow-xl"
               />
@@ -695,8 +671,34 @@ const AboutPage = () => {
           </div>
         </div>
       </section>
+
+      {/* PERUBAHAN: Bagian Galeri Foto ditambahkan */}
+      <section className="py-20 lg:py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto">
+            <Camera className="h-12 w-12 text-fuchsia-600 mx-auto" />
+            <h2 className="mt-4 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Galeri Emak: <span className="text-fuchsia-600">Lihat Fasilitas Kami</span>
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Kami menjaga kebersihan dan kualitas di setiap langkah. Lihat sendiri bagaimana kami merawat pakaian Anda.
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+            {galleryImages.map((image, index) => (
+              <div key={index} className="overflow-hidden rounded-lg shadow-md aspect-w-3 aspect-h-2">
+                <img 
+                  src={image.src} 
+                  alt={image.alt} 
+                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       
-      {/* Stats Section (Shadow lebih halus) */}
+      {/* Stats Section */}
       <section className="bg-fuchsia-50 py-20 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
@@ -869,7 +871,8 @@ const PartnersPage = () => {
       {/* Hero Mitra */}
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32 text-center">
         <div className="absolute inset-0 opacity-10">
-          <img src="https://placehold.co/1920x800/d549a2/white?text=Kapasitas+Produksi+Besar" alt="Kapasitas produksi Emak Laundry" className="w-full h-full object-cover"/>
+          {/* PERUBAHAN: Teks placeholder diperbarui */}
+          <img src="https://placehold.co/1920x800/d549a2/white?text=Kapasitas+Produksi+Volume+Besar" alt="Kapasitas produksi Emak Laundry" className="w-full h-full object-cover"/>
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-4xl lg:text-5xl font-extrabold">Mitra Usaha Emak Laundry</h1>
@@ -919,7 +922,8 @@ const PartnersPage = () => {
             {/* Gambar Mitra (2/5) */}
             <div className="lg:col-span-2">
               <img 
-                src="https://placehold.co/600x500/fbe8f3/c02e89?text=Linen+Hotel+Bersih" 
+                // PERUBAHAN: Teks placeholder diperbarui
+                src="https://placehold.co/600x500/fbe8f3/c02e89?text=Linen+Hotel+%26+Resto" 
                 alt="Linen hotel bersih" 
                 className="rounded-lg shadow-xl"
               />
@@ -968,7 +972,7 @@ const PartnersPage = () => {
   );
 };
 
-// --- Komponen Halaman: FAQ (BARU) ---
+// --- Komponen Halaman: FAQ ---
 const FAQPage = () => {
   return (
     <div className="bg-white py-16 lg:py-24">
@@ -991,7 +995,7 @@ const FAQPage = () => {
           </div>
         </div>
 
-        {/* --- MODUL TANYA EMAK (GEMINI) DITAMBAHKAN DI SINI --- */}
+        {/* --- MODUL TANYA EMAK (GEMINI) --- */}
         <TanyaEmak />
 
       </div>
@@ -999,99 +1003,17 @@ const FAQPage = () => {
   );
 };
 
-// --- Komponen Halaman: Kontak ---
-const ContactPage = () => {
-  return (
-    <div className="bg-white py-16 lg:py-24">
-      <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto">
-          <Mail className="h-12 w-12 text-fuchsia-600 mx-auto" />
-          <h1 className="mt-4 text-4xl lg:text-5xl font-extrabold text-gray-900">
-            Hubungi <span className="text-fuchsia-600">Kami</span>
-          </h1>
-          <p className="mt-4 text-xl max-w-3xl mx-auto text-gray-600">
-            Kami siap membantu Anda. Jangan ragu untuk menghubungi kami melalui detail di bawah ini atau kunjungi langsung lokasi kami.
-          </p>
-        </div>
+// --- Halaman Kontak Dihapus ---
 
-        <div className="mt-16 grid lg:grid-cols-2 gap-16">
-          {/* Info Kontak */}
-          <div className="bg-fuchsia-50 p-8 lg:p-12 rounded-lg shadow-md">
-            <h2 className="text-3xl font-extrabold text-gray-900 mb-8">Informasi Kontak</h2>
-            <div className="space-y-6">
-              <div className="flex items-start gap-4">
-                <MapPin className="h-8 w-8 text-fuchsia-600 flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">Alamat</h3>
-                  <p className="text-gray-700">{KONTAK.alamat}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <Clock className="h-8 w-8 text-fuchsia-600 flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">Jam Operasional</h3>
-                  <p className="text-gray-700">{KONTAK.jam}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <Smartphone className="h-8 w-8 text-fuchsia-600 flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">WhatsApp Bisnis</h3>
-                  <a href={KONTAK.waLink} target="_blank" rel="noopener noreferrer" className="text-fuchsia-700 hover:text-fuchsia-900 text-lg">
-                    {KONTAK.telp}
-                  </a>
-                  <p className="text-sm text-gray-600">(Klik untuk chat langsung)</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <Mail className="h-8 w-8 text-fuchsia-600 flex-shrink-0 mt-1" />
-                <div>
-                  <h3 className="text-lg font-bold text-gray-900">Email</h3>
-                  <a href={`mailto:${KONTAK.email}`} className="text-fuchsia-700 hover:text-fuchsia-900 text-lg">
-                    {KONTAK.email}
-                  </a>
-                </div>
-              </div>
-            </div>
-            
-            <div className="mt-10 pt-6 border-t border-fuchsia-200 flex space-x-6">
-              <a href={KONTAK.igLink} target="_blank" rel="noopener noreferrer" className="text-fuchsia-600 hover:text-fuchsia-800">
-                <Instagram className="h-8 w-8" />
-                <span className="sr-only">Instagram</span>
-              </a>
-              <a href={KONTAK.fbLink} target="_blank" rel="noopener noreferrer" className="text-fuchsia-600 hover:text-fuchsia-800">
-                <Facebook className="h-8 w-8" />
-                <span className="sr-only">Facebook</span>
-              </a>
-            </div>
-          </div>
-          
-          {/* Peta Lokasi */}
-          <div className="rounded-lg overflow-hidden shadow-lg border border-gray-200">
-            <iframe
-              src={KONTAK.mapSrc}
-              width="100%"
-              height="100%"
-              style={{ border: 0, minHeight: '450px' }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // --- Komponen Footer ---
 const Footer = ({ setPage }) => {
+  // "Kontak" sudah dihapus dari footerNav
   const footerNav = [
     { name: "Tentang Kami", page: "about" },
     { name: "Layanan", page: "services" },
     { name: "Mitra", page: "partners" },
     { name: "FAQ", page: "faq" },
-    { name: "Kontak", page: "contact" },
   ];
   
   const handleSetPage = (pageName) => {
@@ -1183,6 +1105,28 @@ const Footer = ({ setPage }) => {
   );
 };
 
+// Komponen Tombol WhatsApp Mengambang
+const FloatingWhatsApp = () => (
+  <a
+    href={KONTAK.waLink}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-transform hover:scale-110"
+    aria-label="Chat di WhatsApp"
+  >
+    {/* Ikon WhatsApp SVG */}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.598-3.843-1.597-5.946C.146 5.333 5.493 0 12.05 0c3.199 0 6.211 1.24 8.515 3.544 2.303 2.305 3.543 5.316 3.543 8.515 0 6.557-5.347 11.9-11.9 11.9-1.946 0-3.842-.511-5.58-1.448L.057 24zM12.05 2.163c-5.385 0-9.738 4.353-9.738 9.738 0 2.062.601 4.02 1.69 5.702l-.375 1.372 1.398-.369c1.64.939 3.535 1.458 5.56 1.458 5.385 0 9.738-4.353 9.738-9.738S17.435 2.163 12.05 2.163zM18.1 14.616c-.225-.113-1.334-.658-1.542-.73-.207-.072-.358-.113-.509.113-.15.225-.584.73-.716.878-.132.148-.264.168-.495.056-.23-.113-.96-.354-1.828-1.129-.675-.595-1.132-1.328-1.264-1.554-.132-.225-.014-.347.1-.46.101-.1.225-.264.338-.396.113-.132.148-.225.225-.375.072-.15.036-.264-.018-.375-.054-.113-.509-1.222-.7-1.676-.188-.442-.375-.38-.509-.387-.121-.008-.264-.008-.405-.008s-.375.056-.584.28C8.98 9.06 8.51 9.5 8.51 10.681c0 1.182.596 2.304.684 2.454.088.15.96 1.533 2.344 2.078 1.382.544 1.748.435 2.056.409.308-.027.96-.396 1.1-.73.139-.333.139-.613.097-.73-.042-.113-.15-.18-.327-.293z" />
+    </svg>
+  </a>
+);
+
 
 // --- Komponen Utama App ---
 export default function App() {
@@ -1200,8 +1144,6 @@ export default function App() {
         return <PartnersPage />;
       case 'faq':
         return <FAQPage />;
-      case 'contact':
-        return <ContactPage />;
       default:
         return <HomePage setPage={setPage} />;
     }
@@ -1214,6 +1156,7 @@ export default function App() {
         {renderPage()}
       </main>
       <Footer setPage={setPage} />
+      <FloatingWhatsApp />
     </div>
   );
 }
