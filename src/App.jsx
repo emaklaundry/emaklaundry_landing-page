@@ -17,7 +17,9 @@ import {
   Quote,
   HelpCircle,
   Sparkles,
-  Camera // PERUBAHAN: Ikon baru untuk Galeri
+  Camera,
+  ImageIcon,
+  Building // PERUBAHAN: Ikon baru untuk Placeholder Mitra
 } from 'lucide-react';
 
 // --- Data Kontak Global ---
@@ -123,15 +125,62 @@ const faqData = [
   }
 ];
 
-// --- PERUBAHAN: Data Galeri Foto ditambahkan ---
+// --- Data Galeri Foto ---
 const galleryImages = [
-  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Fasilitas+Bersih+Kami", alt: "Fasilitas Emak Laundry yang bersih dan terorganisir" },
-  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Mesin+Cuci+Modern", alt: "Jajaran mesin cuci modern di Emak Laundry" },
-  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Proses+Setrika+Rapi", alt: "Proses setrika uap yang rapi dan profesional" },
-  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Pakaian+Siap+Diambil", alt: "Tumpukan pakaian bersih yang sudah dikemas rapi" },
-  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Pelayanan+Ramah", alt: "Staf Emak Laundry yang melayani dengan ramah" },
-  { src: "https://placehold.co/600x400/fbe8f3/c02e89?text=Hasil+Wangi+%26+Bersih", alt: "Hasil cucian yang bersih dan wangi" },
+  { alt: "Fasilitas Bersih Kami" },
+  { alt: "Mesin Cuci Modern" },
+  { alt: "Proses Setrika Rapi" },
+  { alt: "Pakaian Siap Diambil" },
+  { alt: "Pelayanan Ramah" },
+  { alt: "Hasil Wangi & Bersih" },
 ];
+
+// --- PERUBAHAN: Data Mitra Kami ditambahkan ---
+const mitraKami = [
+  { name: "Hotel Asri Banjar", logo: null }, // Biarkan null untuk menggunakan placeholder
+  { name: "Restoran Saung Kuring", logo: null },
+  { name: "Villa Cempaka", logo: null },
+  { name: "Klinik Harapan Bunda", logo: null },
+  { name: "Spa & Sauna Sehati", logo: null },
+  { name: "Guest House Anggrek", logo: null },
+];
+
+
+// --- Komponen Placeholder Gambar ---
+// Ini akan menggantikan semua gambar placehold.co
+const ImagePlaceholder = ({ alt, className = '' }) => (
+  <div
+    className={`flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner ${className}`}
+    style={{
+      // Pola titik-titik yang subtil
+      backgroundImage: 'radial-gradient(circle, rgba(192, 46, 137, 0.05) 1px, transparent 1px)',
+      backgroundSize: '10px 10px',
+      aspectRatio: '3/2' // Rasio aspek default
+    }}
+  >
+    <div className="text-center text-fuchsia-400 p-4">
+      <ImageIcon size={48} className="mx-auto" />
+      <p className="mt-2 text-sm font-medium">{alt}</p>
+    </div>
+  </div>
+);
+
+// --- PERUBAHAN: Komponen Placeholder Logo Mitra ---
+const PartnerLogoPlaceholder = ({ name, className = '' }) => (
+  <div
+    className={`flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-6 ${className}`}
+    style={{
+      backgroundImage: 'radial-gradient(circle, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',
+      backgroundSize: '10px 10px',
+      aspectRatio: '3/2' 
+    }}
+  >
+    <div className="text-center text-gray-400">
+      <Building size={40} className="mx-auto" />
+      <p className="mt-2 text-sm font-medium">{name}</p>
+    </div>
+  </div>
+);
 
 
 // --- Komponen "Tanya Emak" (GEMINI API) ---
@@ -406,6 +455,7 @@ const Header = ({ page, setPage }) => {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-fuchsia-700 hover:bg-fuchsia-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-fuchsia-500"
+              aria-label="Buka menu"
             >
               <span className="sr-only">Buka menu utama</span>
               {isMobileMenuOpen ? (
@@ -508,11 +558,10 @@ const HomePage = ({ setPage }) => {
           </div>
           {/* Gambar Hero (Golden Ratio: 2/5) */}
           <div className="hidden lg:block lg:col-span-2">
-            <img 
-              // PERUBAHAN: Teks placeholder diperbarui
-              src="https://placehold.co/600x500/fbe8f3/c02e89?text=Pakaian+Bersih+%26+Wangi" 
-              alt="Tumpukan pakaian bersih dan wangi" 
-              className="rounded-lg shadow-xl"
+            {/* Menggunakan Komponen Placeholder */}
+            <ImagePlaceholder 
+              alt="Pakaian Bersih & Wangi" 
+              className="shadow-xl" 
             />
           </div>
         </div>
@@ -561,7 +610,7 @@ const HomePage = ({ setPage }) => {
           <div className="absolute top-0 right-0 z-10 h-full w-16 bg-gradient-to-l from-white"></div>
 
           {/* Scrolling Container */}
-          {/* PERUBAHAN: Duplikasi array [testimonials] untuk loop mulus */}
+          {/* Duplikasi array [testimonials] untuk loop mulus */}
           <div className="w-max flex animate-scroll-x pause-animation">
             {[...testimonials, ...testimonials].map((testimonial, index) => (
               <div key={`${testimonial.name}-${index}`} className="flex-shrink-0 w-80 sm:w-96 p-4">
@@ -629,8 +678,8 @@ const AboutPage = () => {
       {/* Hero About */}
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32">
         <div className="absolute inset-0 opacity-10">
-          {/* PERUBAHAN: Teks placeholder diperbarui */}
-          <img src="https://placehold.co/1920x800/d549a2/white?text=Fasilitas+Emak+Laundry" alt="Fasilitas Emak Laundry" className="w-full h-full object-cover"/>
+          {/* Menggunakan Komponen Placeholder */}
+          <ImagePlaceholder alt="Fasilitas Emak Laundry" className="w-full h-full object-cover rounded-none border-none shadow-none" />
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h1 className="text-4xl lg:text-5xl font-extrabold">Tentang Emak Laundry</h1>
@@ -661,44 +710,17 @@ const AboutPage = () => {
             </div>
             {/* Gambar About (2/5) */}
             <div className="order-first lg:order-last lg:col-span-2">
-              <img 
-                // PERUBAHAN: Teks placeholder diperbarui
-                src="https://placehold.co/600x500/fbe8f3/c02e89?text=Tim+Kami+Siap+Melayani" 
-                alt="Tim Emak Laundry" 
-                className="rounded-lg shadow-xl"
+              {/* Menggunakan Komponen Placeholder */}
+              <ImagePlaceholder 
+                alt="Tim Kami Siap Melayani" 
+                className="shadow-xl" 
               />
             </div>
           </div>
         </div>
       </section>
-
-      {/* PERUBAHAN: Bagian Galeri Foto ditambahkan */}
-      <section className="py-20 lg:py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto">
-            <Camera className="h-12 w-12 text-fuchsia-600 mx-auto" />
-            <h2 className="mt-4 text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              Galeri Emak: <span className="text-fuchsia-600">Lihat Fasilitas Kami</span>
-            </h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Kami menjaga kebersihan dan kualitas di setiap langkah. Lihat sendiri bagaimana kami merawat pakaian Anda.
-            </p>
-          </div>
-          <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {galleryImages.map((image, index) => (
-              <div key={index} className="overflow-hidden rounded-lg shadow-md aspect-w-3 aspect-h-2">
-                <img 
-                  src={image.src} 
-                  alt={image.alt} 
-                  className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
       
-      {/* Stats Section */}
+      {/* Bagian Stats (Angka) */}
       <section className="bg-fuchsia-50 py-20 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
@@ -719,6 +741,33 @@ const AboutPage = () => {
           </div>
         </div>
       </section>
+      
+      {/* Bagian Galeri Foto */}
+      <section className="py-20 lg:py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto">
+            <Camera className="h-12 w-12 text-fuchsia-600 mx-auto" />
+            <h2 className="mt-4 text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Galeri Emak: <span className="text-fuchsia-600">Lihat Fasilitas Kami</span>
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Kami menjaga kebersihan dan kualitas di setiap langkah. Lihat sendiri bagaimana kami merawat pakaian Anda.
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+            {galleryImages.map((image, index) => (
+              <div key={index} className="overflow-hidden rounded-lg shadow-md aspect-w-3 aspect-h-2">
+                {/* Menggunakan Komponen Placeholder */}
+                <ImagePlaceholder 
+                  alt={image.alt} 
+                  className="h-full w-full rounded-none border-none shadow-none" 
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 };
@@ -871,8 +920,8 @@ const PartnersPage = () => {
       {/* Hero Mitra */}
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32 text-center">
         <div className="absolute inset-0 opacity-10">
-          {/* PERUBAHAN: Teks placeholder diperbarui */}
-          <img src="https://placehold.co/1920x800/d549a2/white?text=Kapasitas+Produksi+Volume+Besar" alt="Kapasitas produksi Emak Laundry" className="w-full h-full object-cover"/>
+          {/* Menggunakan Komponen Placeholder */}
+          <ImagePlaceholder alt="Kapasitas Produksi Volume Besar" className="w-full h-full object-cover rounded-none border-none shadow-none" />
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-4xl lg:text-5xl font-extrabold">Mitra Usaha Emak Laundry</h1>
@@ -921,13 +970,31 @@ const PartnersPage = () => {
             </div>
             {/* Gambar Mitra (2/5) */}
             <div className="lg:col-span-2">
-              <img 
-                // PERUBAHAN: Teks placeholder diperbarui
-                src="https://placehold.co/600x500/fbe8f3/c02e89?text=Linen+Hotel+%26+Resto" 
-                alt="Linen hotel bersih" 
-                className="rounded-lg shadow-xl"
+              {/* Menggunakan Komponen Placeholder */}
+              <ImagePlaceholder 
+                alt="Linen Hotel & Resto" 
+                className="shadow-xl" 
               />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- PERUBAHAN: Bagian Mitra Kami (Dipercaya Oleh) ditambahkan --- */}
+      <section className="bg-white py-20 lg:py-24 border-t border-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Dipercaya Oleh <span className="text-fuchsia-600">Berbagai Usaha</span>
+            </h2>
+            <p className="mt-4 text-lg text-gray-600">
+              Kami bangga menjadi partner kebersihan untuk berbagai bisnis di Kota Banjar dan sekitarnya.
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {mitraKami.map((mitra) => (
+              <PartnerLogoPlaceholder key={mitra.name} name={mitra.name} />
+            ))}
           </div>
         </div>
       </section>
@@ -1042,17 +1109,17 @@ const Footer = ({ setPage }) => {
             <p className="text-gray-400">
               Kebersihan Terbaik dengan Sentuhan Kasih Ibu.
             </p>
-            <div className="space-y-2 text-gray-300">
+            <div className="space-y-3 text-gray-300">
               <p className="flex items-start gap-3">
-                <MapPin size={18} className="mt-1 flex-shrink-0" />
+                <MapPin size={18} className="mt-1 flex-shrink-0 text-fuchsia-400" />
                 <span className="flex-1">{KONTAK.alamat}</span>
               </p>
               <p className="flex items-start gap-3">
-                <Phone size={18} className="mt-1 flex-shrink-0" />
+                <Phone size={18} className="mt-1 flex-shrink-0 text-fuchsia-400" />
                 <a href={KONTAK.waLink} target="_blank" rel="noopener noreferrer" className="hover:text-fuchsia-400">{KONTAK.telp}</a>
               </p>
               <p className="flex items-start gap-3">
-                <Clock size={18} className="mt-1 flex-shrink-0" />
+                <Clock size={18} className="mt-1 flex-shrink-0 text-fuchsia-400" />
                 <span>{KONTAK.jam}</span>
               </p>
             </div>
@@ -1082,11 +1149,11 @@ const Footer = ({ setPage }) => {
               Dapatkan info promo dan tips perawatan pakaian terbaru.
             </p>
             <div className="mt-4 flex space-x-6">
-              <a href={KONTAK.igLink} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-400">
+              <a href={KONTAK.igLink} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-400" aria-label="Instagram Emak Laundry">
                 <Instagram className="h-7 w-7" />
                 <span className="sr-only">Instagram</span>
               </a>
-              <a href={KONTAK.fbLink} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-400">
+              <a href={KONTAK.fbLink} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-400" aria-label="Facebook Emak Laundry">
                 <Facebook className="h-7 w-7" />
                 <span className="sr-only">Facebook</span>
               </a>
@@ -1114,7 +1181,7 @@ const FloatingWhatsApp = () => (
     className="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-transform hover:scale-110"
     aria-label="Chat di WhatsApp"
   >
-    {/* Ikon WhatsApp SVG */}
+    {/* Ikon SVG WhatsApp yang lebih rapi dan standar */}
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="28"
@@ -1122,7 +1189,7 @@ const FloatingWhatsApp = () => (
       viewBox="0 0 24 24"
       fill="currentColor"
     >
-      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.598-3.843-1.597-5.946C.146 5.333 5.493 0 12.05 0c3.199 0 6.211 1.24 8.515 3.544 2.303 2.305 3.543 5.316 3.543 8.515 0 6.557-5.347 11.9-11.9 11.9-1.946 0-3.842-.511-5.58-1.448L.057 24zM12.05 2.163c-5.385 0-9.738 4.353-9.738 9.738 0 2.062.601 4.02 1.69 5.702l-.375 1.372 1.398-.369c1.64.939 3.535 1.458 5.56 1.458 5.385 0 9.738-4.353 9.738-9.738S17.435 2.163 12.05 2.163zM18.1 14.616c-.225-.113-1.334-.658-1.542-.73-.207-.072-.358-.113-.509.113-.15.225-.584.73-.716.878-.132.148-.264.168-.495.056-.23-.113-.96-.354-1.828-1.129-.675-.595-1.132-1.328-1.264-1.554-.132-.225-.014-.347.1-.46.101-.1.225-.264.338-.396.113-.132.148-.225.225-.375.072-.15.036-.264-.018-.375-.054-.113-.509-1.222-.7-1.676-.188-.442-.375-.38-.509-.387-.121-.008-.264-.008-.405-.008s-.375.056-.584.28C8.98 9.06 8.51 9.5 8.51 10.681c0 1.182.596 2.304.684 2.454.088.15.96 1.533 2.344 2.078 1.382.544 1.748.435 2.056.409.308-.027.96-.396 1.1-.73.139-.333.139-.613.097-.73-.042-.113-.15-.18-.327-.293z" />
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.35 3.45 16.86L2.06 22L7.31 20.62C8.76 21.41 10.37 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 6.46 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 11.92C20.28 16.45 16.56 20.17 12.04 20.17C10.53 20.17 9.09 19.79 7.8 19.11L7.31 18.83L3.8 19.8L4.82 16.4L4.52 15.89C3.78 14.5 3.4 13.01 3.4 11.91C3.4 7.39 7.12 3.67 12.04 3.67M17.36 14.49C17.11 14.37 15.92 13.78 15.7 13.69C15.48 13.59 15.31 13.54 15.15 13.79C14.98 14.04 14.5 14.62 14.36 14.79C14.23 14.96 14.09 14.98 13.85 14.86C13.6 14.74 12.63 14.42 11.43 13.34C10.49 12.49 9.81 11.45 9.64 11.19C9.47 10.93 9.59 10.8 9.71 10.68C9.82 10.58 9.96 10.39 10.1 10.23C10.24 10.06 10.29 9.95 10.37 9.78C10.46 9.61 10.41 9.47 10.34 9.35C10.27 9.23 9.76 7.97 9.56 7.48C9.37 7 9.17 7.02 9.04 7.02C8.91 7.02 8.71 7.02 8.52 7.02C8.32 7.02 8.02 7.11 7.77 7.36C7.52 7.61 7 8.2 7 9.32C7 10.44 7.79 11.53 7.91 11.69C8.03 11.86 9.52 14.26 11.81 15.2C14.1 16.14 14.73 15.93 15.15 15.89C15.58 15.85 16.55 15.29 16.78 14.96C17.01 14.63 17.01 14.37 16.96 14.26C16.91 14.15 16.79 14.09 16.54 13.97C16.29 13.85 17.61 14.62 17.36 14.49Z" />
     </svg>
   </a>
 );
