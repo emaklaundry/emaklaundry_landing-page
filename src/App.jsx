@@ -19,7 +19,7 @@ import {
   Sparkles,
   Camera,
   ImageIcon,
-  Building // PERUBAHAN: Ikon baru untuk Placeholder Mitra
+  Building
 } from 'lucide-react';
 
 // --- Data Kontak Global ---
@@ -126,36 +126,36 @@ const faqData = [
 ];
 
 // --- Data Galeri Foto ---
+// PERUBAHAN: Menambahkan properti 'src'
 const galleryImages = [
-  { alt: "Fasilitas Bersih Kami" },
-  { alt: "Mesin Cuci Modern" },
-  { alt: "Proses Setrika Rapi" },
-  { alt: "Pakaian Siap Diambil" },
-  { alt: "Pelayanan Ramah" },
-  { alt: "Hasil Wangi & Bersih" },
+  { src: "/galeri-fasilitas.jpg", alt: "Fasilitas Bersih Kami" },
+  { src: "/galeri-mesin-cuci.jpg", alt: "Mesin Cuci Modern" },
+  { src: "/galeri-setrika.jpg", alt: "Proses Setrika Rapi" },
+  { src: "/galeri-pakaian-rapi.jpg", alt: "Pakaian Siap Diambil" },
+  { src: "/galeri-pelayanan.jpg", alt: "Pelayanan Ramah" },
+  { src: "/galeri-hasil-bersih.jpg", alt: "Hasil Wangi & Bersih" },
 ];
 
-// --- PERUBAHAN: Data Mitra Kami ditambahkan ---
+// --- Data Mitra Kami ---
+// PERUBAHAN: Mengisi properti 'logo' dengan path gambar
 const mitraKami = [
-  { name: "Hotel Asri Banjar", logo: null }, // Biarkan null untuk menggunakan placeholder
-  { name: "Restoran Saung Kuring", logo: null },
-  { name: "Villa Cempaka", logo: null },
-  { name: "Klinik Harapan Bunda", logo: null },
-  { name: "Spa & Sauna Sehati", logo: null },
-  { name: "Guest House Anggrek", logo: null },
+  { name: "Hotel Asri Banjar", logo: "/mitra-hotel-asri.png" },
+  { name: "Restoran Saung Kuring", logo: "/mitra-saung-kuring.png" },
+  { name: "Villa Cempaka", logo: "/mitra-villa-cempaka.png" },
+  { name: "Klinik Harapan Bunda", logo: "/mitra-klinik-harapan.png" },
+  { name: "Spa & Sauna Sehati", logo: "/mitra-spa-sehati.png" },
+  { name: "Guest House Anggrek", logo: "/mitra-guesthouse-anggrek.png" },
 ];
 
 
-// --- Komponen Placeholder Gambar ---
-// Ini akan menggantikan semua gambar placehold.co
+// --- Komponen Placeholder Gambar (Fallback) ---
 const ImagePlaceholder = ({ alt, className = '' }) => (
   <div
     className={`flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner ${className}`}
     style={{
-      // Pola titik-titik yang subtil
       backgroundImage: 'radial-gradient(circle, rgba(192, 46, 137, 0.05) 1px, transparent 1px)',
       backgroundSize: '10px 10px',
-      aspectRatio: '3/2' // Rasio aspek default
+      aspectRatio: '3/2'
     }}
   >
     <div className="text-center text-fuchsia-400 p-4">
@@ -165,7 +165,7 @@ const ImagePlaceholder = ({ alt, className = '' }) => (
   </div>
 );
 
-// --- PERUBAHAN: Komponen Placeholder Logo Mitra ---
+// --- Komponen Placeholder Logo Mitra (Fallback) ---
 const PartnerLogoPlaceholder = ({ name, className = '' }) => (
   <div
     className={`flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-6 ${className}`}
@@ -190,7 +190,6 @@ const TanyaEmak = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fungsi untuk memanggil Gemini API
   const handleTanyaEmak = async () => {
     if (!pertanyaan.trim()) {
       setError("Silakan tulis pertanyaan Anda terlebih dahulu.");
@@ -214,14 +213,12 @@ const TanyaEmak = () => {
     `;
     
     const userQuery = pertanyaan;
-    // API key akan ditangani oleh lingkungan Canvas secara otomatis
     const apiKey = ""; 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
-    // Implementasi Exponential Backoff
     let response;
-    let delay = 1000; // 1 detik
-    for (let i = 0; i < 5; i++) { // Coba maksimal 5 kali
+    let delay = 1000;
+    for (let i = 0; i < 5; i++) {
       try {
         const fetchOptions = {
           method: 'POST',
@@ -236,21 +233,16 @@ const TanyaEmak = () => {
         
         response = await fetch(apiUrl, fetchOptions);
 
-        if (response.ok) {
-          break; // Sukses, keluar dari loop
-        }
-
+        if (response.ok) break;
         if (response.status === 429 || response.status >= 500) {
-          // Throttling atau server error, coba lagi dengan backoff
           await new Promise(resolve => setTimeout(resolve, delay));
-          delay *= 2; // Gandakan waktu tunggu
+          delay *= 2;
         } else {
-          // Error klien lain, jangan coba lagi
           throw new Error(`API error! status: ${response.status}`);
         }
 
       } catch (err) {
-        if (i === 4) { // Gagal pada percobaan terakhir
+        if (i === 4) {
           console.error("Error fetching Gemini API after retries:", err);
           setError("Aduh, maaf, Emak sedang pusing. Coba tanyakan lagi beberapa saat, ya.");
           setIsLoading(false);
@@ -261,7 +253,6 @@ const TanyaEmak = () => {
       }
     }
 
-    // Proses respons jika sukses
     try {
       const result = await response.json();
       const candidate = result.candidates?.[0];
@@ -269,7 +260,6 @@ const TanyaEmak = () => {
       if (candidate && candidate.content?.parts?.[0]?.text) {
         setJawaban(candidate.content.parts[0].text);
       } else {
-        // Handle jika API merespon 200 OK tapi tidak ada konten (misal: safety filters)
         console.warn("API response OK but no content: ", result);
         setJawaban("Aduh, Nak. Emak bingung mau jawab apa. Coba tanya yang lain soal cucian, ya.");
       }
@@ -397,7 +387,6 @@ const NavLink = ({ children, onClick, isActive }) => (
 // --- Komponen Header ---
 const Header = ({ page, setPage }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // Halaman "Kontak" sudah dihapus dari sini
   const navItems = [
     { name: "Home", page: "home" },
     { name: "Tentang Kami", page: "about" },
@@ -409,26 +398,21 @@ const Header = ({ page, setPage }) => {
   const handleSetPage = (pageName) => {
     setPage(pageName);
     setIsMobileMenuOpen(false);
-    window.scrollTo(0, 0); // Selalu scroll ke atas saat ganti halaman
+    window.scrollTo(0, 0); 
   };
 
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
-      
-      {/* Info Bar Atas (Alamat & Jam) sudah dihapus */}
-
-      {/* Main Nav */}
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
             <button onClick={() => handleSetPage("home")} className="flex items-center gap-2">
               <img 
-                src="/Head w Text Putih.jpg" 
+                src="/Head w.jpg" 
                 alt="Logo Emak Laundry" 
-                className="h-16 w-auto" // Ukuran logo disesuaikan
+                className="h-16 w-auto"
                 onError={(e) => { 
-                  // Fallback jika logo gagal dimuat
                   e.target.style.display = 'none';
                   e.target.nextSibling.style.display = 'block';
                 }}
@@ -558,10 +542,11 @@ const HomePage = ({ setPage }) => {
           </div>
           {/* Gambar Hero (Golden Ratio: 2/5) */}
           <div className="hidden lg:block lg:col-span-2">
-            {/* Menggunakan Komponen Placeholder */}
-            <ImagePlaceholder 
+            {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "hero-pakaian-wangi.jpg" ada di folder /public */}
+            <img 
+              src="/hero-pakaian-wangi.jpg" 
               alt="Pakaian Bersih & Wangi" 
-              className="shadow-xl" 
+              className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]" 
             />
           </div>
         </div>
@@ -605,12 +590,8 @@ const HomePage = ({ setPage }) => {
         
         {/* Carousel Wrapper */}
         <div className="mt-16 relative w-full overflow-hidden">
-          {/* Gradient Fades */}
           <div className="absolute top-0 left-0 z-10 h-full w-16 bg-gradient-to-r from-white"></div>
           <div className="absolute top-0 right-0 z-10 h-full w-16 bg-gradient-to-l from-white"></div>
-
-          {/* Scrolling Container */}
-          {/* Duplikasi array [testimonials] untuk loop mulus */}
           <div className="w-max flex animate-scroll-x pause-animation">
             {[...testimonials, ...testimonials].map((testimonial, index) => (
               <div key={`${testimonial.name}-${index}`} className="flex-shrink-0 w-80 sm:w-96 p-4">
@@ -678,8 +659,12 @@ const AboutPage = () => {
       {/* Hero About */}
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32">
         <div className="absolute inset-0 opacity-10">
-          {/* Menggunakan Komponen Placeholder */}
-          <ImagePlaceholder alt="Fasilitas Emak Laundry" className="w-full h-full object-cover rounded-none border-none shadow-none" />
+          {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "galeri-fasilitas-lebar.jpg" ada di folder /public */}
+          <img 
+            src="/galeri-fasilitas-lebar.jpg" 
+            alt="Fasilitas Emak Laundry" 
+            className="w-full h-full object-cover" 
+          />
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
           <h1 className="text-4xl lg:text-5xl font-extrabold">Tentang Emak Laundry</h1>
@@ -710,10 +695,11 @@ const AboutPage = () => {
             </div>
             {/* Gambar About (2/5) */}
             <div className="order-first lg:order-last lg:col-span-2">
-              {/* Menggunakan Komponen Placeholder */}
-              <ImagePlaceholder 
+              {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "tentang-tim-kami.jpg" ada di folder /public */}
+              <img 
+                src="/tentang-tim-kami.jpg" 
                 alt="Tim Kami Siap Melayani" 
-                className="shadow-xl" 
+                className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]" 
               />
             </div>
           </div>
@@ -757,10 +743,11 @@ const AboutPage = () => {
           <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {galleryImages.map((image, index) => (
               <div key={index} className="overflow-hidden rounded-lg shadow-md aspect-w-3 aspect-h-2">
-                {/* Menggunakan Komponen Placeholder */}
-                <ImagePlaceholder 
+                {/* PERUBAHAN: Menggunakan <img> tag dari data array */}
+                <img 
+                  src={image.src} 
                   alt={image.alt} 
-                  className="h-full w-full rounded-none border-none shadow-none" 
+                  className="h-full w-full object-cover" 
                 />
               </div>
             ))}
@@ -774,9 +761,8 @@ const AboutPage = () => {
 
 // --- Komponen Halaman: Layanan & Harga ---
 const ServicesPage = () => {
-  // Helper untuk format mata uang
   const formatCurrency = (number) => {
-    if (typeof number === 'string') return number; // Untuk "Mulai 10.000"
+    if (typeof number === 'string') return number; 
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
@@ -784,13 +770,11 @@ const ServicesPage = () => {
     }).format(number);
   };
   
-  // Grup layanan satuan
   const groupedLayananSatuan = layananSatuan.reduce((acc, item) => {
     (acc[item.kategori] = acc[item.kategori] || []).push(item);
     return acc;
   }, {});
   
-  // Grup layanan rumah tangga
   const groupedLayananRumahTangga = layananRumahTangga.reduce((acc, item) => {
     (acc[item.kategori] = acc[item.kategori] || []).push(item);
     return acc;
@@ -920,8 +904,12 @@ const PartnersPage = () => {
       {/* Hero Mitra */}
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32 text-center">
         <div className="absolute inset-0 opacity-10">
-          {/* Menggunakan Komponen Placeholder */}
-          <ImagePlaceholder alt="Kapasitas Produksi Volume Besar" className="w-full h-full object-cover rounded-none border-none shadow-none" />
+          {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "mitra-kapasitas-besar.jpg" ada di folder /public */}
+          <img 
+            src="/mitra-kapasitas-besar.jpg" 
+            alt="Kapasitas Produksi Volume Besar" 
+            className="w-full h-full object-cover" 
+          />
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-4xl lg:text-5xl font-extrabold">Mitra Usaha Emak Laundry</h1>
@@ -970,17 +958,18 @@ const PartnersPage = () => {
             </div>
             {/* Gambar Mitra (2/5) */}
             <div className="lg:col-span-2">
-              {/* Menggunakan Komponen Placeholder */}
-              <ImagePlaceholder 
+              {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "mitra-linen-hotel.jpg" ada di folder /public */}
+              <img 
+                src="/mitra-linen-hotel.jpg" 
                 alt="Linen Hotel & Resto" 
-                className="shadow-xl" 
+                className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]" 
               />
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- PERUBAHAN: Bagian Mitra Kami (Dipercaya Oleh) ditambahkan --- */}
+      {/* Bagian Mitra Kami (Dipercaya Oleh) */}
       <section className="bg-white py-20 lg:py-24 border-t border-gray-100">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
@@ -992,14 +981,21 @@ const PartnersPage = () => {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {/* PERUBAHAN: Logika untuk menampilkan <img> atau placeholder */}
             {mitraKami.map((mitra) => (
-              <PartnerLogoPlaceholder key={mitra.name} name={mitra.name} />
+              mitra.logo ? (
+                <div key={mitra.name} className="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-6 aspect-[3/2]">
+                  <img src={mitra.logo} alt={mitra.name} className="max-h-24 w-auto object-contain" />
+                </div>
+              ) : (
+                <PartnerLogoPlaceholder key={mitra.name} name={mitra.name} />
+              )
             ))}
           </div>
         </div>
       </section>
       
-      {/* Harga Mitra (Shadow lebih halus) */}
+      {/* Harga Mitra */}
       <section className="bg-fuchsia-50 py-20 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
@@ -1062,20 +1058,15 @@ const FAQPage = () => {
           </div>
         </div>
 
-        {/* --- MODUL TANYA EMAK (GEMINI) --- */}
         <TanyaEmak />
-
       </div>
     </div>
   );
 };
 
-// --- Halaman Kontak Dihapus ---
-
 
 // --- Komponen Footer ---
 const Footer = ({ setPage }) => {
-  // "Kontak" sudah dihapus dari footerNav
   const footerNav = [
     { name: "Tentang Kami", page: "about" },
     { name: "Layanan", page: "services" },
@@ -1096,7 +1087,7 @@ const Footer = ({ setPage }) => {
           <div className="space-y-4">
             <button onClick={() => handleSetPage("home")} className="flex items-center gap-2">
               <img 
-                src="/Head w Text Putih.jpg" 
+                src="/logo.png"
                 alt="Logo Emak Laundry" 
                 className="h-16 w-auto" 
                 onError={(e) => { 
@@ -1181,7 +1172,6 @@ const FloatingWhatsApp = () => (
     className="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-transform hover:scale-110"
     aria-label="Chat di WhatsApp"
   >
-    {/* Ikon SVG WhatsApp yang lebih rapi dan standar */}
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="28"
@@ -1189,7 +1179,7 @@ const FloatingWhatsApp = () => (
       viewBox="0 0 24 24"
       fill="currentColor"
     >
-      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.35 3.45 16.86L2.06 22L7.31 20.62C8.76 21.41 10.37 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 6.46 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 11.92C20.28 16.45 16.56 20.17 12.04 20.17C10.53 20.17 9.09 19.79 7.8 19.11L7.31 18.83L3.8 19.8L4.82 16.4L4.52 15.89C3.78 14.5 3.4 13.01 3.4 11.91C3.4 7.39 7.12 3.67 12.04 3.67M17.36 14.49C17.11 14.37 15.92 13.78 15.7 13.69C15.48 13.59 15.31 13.54 15.15 13.79C14.98 14.04 14.5 14.62 14.36 14.79C14.23 14.96 14.09 14.98 13.85 14.86C13.6 14.74 12.63 14.42 11.43 13.34C10.49 12.49 9.81 11.45 9.64 11.19C9.47 10.93 9.59 10.8 9.71 10.68C9.82 10.58 9.96 10.39 10.1 10.23C10.24 10.06 10.29 9.95 10.37 9.78C10.46 9.61 10.41 9.47 10.34 9.35C10.27 9.23 9.76 7.97 9.56 7.48C9.37 7 9.17 7.02 9.04 7.02C8.91 7.02 8.71 7.02 8.52 7.02C8.32 7.02 8.02 7.11 7.77 7.36C7.52 7.61 7 8.2 7 9.32C7 10.44 7.79 11.53 7.91 11.69C8.03 11.86 9.52 14.26 11.81 15.2C14.1 16.14 14.73 15.93 15.15 15.89C15.58 15.85 16.55 15.29 16.78 14.96C17.01 14.63 17.01 14.37 16.96 14.26C16.91 14.15 16.79 14.09 16.54 13.97C16.29 13.85 17.61 14.62 17.36 14.49Z" />
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.35 3.45 16.86L2.06 22L7.31 20.62C8.76 21.41 10.37 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 6.46 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 11.92C20.28 16.45 16.56 20.17 12.04 20.17C10.53 20.17 9.09 19.79 7.8 19.11L7.31 18.83L3.8 19.8L4.82 16.4L4.52 15.89C3.78 14.5 3.4 13.01 3.4 11.91C3.4 7.39 7.12 3.67 12.04 3.67M17.36 14.49C17.11 14.37 15.92 13.78 15.7 13.69C15.48 13.59 15.31 13.54 15.15 13.79C14.98 14.04 14.5 14.62 14.36 14.79C14.23 14.96 14.09 14.98 13.85 14.86C13.6 14.74 12.63 14.42 11.43 13.34C10.49 12.49 9.81 11.45 9.64 11.19C9.47 10.93 9.59 10.8 9.71 10.68C9.82 10.58 9.96 10.39 10.1 10.23C10.24 10.06 10.29 9.95 10.37 9.78C10.46 9.61 10.41 9.47 10.34 9.35C10.27 9.23 9.76 7.97 9.56 7.48C9.37 7 9.17 7.02 9.04 7.02C8.91 7.02 8.71 7.02 8.52 7.02C8.32 7.02 8.02 7.11 7.77 7.36C7.52 7.61 7 8.2 7 9.32C7 10.44 7.79 11.53 7.91 11.69C8.03 11.86 9.52 14.26 11.81 15.2C14.1 16.14 14.73 15.93 15.15 15.89C1F5.58 15.85 16.55 15.29 16.78 14.96C17.01 14.63 17.01 14.37 16.96 14.26C16.91 14.15 16.79 14.09 16.54 13.97C16.29 13.85 17.61 14.62 17.36 14.49Z" />
     </svg>
   </a>
 );
