@@ -100,7 +100,19 @@ Hapus semua kode yang ada di dalamnya.
 
 Salin seluruh kode dari Canvas "Emak Laundry Website" dan tempelkan ke dalam file src/App.jsx Anda.
 
-3. Menjalankan Proyek Secara Lokal
+3. Konfigurasi Environment (Tanya Emak)
+
+Fitur Tanya Emak membutuhkan API key Google Generative Language.
+
+- Buat file `.env` di root proyek dengan isi:
+
+```
+VITE_GEMINI_API_KEY=ISI_API_KEY_ANDA_DI_SINI
+```
+
+- Simpan. Jalankan ulang dev server setelah mengubah `.env`.
+
+4. Menjalankan Proyek Secara Lokal
 
 Setelah semua langkah di atas selesai, jalankan server pengembangan lokal Anda:
 
@@ -109,7 +121,7 @@ npm run dev
 
 Buka browser Anda dan kunjungi http://localhost:5173 (atau alamat apa pun yang muncul di terminal). Anda sekarang akan melihat website Emak Laundry berjalan!
 
-4. Deployment ke Vercel
+5. Deployment ke Vercel
 
 Buat repository baru di GitHub.
 

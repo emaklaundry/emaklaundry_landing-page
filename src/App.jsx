@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Phone, 
   MapPin, 
@@ -21,132 +21,160 @@ import {
   ImageIcon,
   Building
 } from 'lucide-react';
+import { cabangData as importedCabangData } from './data/cabang.js';
 
-// --- Data Kontak Global ---
-const KONTAK = {
-  nama: "Emak Laundry",
-  alamat: "Jl. Dr. Sudarsono No.43, Mekarsari, Kec. Banjar, Kota Banjar, Jawa Barat 46321",
-  jam: "Setiap Hari, 08:00 - 20:00 WIB",
-  telp: "0851 7527 9659",
-  wa: "085175279659",
-  email: "emaklaundry12@gmail.com",
-  waLink: "https://wa.me/6285175279659",
-  igLink: "https://instagram.com/emaklaundry12",
-  fbLink: "https://facebook.com/emakalundry",
-  mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1577.29111944724!2d108.53978155745905!3d-7.3719517962207375!2m3!1f0!2f0!3f0!3m2!1i1024!i768!4f13.1!3m3!1m2!1s0x2e6f631688e9419b%3A0xba735a6324e54a4e!2sEmak%20Laundry!5e0!3m2!1sid!2sid!4v1761908153521!5m2!1sid!2sid"
+// --- DATA CABANG ---
+const cabangData = {
+  // --- CABANG BANJAR (Data yang ada) ---
+  "banjar": {
+    nama: "Emak Laundry Banjar",
+    kontak: {
+      nama: "Emak Laundry Banjar",
+      alamat: "Jl. Dr. Sudarsono No.43, Mekarsari, Kec. Banjar, Kota Banjar, Jawa Barat 46321",
+      jam: "Setiap Hari, 08:00 - 20:00 WIB",
+      telp: "0851 7527 9659",
+      wa: "085175279659",
+      email: "emaklaundry12@gmail.com",
+      waLink: "https://wa.me/6285175279659",
+      igLink: "https://instagram.com/emaklaundry12",
+      fbLink: "https://facebook.com/emakalundry",
+      mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1577.29111944724!2d108.53978155745905!3d-7.3719517962207375!2m3!1f0!2f0!3f0!3m2!1i1024!i768!4f13.1!3m3!1m2!1s0x2e6f631688e9419b%3A0xba735a6324e54a4e!2sEmak%20Laundry!5e0!3m2!1sid!2sid!4v1761908153521!5m2!1sid!2sid"
+    },
+    layananKiloan: [
+      { jenis: "Cuci Ekspres", waktu: "3 Jam", harga: 25000, catatan: "Solusi tercepat untuk kebutuhan mendesak." },
+      { jenis: "Cuci + Setrika", waktu: "6 Jam", harga: 20000, catatan: "Pakaian bersih dan rapi di hari yang sama." },
+      { jenis: "Cuci + Setrika", waktu: "1 Hari", harga: 15000, catatan: "Layanan lengkap dengan pengerjaan esok hari." },
+      { jenis: "Cuci + Setrika", waktu: "2 Hari", harga: 13000, catatan: "Pilihan populer untuk keseimbangan kecepatan dan harga." },
+      { jenis: "Cuci + Setrika", waktu: "3 Hari", harga: 7500, catatan: "Pilihan paling ekonomis untuk layanan lengkap." },
+      { jenis: "Cuci + Lipat", waktu: "1 Hari", harga: 8000, catatan: "Pakaian bersih dan terlipat rapi keesokan harinya." },
+      { jenis: "Cuci + Lipat", waktu: "2 Hari", harga: 6000, catatan: "Pilihan standar untuk layanan cuci lipat." },
+      { jenis: "Cuci + Lipat", waktu: "3 Hari", harga: 5000, catatan: "Pilihan paling hemat untuk cucian harian." },
+      { jenis: "Setrika Saja", waktu: "-", harga: 5000, catatan: "Minimal 3 kg." },
+    ],
+    layananSatuan: [
+      { kategori: "Pakaian Formal & Delikat", item: "Gamis Panjang / Dress", harga: 25000 },
+      { kategori: "Pakaian Formal & Delikat", item: "Setelan Jas Lengan Panjang", harga: 25000 },
+      { kategori: "Pakaian Formal & Delikat", item: "Setelan Jas Lengan Pendek", harga: 20000 },
+      { kategori: "Pakaian Formal & Delikat", item: "Blouse", harga: 20000 },
+      { kategori: "Pakaian Formal & Delikat", item: "Kemeja", harga: 15000 },
+      { kategori: "Pakaian Formal & Delikat", item: "Celana Panjang", harga: 15000 },
+      { kategori: "Pakaian Luar (Outerwear)", item: "Jaket Kulit", harga: 20000 },
+      { kategori: "Pakaian Luar (Outerwear)", item: "Jaket Jeans", harga: 15000 },
+      { kategori: "Pakaian Luar (Outerwear)", item: "Jaket Kain", harga: 15000 },
+      { kategori: "Aksesori & Lainnya", item: "Sepatu", harga: 20000 },
+      { kategori: "Aksesori & Lainnya", item: "Tas Besar", harga: 20000 },
+      { kategori: "Aksesori & Lainnya", item: "Tas Kecil", harga: 12000 },
+      { kategori: "Layanan Khusus", item: "Menghilangkan Noda (Tinta, Darah, Minyak)", harga: "Mulai 10.000" },
+    ],
+    layananRumahTangga: [
+      { kategori: "Perlengkapan Tidur", item: "Bed Cover Jumbo/Besar", satuan: "Satuan", harga: 25000 },
+      { kategori: "Perlengkapan Tidur", item: "Bed Cover Standar", satuan: "Satuan", harga: 18000 },
+      { kategori: "Perlengkapan Tidur", item: "Selimut Jumbo", satuan: "Satuan", harga: 25000 },
+      { kategori: "Perlengkapan Tidur", item: "Selimut Standar", satuan: "Satuan", harga: 17000 },
+      { kategori: "Perlengkapan Tidur", item: "Sprei", satuan: "Kiloan", harga: 10000 },
+      { kategori: "Perlengkapan Tidur", item: "Bantal / Guling", satuan: "Satuan", harga: 15000 },
+      { kategori: "Karpet & Alas Lantai", item: "Karpet Tebal", satuan: "per Meter", harga: 12000 },
+      { kategori: "Karpet & Alas Lantai", item: "Karpet Tipis / Masjid", satuan: "per Meter", harga: 7000 },
+      { kategori: "Karpet & Alas Lantai", item: "Karpet Permadani", satuan: "Kiloan", harga: 15000 },
+      { kategori: "Karpet & Alas Lantai", item: "Karpet Cendol / Tipis", satuan: "Kiloan", harga: 10000 },
+      { kategori: "Lainnya", item: "Gorden", satuan: "Kiloan", harga: 10000 },
+      { kategori: "Lainnya", item: "Sajadah Tebal", satuan: "Satuan", harga: 10000 },
+      { kategori: "Lainnya", item: "Boneka (Kecil/Sedang/Besar/Jumbo)", satuan: "Satuan", harga: "10rb - 30rb" },
+    ],
+    layananMitra: [
+      { layanan: "Cuci Lipat Mitra", harga: 4000, keterangan: "Layanan cuci dan lipat massal yang efisien untuk kebutuhan operasional seperti handuk, sprei, dan linen." },
+      { layanan: "Mitra Cuci Komplit", harga: 5500, keterangan: "Layanan cuci dan setrika massal untuk item yang memerlukan finishing rapi, seperti seragam karyawan atau taplak meja." },
+    ],
+    testimonials: [
+      { quote: "Layanan ekspres 3 jam-nya di Banjar benar-benar penyelamat! Pagi masuk, siang sudah bersih, wangi, dan rapi.", name: "Rina S.", role: "Karyawan Swasta (Banjar)" },
+      { quote: "Saya percayakan jas dan gamis pesta saya di sini. Hasilnya luar biasa, bersih total dan bahannya tetap awet.", name: "Bpk. H. Ahmad", role: "Tokoh Masyarakat (Banjar)" },
+      { quote: "Karpet masjid kami jadi bersih dan wangi seperti baru. Harganya sangat bersahabat untuk mitra.", name: "Ibu DKM Al-Ikhlas", role: "Mitra Usaha (Banjar)" }
+    ],
+    faqData: [
+      { question: "Apa bedanya layanan Kiloan dan Satuan?", answer: "Layanan Kiloan cocok untuk pakaian sehari-hari seperti kaos, celana, dan pakaian rumah yang dihitung berdasarkan berat (kg). Layanan Satuan adalah untuk item spesial seperti jas, gaun, jaket kulit, atau sepatu yang memerlukan penanganan khusus dan detail." },
+      { question: "Berapa minimal order untuk layanan kiloan?", answer: "Untuk layanan kiloan reguler (Cuci Lipat / Cuci Setrika), minimal order adalah 3 kg. Untuk layanan Setrika Saja, minimal order juga 3 kg." },
+      { question: "Apakah Emak Laundry menyediakan layanan antar-jemput?", answer: "Ya, kami menyediakan layanan antar-jemput gratis untuk wilayah Kota Banjar dengan minimal order tertentu. Silakan hubungi kami via WhatsApp untuk informasi lebih lanjut dan penjadwalan." },
+      { question: "Berapa lama pengerjaan untuk item satuan seperti jas atau karpet?", answer: "Waktu pengerjaan untuk item satuan bervariasi tergantung tingkat kesulitan dan jenis bahan. Rata-rata pengerjaan adalah 2-4 hari. Untuk layanan khusus seperti perawatan noda membandel mungkin memerlukan waktu lebih lama." }
+    ],
+    galleryImages: [
+      { src: "/image/galeri-mesin-cuci.jpg", alt: "Mesin Cuci Modern di Banjar" },
+      { src: "/image/galeri-fasilitas.jpg", alt: "Fasilitas Bersih Cabang Banjar" },
+      { src: "/image/galeri-setrika.jpg", alt: "Proses Setrika Rapi" },
+      { src: "/image/galeri-pakaian-rapi.jpg", alt: "Pakaian Siap Diambil" },
+      { src: "/image/galeri-pelayanan.jpg", alt: "Pelayanan Ramah di Banjar" },
+      { src: "/image/galeri-hasil-bersih.jpg", alt: "Hasil Wangi & Bersih" },
+    ],
+    mitraKami: [
+      { name: "Hotel Asri Banjar", logo: "/image/mitra-hotel-asri.png" },
+      { name: "Restoran Saung Kuring", logo: "/image/mitra-saung-kuring.png" },
+      { name: "Villa Cempaka", logo: "/image/mitra-villa-cempaka.png" },
+      { name: "Klinik Harapan Bunda", logo: "/image/mitra-klinik-harapan.png" },
+      { name: "Spa & Sauna Sehati", logo: "/image/mitra-spa-sehati.png" },
+      { name: "Guest House Anggrek", logo: "/image/mitra-guesthouse-anggrek.png" },
+    ]
+  },
+
+  // --- CABANG TASIKMALAYA (Data Baru / Contoh) ---
+  "tasikmalaya": {
+    nama: "Emak Laundry Tasik",
+    kontak: {
+      nama: "Emak Laundry Tasik",
+      alamat: "Jl. HZ. Mustofa No.123, Kahuripan, Kec. Tawang, Kota Tasikmalaya",
+      jam: "Setiap Hari, 07:00 - 21:00 WIB",
+      telp: "0852 1234 5678",
+      wa: "085212345678",
+      email: "emaklaundry.tasik@gmail.com",
+      waLink: "https://wa.me/6285212345678",
+      igLink: "https://instagram.com/emaklaundry.tasik",
+      fbLink: "https://facebook.com/emaklaundry.tasik",
+      mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15831.95486470871!2d108.218553096283!3d-7.24169543161668!2m3!1f0!2f0!3f0!3m2!1i1024!i768!4f13.1!3m3!1m2!1s0x2e6f2f6477005e6b%3A0x101e3d0a614e700!2sTaman%20Kota%20Tasikmalaya!5e0!3m2!1sid!2sid!4v1730533302081!5m2!1sid!2sid" // Contoh Peta Tasik
+    },
+    layananKiloan: [
+      { jenis: "Cuci Ekspres", waktu: "3 Jam", harga: 27000, catatan: "Solusi tercepat di Tasik." }, // Harga beda
+      { jenis: "Cuci + Setrika", waktu: "6 Jam", harga: 22000, catatan: "Pakaian bersih dan rapi di hari yang sama." },
+      { jenis: "Cuci + Setrika", waktu: "1 Hari", harga: 16000, catatan: "Layanan lengkap dengan pengerjaan esok hari." },
+      { jenis: "Cuci + Setrika", waktu: "2 Hari", harga: 14000, catatan: "Pilihan populer untuk keseimbangan kecepatan dan harga." },
+      { jenis: "Cuci + Setrika", waktu: "3 Hari", harga: 8000, catatan: "Pilihan paling ekonomis untuk layanan lengkap." },
+      { jenis: "Cuci + Lipat", waktu: "1 Hari", harga: 9000, catatan: "Pakaian bersih dan terlipat rapi keesokan harinya." },
+      { jenis: "Cuci + Lipat", waktu: "2 Hari", harga: 7000, catatan: "Pilihan standar untuk layanan cuci lipat." },
+      { jenis: "Cuci + Lipat", waktu: "3 Hari", harga: 6000, catatan: "Pilihan paling hemat untuk cucian harian." },
+      { jenis: "Setrika Saja", waktu: "-", harga: 6000, catatan: "Minimal 3 kg." },
+    ],
+    layananSatuan: [ 
+      { kategori: "Pakaian Formal & Delikat", item: "Gamis Panjang / Dress", harga: 27000 },
+      { kategori: "Pakaian Formal & Delikat", item: "Setelan Jas Lengan Panjang", harga: 27000 },
+      { kategori: "Pakaian Luar (Outerwear)", item: "Jaket Kulit", harga: 22000 },
+      { kategori: "Aksesori & Lainnya", item: "Sepatu", harga: 22000 },
+    ],
+    layananRumahTangga: [ 
+      { kategori: "Perlengkapan Tidur", item: "Bed Cover Jumbo/Besar", satuan: "Satuan", harga: 27000 },
+      { kategori: "Perlengkapan Tidur", item: "Bed Cover Standar", satuan: "Satuan", harga: 20000 },
+      { kategori: "Karpet & Alas Lantai", item: "Karpet Tebal", satuan: "per Meter", harga: 14000 },
+    ],
+    layananMitra: [
+      { layanan: "Cuci Lipat Mitra", harga: 4500, keterangan: "Layanan cuci dan lipat massal efisien untuk handuk, sprei, dan linen." },
+      { layanan: "Mitra Cuci Komplit", harga: 6000, keterangan: "Layanan cuci dan setrika massal untuk seragam atau taplak meja." },
+    ],
+    testimonials: [
+      { quote: "Wangi banget laundry di cabang Tasik! Parfumnya beda, lebih tahan lama. Suka!", name: "Aisha N.", role: "Mahasiswi (Tasikmalaya)" },
+      { quote: "Pelayanannya ramah-ramah, tempatnya juga bersih. Jadi percaya ninggalin baju di sini.", name: "Bpk. Ridwan", role: "Wiraswasta (Tasikmalaya)" },
+    ],
+    faqData: [
+      { question: "Apa bedanya layanan Kiloan dan Satuan?", answer: "Layanan Kiloan cocok untuk pakaian sehari-hari seperti kaos, celana, dan pakaian rumah yang dihitung berdasarkan berat (kg). Layanan Satuan adalah untuk item spesial seperti jas, gaun, jaket kulit, atau sepatu yang memerlukan penanganan khusus dan detail." },
+      { question: "Minimal order di cabang Tasik berapa?", answer: "Untuk layanan kiloan reguler (Cuci Lipat / Cuci Setrika) dan Setrika Saja, minimal order adalah 3 kg." },
+      { question: "Apakah cabang Tasik ada antar-jemput?", answer: "Ya, kami menyediakan layanan antar-jemput gratis untuk area Kota Tasikmalaya dengan minimal order 5kg. Silakan hubungi WA kami untuk penjadwalan." },
+    ],
+    galleryImages: [
+      { src: "/image/galeri-tasik-1.jpg", alt: "Tampak Depan Emak Laundry Tasik" },
+      { src: "/image/galeri-tasik-2.jpg", alt: "Area Penerimaan Tamu Tasik" },
+      { src: "/image/galeri-tasik-3.jpg", alt: "Mesin Cuci Cabang Tasik" },
+    ],
+    mitraKami: [
+      { name: "Hotel Santika Tasikmalaya", logo: "/image/mitra-santika-tasik.png" },
+      { name: "Restoran Saung Gunung Jati", logo: "/image/mitra-gunung-jati.png" },
+    ]
+  },
 };
-
-// --- Data Layanan (dari PDF) ---
-const layananKiloan = [
-  { jenis: "Cuci Ekspres", waktu: "3 Jam", harga: 25000, catatan: "Solusi tercepat untuk kebutuhan mendesak." },
-  { jenis: "Cuci + Setrika", waktu: "6 Jam", harga: 20000, catatan: "Pakaian bersih dan rapi di hari yang sama." },
-  { jenis: "Cuci + Setrika", waktu: "1 Hari", harga: 15000, catatan: "Layanan lengkap dengan pengerjaan esok hari." },
-  { jenis: "Cuci + Setrika", waktu: "2 Hari", harga: 13000, catatan: "Pilihan populer untuk keseimbangan kecepatan dan harga." },
-  { jenis: "Cuci + Setrika", waktu: "3 Hari", harga: 7500, catatan: "Pilihan paling ekonomis untuk layanan lengkap." },
-  { jenis: "Cuci + Lipat", waktu: "1 Hari", harga: 8000, catatan: "Pakaian bersih dan terlipat rapi keesokan harinya." },
-  { jenis: "Cuci + Lipat", waktu: "2 Hari", harga: 6000, catatan: "Pilihan standar untuk layanan cuci lipat." },
-  { jenis: "Cuci + Lipat", waktu: "3 Hari", harga: 5000, catatan: "Pilihan paling hemat untuk cucian harian." },
-  { jenis: "Setrika Saja", waktu: "-", harga: 5000, catatan: "Minimal 3 kg." },
-];
-
-const layananSatuan = [
-  { kategori: "Pakaian Formal & Delikat", item: "Gamis Panjang / Dress", harga: 25000 },
-  { kategori: "Pakaian Formal & Delikat", item: "Setelan Jas Lengan Panjang", harga: 25000 },
-  { kategori: "Pakaian Formal & Delikat", item: "Setelan Jas Lengan Pendek", harga: 20000 },
-  { kategori: "Pakaian Formal & Delikat", item: "Blouse", harga: 20000 },
-  { kategori: "Pakaian Formal & Delikat", item: "Kemeja", harga: 15000 },
-  { kategori: "Pakaian Formal & Delikat", item: "Celana Panjang", harga: 15000 },
-  { kategori: "Pakaian Luar (Outerwear)", item: "Jaket Kulit", harga: 20000 },
-  { kategori: "Pakaian Luar (Outerwear)", item: "Jaket Jeans", harga: 15000 },
-  { kategori: "Pakaian Luar (Outerwear)", item: "Jaket Kain", harga: 15000 },
-  { kategori: "Aksesori & Lainnya", item: "Sepatu", harga: 20000 },
-  { kategori: "Aksesori & Lainnya", item: "Tas Besar", harga: 20000 },
-  { kategori: "Aksesori & Lainnya", item: "Tas Kecil", harga: 12000 },
-  { kategori: "Layanan Khusus", item: "Menghilangkan Noda (Tinta, Darah, Minyak)", harga: "Mulai 10.000" },
-];
-
-const layananRumahTangga = [
-  { kategori: "Perlengkapan Tidur", item: "Bed Cover Jumbo/Besar", satuan: "Satuan", harga: 25000 },
-  { kategori: "Perlengkapan Tidur", item: "Bed Cover Standar", satuan: "Satuan", harga: 18000 },
-  { kategori: "Perlengkapan Tidur", item: "Selimut Jumbo", satuan: "Satuan", harga: 25000 },
-  { kategori: "Perlengkapan Tidur", item: "Selimut Standar", satuan: "Satuan", harga: 17000 },
-  { kategori: "Perlengkapan Tidur", item: "Sprei", satuan: "Kiloan", harga: 10000 },
-  { kategori: "Perlengkapan Tidur", item: "Bantal / Guling", satuan: "Satuan", harga: 15000 },
-  { kategori: "Karpet & Alas Lantai", item: "Karpet Tebal", satuan: "per Meter", harga: 12000 },
-  { kategori: "Karpet & Alas Lantai", item: "Karpet Tipis / Masjid", satuan: "per Meter", harga: 7000 },
-  { kategori: "Karpet & Alas Lantai", item: "Karpet Permadani", satuan: "Kiloan", harga: 15000 },
-  { kategori: "Karpet & Alas Lantai", item: "Karpet Cendol / Tipis", satuan: "Kiloan", harga: 10000 },
-  { kategori: "Lainnya", item: "Gorden", satuan: "Kiloan", harga: 10000 },
-  { kategori: "Lainnya", item: "Sajadah Tebal", satuan: "Satuan", harga: 10000 },
-  { kategori: "Lainnya", item: "Boneka (Kecil/Sedang/Besar/Jumbo)", satuan: "Satuan", harga: "10rb - 30rb" },
-];
-
-const layananMitra = [
-  { layanan: "Cuci Lipat Mitra", harga: 4000, keterangan: "Layanan cuci dan lipat massal yang efisien untuk kebutuhan operasional seperti handuk, sprei, dan linen." },
-  { layanan: "Mitra Cuci Komplit", harga: 5500, keterangan: "Layanan cuci dan setrika massal untuk item yang memerlukan finishing rapi, seperti seragam karyawan atau taplak meja." },
-];
-
-// --- Data Testimoni ---
-const testimonials = [
-  {
-    quote: "Layanan ekspres 3 jam-nya benar-benar penyelamat! Pagi masuk, siang sudah bersih, wangi, dan rapi. Kualitasnya tetap terjaga meski cepat. Keren!",
-    name: "Rina S.",
-    role: "Karyawan Swasta"
-  },
-  {
-    quote: "Saya percayakan jas dan gamis pesta saya di sini. Hasilnya luar biasa, bersih total dan bahannya tetap awet. Penanganan bahan khusunya sangat profesional.",
-    name: "Bpk. H. Ahmad",
-    role: "Tokoh Masyarakat"
-  },
-  {
-    quote: "Karpet masjid kami jadi bersih dan wangi seperti baru. Pengerjaannya juga cepat untuk ukuran sebesar itu. Harganya sangat bersahabat untuk mitra. Recommended!",
-    name: "Ibu DKM Al-Ikhlas",
-    role: "Mitra Usaha"
-  }
-];
-
-// --- Data FAQ ---
-const faqData = [
-  {
-    question: "Apa bedanya layanan Kiloan dan Satuan?",
-    answer: "Layanan Kiloan cocok untuk pakaian sehari-hari seperti kaos, celana, dan pakaian rumah yang dihitung berdasarkan berat (kg). Layanan Satuan adalah untuk item spesial seperti jas, gaun, jaket kulit, atau sepatu yang memerlukan penanganan khusus dan detail."
-  },
-  {
-    question: "Berapa minimal order untuk layanan kiloan?",
-    answer: "Untuk layanan kiloan reguler (Cuci Lipat / Cuci Setrika), minimal order adalah 3 kg. Untuk layanan Setrika Saja, minimal order juga 3 kg."
-  },
-  {
-    question: "Apakah Emak Laundry menyediakan layanan antar-jemput?",
-    answer: "Ya, kami menyediakan layanan antar-jemput gratis untuk wilayah Kota Banjar dengan minimal order tertentu. Silakan hubungi kami via WhatsApp untuk informasi lebih lanjut dan penjadwalan."
-  },
-  {
-    question: "Berapa lama pengerjaan untuk item satuan seperti jas atau karpet?",
-    answer: "Waktu pengerjaan untuk item satuan bervariasi tergantung tingkat kesulitan dan jenis bahan. Rata-rata pengerjaan adalah 2-4 hari. Untuk layanan khusus seperti perawatan noda membandel mungkin memerlukan waktu lebih lama."
-  }
-];
-
-// --- Data Galeri Foto ---
-// PERUBAHAN: Menambahkan properti 'src'
-const galleryImages = [
-  { src: "/galeri-fasilitas.jpg", alt: "Fasilitas Bersih Kami" },
-  { src: "/galeri-mesin-cuci.jpg", alt: "Mesin Cuci Modern" },
-  { src: "/galeri-setrika.jpg", alt: "Proses Setrika Rapi" },
-  { src: "/galeri-pakaian-rapi.jpg", alt: "Pakaian Siap Diambil" },
-  { src: "/galeri-pelayanan.jpg", alt: "Pelayanan Ramah" },
-  { src: "/galeri-hasil-bersih.jpg", alt: "Hasil Wangi & Bersih" },
-];
-
-// --- Data Mitra Kami ---
-// PERUBAHAN: Mengisi properti 'logo' dengan path gambar
-const mitraKami = [
-  { name: "Hotel Asri Banjar", logo: "/mitra-hotel-asri.png" },
-  { name: "Restoran Saung Kuring", logo: "/mitra-saung-kuring.png" },
-  { name: "Villa Cempaka", logo: "/mitra-villa-cempaka.png" },
-  { name: "Klinik Harapan Bunda", logo: "/mitra-klinik-harapan.png" },
-  { name: "Spa & Sauna Sehati", logo: "/mitra-spa-sehati.png" },
-  { name: "Guest House Anggrek", logo: "/mitra-guesthouse-anggrek.png" },
-];
-
 
 // --- Komponen Placeholder Gambar (Fallback) ---
 const ImagePlaceholder = ({ alt, className = '' }) => (
@@ -189,8 +217,18 @@ const TanyaEmak = () => {
   const [jawaban, setJawaban] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const cooldownRef = useRef(0);
+
+  const contoh = [
+    'Bagaimana cara hilangkan noda minyak di baju?',
+    'Boleh nggak jaket kulit dicuci mesin?',
+    'Cara aman mengatasi baju luntur?'
+  ];
 
   const handleTanyaEmak = async () => {
+    const now = Date.now();
+    if (now - cooldownRef.current < 1500) return;
+    cooldownRef.current = now;
     if (!pertanyaan.trim()) {
       setError("Silakan tulis pertanyaan Anda terlebih dahulu.");
       return;
@@ -213,7 +251,12 @@ const TanyaEmak = () => {
     `;
     
     const userQuery = pertanyaan;
-    const apiKey = ""; 
+    const apiKey = import.meta.env?.VITE_GEMINI_API_KEY || "";
+    if (!apiKey) {
+      setError("Fitur Tanya Emak dimatikan sementara. Hubungi kami via WhatsApp ya.");
+      setIsLoading(false);
+      return;
+    }
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
 
     let response;
@@ -284,6 +327,13 @@ const TanyaEmak = () => {
       </div>
       
       <div className="mt-12 max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-lg shadow-md">
+        <div className="flex flex-wrap gap-2 mb-4">
+          {contoh.map((c) => (
+            <button key={c} onClick={() => setPertanyaan(c)} className="text-xs sm:text-sm px-3 py-1 rounded-full bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200 hover:bg-fuchsia-100">
+              {c}
+            </button>
+          ))}
+        </div>
         <div className="space-y-4">
           <label htmlFor="pertanyaan" className="block text-sm font-medium text-gray-700">
             Tulis pertanyaan Anda di sini (Contoh: "Bagaimana cara hilangkan noda luntur?"):
@@ -298,8 +348,8 @@ const TanyaEmak = () => {
           />
           <button
             onClick={handleTanyaEmak}
-            disabled={isLoading}
-            className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-fuchsia-600 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500 disabled:bg-gray-400"
+            disabled={isLoading || !import.meta.env?.VITE_GEMINI_API_KEY}
+            className="w-full btn-primary disabled:bg-gray-400"
           >
             {isLoading ? (
               <>
@@ -321,6 +371,11 @@ const TanyaEmak = () => {
         {error && (
           <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-md">
             <p className="text-sm text-red-700">{error}</p>
+          </div>
+        )}
+        {!import.meta.env?.VITE_GEMINI_API_KEY && !error && (
+          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-md">
+            <p className="text-sm text-yellow-800">Fitur Tanya Emak membutuhkan konfigurasi API. Sementara ini nonaktif.</p>
           </div>
         )}
         
@@ -384,8 +439,40 @@ const NavLink = ({ children, onClick, isActive }) => (
   </button>
 );
 
+// --- Komponen Baru Pemilih Cabang ---
+// PERUBAHAN: Logika ditambahkan untuk 'disabled' dan 'Segera Hadir'
+const CabangSelector = ({ cabangId, setCabangId, dataCabang }) => {
+  return (
+    <div className="relative">
+      <MapPin size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+      <select
+        value={cabangId}
+        onChange={(e) => setCabangId(e.target.value)}
+        className="pl-10 pr-8 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-200 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-fuchsia-500 appearance-none"
+        aria-label="Pilih Cabang"
+      >
+        {Object.keys(dataCabang).map((key) => {
+          if (key === "tasikmalaya") {
+            return (
+              <option key={key} value={key} disabled>
+                {dataCabang[key].nama} (Segera Hadir)
+              </option>
+            );
+          }
+          return (
+            <option key={key} value={key}>
+              {dataCabang[key].nama}
+            </option>
+          );
+        })}
+      </select>
+      <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
+    </div>
+  );
+};
+
 // --- Komponen Header ---
-const Header = ({ page, setPage }) => {
+const Header = ({ page, setPage, cabangId, setCabangId, dataCabang }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navItems = [
     { name: "Home", page: "home" },
@@ -402,16 +489,17 @@ const Header = ({ page, setPage }) => {
   };
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white/90 backdrop-blur shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
             <button onClick={() => handleSetPage("home")} className="flex items-center gap-2">
               <img 
-                src="/Head w.jpg" 
+                src="/image/logo.png" 
                 alt="Logo Emak Laundry" 
-                className="h-16 w-auto"
+                className="h-16 w-auto" 
+                loading="lazy" width="256" height="64"
                 onError={(e) => { 
                   e.target.style.display = 'none';
                   e.target.nextSibling.style.display = 'block';
@@ -422,7 +510,7 @@ const Header = ({ page, setPage }) => {
           </div>
 
           {/* Nav Desktop */}
-          <div className="hidden lg:flex lg:items-center lg:space-x-1">
+          <div className="hidden lg:flex lg:items-center lg:gap-1">
             {navItems.map((item) => (
               <NavLink
                 key={item.page}
@@ -432,6 +520,9 @@ const Header = ({ page, setPage }) => {
                 {item.name}
               </NavLink>
             ))}
+            <div className="ml-4">
+              <CabangSelector cabangId={cabangId} setCabangId={setCabangId} dataCabang={dataCabang} />
+            </div>
           </div>
 
           {/* Tombol Menu Mobile */}
@@ -470,11 +561,8 @@ const Header = ({ page, setPage }) => {
               </button>
             ))}
           </div>
-          <div className="border-t border-gray-200 pt-4 pb-3">
-            <div className="px-4 text-center text-sm text-gray-600">
-              <p className="font-medium">{KONTAK.telp}</p>
-              <p>{KONTAK.jam}</p>
-            </div>
+          <div className="border-t border-gray-200 pt-4 pb-4 px-4">
+            <CabangSelector cabangId={cabangId} setCabangId={setCabangId} dataCabang={dataCabang} />
           </div>
         </div>
       )}
@@ -483,8 +571,8 @@ const Header = ({ page, setPage }) => {
 };
 
 // --- Komponen Halaman: Home ---
-const HomePage = ({ setPage }) => {
-  const keunggulan = [
+const HomePage = ({ setPage, data }) => {
+  const keunggulan = [ // Keunggulan kita anggap sama di semua cabang
     {
       icon: Award,
       title: "Terbukti Andal & Berpengalaman",
@@ -510,7 +598,7 @@ const HomePage = ({ setPage }) => {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-white pt-12 pb-20 lg:pt-24 lg:pb-32">
+      <section className="bg-gradient-to-b from-white to-fuchsia-50 pt-12 pb-20 lg:pt-24 lg:pb-32 section-fade-in">
         <div className="container mx-auto px-4 grid lg:grid-cols-5 gap-12 items-center">
           {/* Teks Hero (Golden Ratio: 3/5) */}
           <div className="text-center lg:text-left lg:col-span-3">
@@ -519,22 +607,21 @@ const HomePage = ({ setPage }) => {
               <span className="text-fuchsia-600"> Sentuhan Kasih Ibu.</span>
             </h1>
             <p className="mt-6 text-lg text-gray-600 max-w-lg mx-auto lg:mx-0">
-              Emak Laundry hadir sejak 2021, memberikan solusi cuci pakaian yang bersih,
-              wangi, dan terpercaya untuk setiap kebutuhan Anda.
+              Selamat datang di {data.nama}! Kami hadir sejak 2021, memberikan solusi cuci pakaian yang bersih, wangi, dan terpercaya.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <a
-                href={KONTAK.waLink}
+                href={data.kontak.waLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-fuchsia-600 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500"
+                className="btn-primary"
               >
                 <Smartphone size={20} className="mr-2" />
                 Hubungi via WhatsApp
               </a>
               <button
                 onClick={() => setPage("services")}
-                className="inline-flex items-center justify-center px-8 py-3 border border-fuchsia-600 text-base font-medium rounded-md text-fuchsia-700 bg-white hover:bg-fuchsia-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500"
+                className="btn-secondary"
               >
                 Lihat Daftar Harga
               </button>
@@ -542,11 +629,14 @@ const HomePage = ({ setPage }) => {
           </div>
           {/* Gambar Hero (Golden Ratio: 2/5) */}
           <div className="hidden lg:block lg:col-span-2">
-            {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "hero-pakaian-wangi.jpg" ada di folder /public */}
             <img 
-              src="/hero-pakaian-wangi.jpg" 
+              src="/image/hero-pakaian-wangi.jpg" 
               alt="Pakaian Bersih & Wangi" 
               className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]" 
+              loading="eager"
+              width="1200"
+              height="800"
+              onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner aspect-[3/2]"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Pakaian Bersih & Wangi</p></div></div>'; }}
             />
           </div>
         </div>
@@ -593,9 +683,9 @@ const HomePage = ({ setPage }) => {
           <div className="absolute top-0 left-0 z-10 h-full w-16 bg-gradient-to-r from-white"></div>
           <div className="absolute top-0 right-0 z-10 h-full w-16 bg-gradient-to-l from-white"></div>
           <div className="w-max flex animate-scroll-x pause-animation">
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
+            {[...(data.testimonials || []), ...(data.testimonials || [])].map((testimonial, index) => (
               <div key={`${testimonial.name}-${index}`} className="flex-shrink-0 w-80 sm:w-96 p-4">
-                <div className="bg-white h-full p-8 rounded-lg shadow-md border border-gray-100">
+                <div className="bg-white h-full p-8 rounded-lg shadow-md border border-gray-100 card-hover">
                   <div className="flex text-fuchsia-500">
                     <Star fill="currentColor" />
                     <Star fill="currentColor" />
@@ -618,7 +708,7 @@ const HomePage = ({ setPage }) => {
 
 
       {/* CTA Section */}
-      <section className="bg-yellow-300">
+      <section className="bg-gradient-to-r from-amber-300 to-yellow-300">
         <div className="container mx-auto px-4 py-16 lg:py-20">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-8 text-center lg:text-left">
             <div>
@@ -630,10 +720,10 @@ const HomePage = ({ setPage }) => {
               </p>
             </div>
             <a
-              href={KONTAK.waLink}
+              href={data.kontak.waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 inline-flex items-center justify-center px-10 py-4 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-fuchsia-600 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500"
+              className="btn-primary px-10 py-4 text-lg"
             >
               <Smartphone size={22} className="mr-3" />
               Hubungi Kami Sekarang
@@ -646,8 +736,8 @@ const HomePage = ({ setPage }) => {
 };
 
 // --- Komponen Halaman: Tentang Kami ---
-const AboutPage = () => {
-  const stats = [
+const AboutPage = ({ data }) => {
+  const stats = [ // Kita anggap stats ini bisa diganti per cabang jika mau
     { value: "2021", label: "Berpengalaman Sejak" },
     { value: "220Jt+", label: "Total Transaksi Dilayani" },
     { value: "100rb+", label: "Kilo Pakaian Ditangani" },
@@ -659,15 +749,16 @@ const AboutPage = () => {
       {/* Hero About */}
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32">
         <div className="absolute inset-0 opacity-10">
-          {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "galeri-fasilitas-lebar.jpg" ada di folder /public */}
           <img 
-            src="/galeri-fasilitas-lebar.jpg" 
+            src="/image/galeri-fasilitas.jpg" 
             alt="Fasilitas Emak Laundry" 
             className="w-full h-full object-cover" 
+            loading="lazy"
+            onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner w-full h-full object-cover"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Fasilitas Emak Laundry</p></div></div>'; }}
           />
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
-          <h1 className="text-4xl lg:text-5xl font-extrabold">Tentang Emak Laundry</h1>
+          <h1 className="text-4xl lg:text-5xl font-extrabold">Tentang {data.nama}</h1>
           <p className="mt-4 text-xl lg:text-2xl max-w-3xl mx-auto text-fuchsia-100">
             Melayani Komunitas Sejak 2021: Kebersihan Terbaik dengan Sentuhan Kasih Ibu
           </p>
@@ -695,11 +786,14 @@ const AboutPage = () => {
             </div>
             {/* Gambar About (2/5) */}
             <div className="order-first lg:order-last lg:col-span-2">
-              {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "tentang-tim-kami.jpg" ada di folder /public */}
               <img 
-                src="/tentang-tim-kami.jpg" 
+                src="/image/tentang-tim-kami.jpg" 
                 alt="Tim Kami Siap Melayani" 
                 className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]" 
+                loading="lazy"
+                width="1200"
+                height="800"
+                onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner aspect-[3/2]"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Tim Kami Siap Melayani</p></div></div>'; }}
               />
             </div>
           </div>
@@ -741,13 +835,13 @@ const AboutPage = () => {
             </p>
           </div>
           <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {galleryImages.map((image, index) => (
+            {(data.galleryImages || []).map((image, index) => (
               <div key={index} className="overflow-hidden rounded-lg shadow-md aspect-w-3 aspect-h-2">
-                {/* PERUBAHAN: Menggunakan <img> tag dari data array */}
                 <img 
                   src={image.src} 
                   alt={image.alt} 
                   className="h-full w-full object-cover" 
+                  onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner h-full w-full object-cover"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">' + image.alt + '</p></div></div>'; }}
                 />
               </div>
             ))}
@@ -760,7 +854,7 @@ const AboutPage = () => {
 };
 
 // --- Komponen Halaman: Layanan & Harga ---
-const ServicesPage = () => {
+const ServicesPage = ({ data }) => {
   const formatCurrency = (number) => {
     if (typeof number === 'string') return number; 
     return new Intl.NumberFormat('id-ID', {
@@ -770,12 +864,12 @@ const ServicesPage = () => {
     }).format(number);
   };
   
-  const groupedLayananSatuan = layananSatuan.reduce((acc, item) => {
+  const groupedLayananSatuan = (data.layananSatuan || []).reduce((acc, item) => {
     (acc[item.kategori] = acc[item.kategori] || []).push(item);
     return acc;
   }, {});
   
-  const groupedLayananRumahTangga = layananRumahTangga.reduce((acc, item) => {
+  const groupedLayananRumahTangga = (data.layananRumahTangga || []).reduce((acc, item) => {
     (acc[item.kategori] = acc[item.kategori] || []).push(item);
     return acc;
   }, {});
@@ -790,7 +884,7 @@ const ServicesPage = () => {
             Layanan & <span className="text-fuchsia-600">Daftar Harga</span>
           </h1>
           <p className="mt-4 text-xl max-w-3xl mx-auto text-gray-600">
-            Spektrum layanan luas untuk semua kebutuhan kebersihan kain Anda. Transparan, jujur, tanpa biaya tersembunyi.
+            Harga transparan untuk {data.nama}. Jujur, tanpa biaya tersembunyi.
           </p>
         </div>
       </section>
@@ -801,9 +895,6 @@ const ServicesPage = () => {
           <h2 className="text-3xl font-extrabold text-gray-900 mb-8">
             <span className="text-fuchsia-600">1.</span> Layanan Kiloan Harian
           </h2>
-          <p className="text-lg text-gray-600 mb-10 max-w-3xl">
-            Solusi ideal untuk kebutuhan cucian sehari-hari Anda. Pilih paket berdasarkan kecepatan yang Anda butuhkan.
-          </p>
           <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
             <table className="min-w-full divide-y divide-gray-200 bg-white">
               <thead className="bg-fuchsia-50">
@@ -823,7 +914,7 @@ const ServicesPage = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {layananKiloan.map((item, idx) => (
+                {(data.layananKiloan || []).map((item, idx) => (
                   <tr key={idx} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.jenis}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{item.waktu}</td>
@@ -843,9 +934,6 @@ const ServicesPage = () => {
           <h2 className="text-3xl font-extrabold text-gray-900 mb-8">
             <span className="text-fuchsia-600">2.</span> Perawatan Spesial Satuan
           </h2>
-          <p className="text-lg text-gray-600 mb-10 max-w-3xl">
-            Untuk pakaian berharga dan item fashion Anda yang membutuhkan penanganan khusus dan detail.
-          </p>
           <div className="grid md:grid-cols-2 gap-8">
             {Object.entries(groupedLayananSatuan).map(([kategori, items]) => (
               <div key={kategori} className="bg-gray-50 p-6 rounded-lg shadow-md">
@@ -870,9 +958,6 @@ const ServicesPage = () => {
           <h2 className="text-3xl font-extrabold text-gray-900 mb-8">
             <span className="text-fuchsia-600">3.</span> Layanan Rumah Tangga & Ukuran Besar
           </h2>
-          <p className="text-lg text-gray-600 mb-10 max-w-3xl">
-            Solusi kebersihan menyeluruh untuk semua perlengkapan kain di rumah Anda.
-          </p>
           <div className="grid md:grid-cols-2 gap-8">
             {Object.entries(groupedLayananRumahTangga).map(([kategori, items]) => (
               <div key={kategori} className="bg-white p-6 rounded-lg shadow-md">
@@ -898,21 +983,22 @@ const ServicesPage = () => {
 };
 
 // --- Komponen Halaman: Mitra Usaha ---
-const PartnersPage = () => {
+const PartnersPage = ({ data }) => {
   return (
     <div className="bg-white">
       {/* Hero Mitra */}
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32 text-center">
         <div className="absolute inset-0 opacity-10">
-          {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "mitra-kapasitas-besar.jpg" ada di folder /public */}
           <img 
-            src="/mitra-kapasitas-besar.jpg" 
+            src="/image/mitra-linen-hotel.jpg" 
             alt="Kapasitas Produksi Volume Besar" 
             className="w-full h-full object-cover" 
+            loading="lazy"
+            onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner w-full h-full object-cover"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Kapasitas Produksi Volume Besar</p></div></div>'; }}
           />
         </div>
         <div className="container mx-auto px-4 relative z-10">
-          <h1 className="text-4xl lg:text-5xl font-extrabold">Mitra Usaha Emak Laundry</h1>
+          <h1 className="text-4xl lg:text-5xl font-extrabold">Mitra Usaha {data.nama}</h1>
           <p className="mt-4 text-xl lg:text-2xl max-w-3xl mx-auto text-fuchsia-100">
             Partner Laundry Andal untuk Pertumbuhan Bisnis Anda
           </p>
@@ -958,11 +1044,14 @@ const PartnersPage = () => {
             </div>
             {/* Gambar Mitra (2/5) */}
             <div className="lg:col-span-2">
-              {/* PERUBAHAN: Menggunakan <img> tag. Pastikan "mitra-linen-hotel.jpg" ada di folder /public */}
               <img 
-                src="/mitra-linen-hotel.jpg" 
+                src="/image/mitra-linen-hotel.jpg" 
                 alt="Linen Hotel & Resto" 
                 className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]" 
+                loading="lazy"
+                width="1200"
+                height="800"
+                onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner aspect-[3/2]"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Linen Hotel & Resto</p></div></div>'; }}
               />
             </div>
           </div>
@@ -977,15 +1066,17 @@ const PartnersPage = () => {
               Dipercaya Oleh <span className="text-fuchsia-600">Berbagai Usaha</span>
             </h2>
             <p className="mt-4 text-lg text-gray-600">
-              Kami bangga menjadi partner kebersihan untuk berbagai bisnis di Kota Banjar dan sekitarnya.
+              Kami bangga menjadi partner kebersihan untuk berbagai bisnis di area {data.nama}.
             </p>
           </div>
           <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {/* PERUBAHAN: Logika untuk menampilkan <img> atau placeholder */}
-            {mitraKami.map((mitra) => (
+            {(data.mitraKami || []).map((mitra) => (
               mitra.logo ? (
                 <div key={mitra.name} className="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-6 aspect-[3/2]">
-                  <img src={mitra.logo} alt={mitra.name} className="max-h-24 w-auto object-contain" />
+                  <img src={mitra.logo} alt={mitra.name} className="max-h-24 w-auto object-contain" 
+                    loading="lazy" width="300" height="160"
+                    onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center text-center text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-building"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg><p class="mt-2 text-sm font-medium">' + mitra.name + '</p></div>'; }}
+                  />
                 </div>
               ) : (
                 <PartnerLogoPlaceholder key={mitra.name} name={mitra.name} />
@@ -1002,12 +1093,9 @@ const PartnersPage = () => {
             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
               Daftar Harga Khusus <span className="text-fuchsia-600">Mitra Usaha</span>
             </h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Penawaran harga dasar kami untuk para mitra bisnis.
-            </p>
           </div>
           <div className="mt-16 max-w-2xl mx-auto grid sm:grid-cols-2 gap-8">
-            {layananMitra.map((item) => (
+            {(data.layananMitra || []).map((item) => (
               <div key={item.layanan} className="bg-white p-8 rounded-lg shadow-md text-center">
                 <h3 className="text-2xl font-bold text-gray-900">{item.layanan}</h3>
                 <p className="mt-4 text-5xl font-extrabold text-fuchsia-600">
@@ -1020,10 +1108,10 @@ const PartnersPage = () => {
           </div>
           <div className="mt-12 text-center">
             <a
-              href={KONTAK.waLink}
+              href={data.kontak.waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-10 py-4 border border-transparent text-lg font-medium rounded-md shadow-sm text-white bg-fuchsia-600 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500"
+              className="btn-primary px-10 py-4 text-lg"
             >
               <Smartphone size={22} className="mr-3" />
               Diskusikan Kebutuhan Bisnis Anda
@@ -1036,7 +1124,7 @@ const PartnersPage = () => {
 };
 
 // --- Komponen Halaman: FAQ ---
-const FAQPage = () => {
+const FAQPage = ({ data }) => {
   return (
     <div className="bg-white py-16 lg:py-24">
       <div className="container mx-auto px-4">
@@ -1046,13 +1134,13 @@ const FAQPage = () => {
             Tanya Jawab <span className="text-fuchsia-600">(FAQ)</span>
           </h1>
           <p className="mt-4 text-xl max-w-3xl mx-auto text-gray-600">
-            Pertanyaan yang paling sering diajukan oleh pelanggan kami.
+            Pertanyaan yang paling sering diajukan untuk {data.nama}.
           </p>
         </div>
         
         <div className="mt-16 max-w-4xl mx-auto">
           <div className="divide-y divide-gray-200">
-            {faqData.map((faq, index) => (
+            {(data.faqData || []).map((faq, index) => (
               <AccordionItem key={index} question={faq.question} answer={faq.answer} />
             ))}
           </div>
@@ -1066,7 +1154,7 @@ const FAQPage = () => {
 
 
 // --- Komponen Footer ---
-const Footer = ({ setPage }) => {
+const Footer = ({ setPage, data }) => {
   const footerNav = [
     { name: "Tentang Kami", page: "about" },
     { name: "Layanan", page: "services" },
@@ -1087,7 +1175,7 @@ const Footer = ({ setPage }) => {
           <div className="space-y-4">
             <button onClick={() => handleSetPage("home")} className="flex items-center gap-2">
               <img 
-                src="/logo.png"
+                src="/image/logo.png" 
                 alt="Logo Emak Laundry" 
                 className="h-16 w-auto" 
                 onError={(e) => { 
@@ -1103,15 +1191,15 @@ const Footer = ({ setPage }) => {
             <div className="space-y-3 text-gray-300">
               <p className="flex items-start gap-3">
                 <MapPin size={18} className="mt-1 flex-shrink-0 text-fuchsia-400" />
-                <span className="flex-1">{KONTAK.alamat}</span>
+                <span className="flex-1">{data.kontak.alamat}</span>
               </p>
               <p className="flex items-start gap-3">
                 <Phone size={18} className="mt-1 flex-shrink-0 text-fuchsia-400" />
-                <a href={KONTAK.waLink} target="_blank" rel="noopener noreferrer" className="hover:text-fuchsia-400">{KONTAK.telp}</a>
+                <a href={data.kontak.waLink} target="_blank" rel="noopener noreferrer" className="hover:text-fuchsia-400">{data.kontak.telp}</a>
               </p>
               <p className="flex items-start gap-3">
                 <Clock size={18} className="mt-1 flex-shrink-0 text-fuchsia-400" />
-                <span>{KONTAK.jam}</span>
+                <span>{data.kontak.jam}</span>
               </p>
             </div>
           </div>
@@ -1140,11 +1228,11 @@ const Footer = ({ setPage }) => {
               Dapatkan info promo dan tips perawatan pakaian terbaru.
             </p>
             <div className="mt-4 flex space-x-6">
-              <a href={KONTAK.igLink} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-400" aria-label="Instagram Emak Laundry">
+              <a href={data.kontak.igLink} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-400" aria-label="Instagram Emak Laundry">
                 <Instagram className="h-7 w-7" />
                 <span className="sr-only">Instagram</span>
               </a>
-              <a href={KONTAK.fbLink} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-400" aria-label="Facebook Emak Laundry">
+              <a href={data.kontak.fbLink} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-fuchsia-400" aria-label="Facebook Emak Laundry">
                 <Facebook className="h-7 w-7" />
                 <span className="sr-only">Facebook</span>
               </a>
@@ -1156,7 +1244,7 @@ const Footer = ({ setPage }) => {
       {/* Copyright */}
       <div className="bg-gray-950 py-6">
         <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-          <p>&copy; {new Date().getFullYear()} {KONTAK.nama}. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Emak Laundry. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -1164,23 +1252,15 @@ const Footer = ({ setPage }) => {
 };
 
 // Komponen Tombol WhatsApp Mengambang
-const FloatingWhatsApp = () => (
+const FloatingWhatsApp = ({ data }) => (
   <a
-    href={KONTAK.waLink}
+    href={data.kontak.waLink}
     target="_blank"
     rel="noopener noreferrer"
     className="fixed bottom-6 right-6 z-50 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-transform hover:scale-110"
     aria-label="Chat di WhatsApp"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="28"
-      height="28"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.35 3.45 16.86L2.06 22L7.31 20.62C8.76 21.41 10.37 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 6.46 17.5 2 12.04 2M12.04 3.67C16.56 3.67 20.28 7.39 20.28 11.92C20.28 16.45 16.56 20.17 12.04 20.17C10.53 20.17 9.09 19.79 7.8 19.11L7.31 18.83L3.8 19.8L4.82 16.4L4.52 15.89C3.78 14.5 3.4 13.01 3.4 11.91C3.4 7.39 7.12 3.67 12.04 3.67M17.36 14.49C17.11 14.37 15.92 13.78 15.7 13.69C15.48 13.59 15.31 13.54 15.15 13.79C14.98 14.04 14.5 14.62 14.36 14.79C14.23 14.96 14.09 14.98 13.85 14.86C13.6 14.74 12.63 14.42 11.43 13.34C10.49 12.49 9.81 11.45 9.64 11.19C9.47 10.93 9.59 10.8 9.71 10.68C9.82 10.58 9.96 10.39 10.1 10.23C10.24 10.06 10.29 9.95 10.37 9.78C10.46 9.61 10.41 9.47 10.34 9.35C10.27 9.23 9.76 7.97 9.56 7.48C9.37 7 9.17 7.02 9.04 7.02C8.91 7.02 8.71 7.02 8.52 7.02C8.32 7.02 8.02 7.11 7.77 7.36C7.52 7.61 7 8.2 7 9.32C7 10.44 7.79 11.53 7.91 11.69C8.03 11.86 9.52 14.26 11.81 15.2C14.1 16.14 14.73 15.93 15.15 15.89C1F5.58 15.85 16.55 15.29 16.78 14.96C17.01 14.63 17.01 14.37 16.96 14.26C16.91 14.15 16.79 14.09 16.54 13.97C16.29 13.85 17.61 14.62 17.36 14.49Z" />
-    </svg>
+    <Phone size={28} />
   </a>
 );
 
@@ -1188,32 +1268,44 @@ const FloatingWhatsApp = () => (
 // --- Komponen Utama App ---
 export default function App() {
   const [page, setPage] = useState('home');
+  // State untuk menyimpan cabang yang dipilih, default "banjar"
+  const [cabangId, setCabangId] = useState('banjar');
+  
+  // Mengambil data cabang yang aktif
+  const dataCabangAktif = (importedCabangData[cabangId] || importedCabangData['banjar']);
 
   const renderPage = () => {
+    // Melewatkan 'dataCabangAktif' ke setiap halaman
     switch (page) {
       case 'home':
-        return <HomePage setPage={setPage} />;
+        return <HomePage setPage={setPage} data={dataCabangAktif} />;
       case 'about':
-        return <AboutPage />;
+        return <AboutPage data={dataCabangAktif} />;
       case 'services':
-        return <ServicesPage />;
+        return <ServicesPage data={dataCabangAktif} />;
       case 'partners':
-        return <PartnersPage />;
+        return <PartnersPage data={dataCabangAktif} />;
       case 'faq':
-        return <FAQPage />;
+        return <FAQPage data={dataCabangAktif} />;
       default:
-        return <HomePage setPage={setPage} />;
+        return <HomePage setPage={setPage} data={dataCabangAktif} />;
     }
   };
 
   return (
     <div className="font-sans">
-      <Header page={page} setPage={setPage} />
+      <Header 
+        page={page} 
+        setPage={setPage} 
+        cabangId={cabangId}
+        setCabangId={setCabangId}
+        dataCabang={importedCabangData}
+      />
       <main>
         {renderPage()}
       </main>
-      <Footer setPage={setPage} />
-      <FloatingWhatsApp />
+      <Footer setPage={setPage} data={dataCabangAktif} />
+      <FloatingWhatsApp data={dataCabangAktif} />
     </div>
   );
 }
