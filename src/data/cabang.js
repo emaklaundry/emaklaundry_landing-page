@@ -11,7 +11,7 @@ export const cabangData = {
       email: "emaklaundry12@gmail.com",
       waLink: "https://wa.me/6285175279659",
       igLink: "https://instagram.com/emaklaundry12",
-      fbLink: "https://facebook.com/emakalundry",
+  fbLink: "https://facebook.com/emaklaundry",
       mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1577.29111944724!2d108.53978155745905!3d-7.3719517962207375!2m3!1f0!2f0!3f0!3m2!1i1024!i768!4f13.1!3m3!1m2!1s0x2e6f631688e9419b%3A0xba735a6324e54a4e!2sEmak%20Laundry!5e0!3m2!1sid!2sid!4v1761908153521!5m2!1sid!2sid"
     },
     layananKiloan: [

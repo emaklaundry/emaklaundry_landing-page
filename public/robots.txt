@@ -1,0 +1,8 @@
+# robots.txt for Emak Laundry
+User-agent: *
+Allow: /
+
+# Delay optional (commented)
+# Crawl-delay: 5
+
+Sitemap: https://emaklaundry.example/sitemap.xml

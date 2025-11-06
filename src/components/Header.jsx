@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { NavLink } from './NavLink.jsx';
 import { CabangSelector } from './CabangSelector.jsx';
+import { SafeImage } from './common/SafeImage.jsx';
 
 export const Header = ({ page, setPage, cabangId, setCabangId, dataCabang }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,16 +26,12 @@ export const Header = ({ page, setPage, cabangId, setCabangId, dataCabang }) => 
         <div className="flex justify-between items-center h-20">
           <div className="flex-shrink-0">
             <button onClick={() => handleSetPage("home")} className="flex items-center gap-2">
-              <img 
-                src="/image/logo.png" 
-                alt="Logo Emak Laundry" 
+              <SafeImage
+                src="/image/logo.png"
+                alt="Logo Emak Laundry"
                 className="h-16 w-auto"
-                onError={(e) => { 
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'block';
-                }}
               />
-              <span style={{ display: 'none' }} className="font-bold text-xl text-fuchsia-700">Emak Laundry</span>
+              <span className="sr-only">Emak Laundry</span>
             </button>
           </div>
 

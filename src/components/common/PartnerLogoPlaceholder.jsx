@@ -3,6 +3,8 @@ import { Building } from 'lucide-react';
 
 export const PartnerLogoPlaceholder = ({ name, className = '' }) => (
   <div
+    role="img"
+    aria-label={`Logo mitra ${name}`}
     className={`flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-6 ${className}`}
     style={{
       backgroundImage: 'radial-gradient(circle, rgba(0, 0, 0, 0.03) 1px, transparent 1px)',

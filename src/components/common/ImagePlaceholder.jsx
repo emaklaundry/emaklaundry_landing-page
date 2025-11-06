@@ -3,6 +3,8 @@ import { ImageIcon } from 'lucide-react';
 
 export const ImagePlaceholder = ({ alt, className = '' }) => (
   <div
+    role="img"
+    aria-label={alt || 'Gambar'}
     className={`flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner ${className}`}
     style={{
       backgroundImage: 'radial-gradient(circle, rgba(192, 46, 137, 0.05) 1px, transparent 1px)',

@@ -28,33 +28,21 @@ export const TanyaEmak = () => {
     setError(null);
     setJawaban("");
 
-    const systemPrompt = `
-      Anda adalah "Emak", asisten AI dari Emak Laundry. Persona Anda: ramah, penuh perhatian, bijak, dan ahli dalam merawat pakaian.
-      Aturan: Sapa ramah, jawab singkat (maks 3-4 kalimat), berikan 1-2 tips darurat jika soal noda, dan selalu arahkan ke Emak Laundry di akhir.
-    `;
+    // Sistem prompt kini dipindahkan ke backend (lihat api/ask-emak.js)
 
     const userQuery = pertanyaan;
-    const apiKey = import.meta.env?.VITE_GEMINI_API_KEY || "";
-    if (!apiKey) {
-      setError("Fitur Tanya Emak dimatikan sementara. Hubungi kami via WhatsApp ya.");
-      setIsLoading(false);
-      return;
-    }
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+    // Selalu gunakan proxy agar API key tidak pernah diekspos di client
+    const apiUrl = '/api/ask-emak';
 
     let response;
     let delay = 1000;
     for (let i = 0; i < 5; i++) {
       try {
+        const fetchBody = { question: userQuery };
         const fetchOptions = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: userQuery }] }],
-            systemInstruction: {
-              parts: [{ text: systemPrompt }]
-            },
-          })
+          body: JSON.stringify(fetchBody)
         };
         response = await fetch(apiUrl, fetchOptions);
         if (response.ok) break;
@@ -78,11 +66,9 @@ export const TanyaEmak = () => {
 
     try {
       const result = await response.json();
-      const candidate = result.candidates?.[0];
-      if (candidate && candidate.content?.parts?.[0]?.text) {
-        setJawaban(candidate.content.parts[0].text);
+      if (result.answer) {
+        setJawaban(result.answer);
       } else {
-        console.warn("API response OK but no content: ", result);
         setJawaban("Aduh, Nak. Emak bingung mau jawab apa. Coba tanya yang lain soal cucian, ya.");
       }
     } catch (err) {
@@ -127,7 +113,7 @@ export const TanyaEmak = () => {
           />
           <button
             onClick={handleTanyaEmak}
-            disabled={isLoading || !import.meta.env?.VITE_GEMINI_API_KEY}
+            disabled={isLoading}
             className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-fuchsia-600 hover:bg-fuchsia-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-fuchsia-500 disabled:bg-gray-400"
           >
             {isLoading ? (

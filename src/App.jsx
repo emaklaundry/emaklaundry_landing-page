@@ -1,52 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Phone, 
-  MapPin, 
-  Clock, 
-  ChevronDown, 
-  Menu, 
-  X, 
-  Star, 
-  Award, 
-  Truck, 
-  Wallet,
-  CheckCircle,
-  Instagram,
-  Facebook,
-  Smartphone,
-  Quote,
-  HelpCircle,
-  Sparkles,
-  Camera,
-  ImageIcon,
-  Building
-} from 'lucide-react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { cabangData as importedCabangData } from './data/cabang.js';
 import { Header as ImportedHeader } from './components/Header.jsx';
 import { Footer as ImportedFooter } from './components/Footer.jsx';
 import { FloatingWhatsApp as ImportedFloatingWhatsApp } from './components/FloatingWhatsApp.jsx';
 import { HomePage as ImportedHomePage } from './pages/HomePage.jsx';
-import { AboutPage as ImportedAboutPage } from './pages/AboutPage.jsx';
-import { ServicesPage as ImportedServicesPage } from './pages/ServicesPage.jsx';
-import { PartnersPage as ImportedPartnersPage } from './pages/PartnersPage.jsx';
-import { FAQPage as ImportedFAQPage } from './pages/FAQPage.jsx';
 
-// Placeholder components are now defined in dedicated files and imported where needed
-
-
-// TanyaEmak is provided as a standalone component
-
-
-// AccordionItem now lives in components/AccordionItem.jsx
-
-// NavLink moved to components/NavLink.jsx
-
-// CabangSelector moved to components/CabangSelector.jsx
-
-// Header moved to components/Header.jsx
-
-// HomePage moved to pages/HomePage.jsx
-
+// Lazy-load halaman non-kritis untuk optimasi bundle
+const AboutPage = lazy(() => import('./pages/AboutPage.jsx').then(m => ({ default: m.AboutPage })));
+const ServicesPage = lazy(() => import('./pages/ServicesPage.jsx').then(m => ({ default: m.ServicesPage })));
+const PartnersPage = lazy(() => import('./pages/PartnersPage.jsx').then(m => ({ default: m.PartnersPage })));
+const FAQPage = lazy(() => import('./pages/FAQPage.jsx').then(m => ({ default: m.FAQPage })));
 
 // --- Komponen Utama App ---
 export default function App() {
@@ -57,22 +20,49 @@ export default function App() {
   // Mengambil data cabang yang aktif
   const dataCabangAktif = (importedCabangData[cabangId] || importedCabangData['banjar']);
 
-  const renderPage = () => {
-    // Melewatkan 'dataCabangAktif' ke setiap halaman
-    switch (page) {
-      case 'home':
-        return <ImportedHomePage setPage={setPage} data={dataCabangAktif} />;
-      case 'about':
-        return <ImportedAboutPage data={dataCabangAktif} />;
-      case 'services':
-        return <ImportedServicesPage data={dataCabangAktif} />;
-      case 'partners':
-        return <ImportedPartnersPage data={dataCabangAktif} />;
-      case 'faq':
-        return <ImportedFAQPage data={dataCabangAktif} />;
-      default:
-        return <ImportedHomePage setPage={setPage} data={dataCabangAktif} />;
+  // Update <title> dan meta description saat cabang/halaman berubah
+  useEffect(() => {
+    const titlePrefix = {
+      home: '',
+      about: 'Tentang Kami - ',
+      services: 'Layanan & Harga - ',
+      partners: 'Mitra Usaha - ',
+      faq: 'FAQ - ',
+    }[page] || '';
+
+    document.title = `${titlePrefix}${dataCabangAktif.nama}`;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute(
+        'content',
+        `Layanan laundry ${dataCabangAktif.nama}. Bersih, wangi, dan terpercaya dengan sentuhan kasih ibu.`
+      );
     }
+  }, [page, dataCabangAktif]);
+
+  // Object map untuk halaman (lebih mudah maintain vs switch)
+  const pages = {
+    home: <ImportedHomePage setPage={setPage} data={dataCabangAktif} />,
+    about: <AboutPage data={dataCabangAktif} />,
+    services: <ServicesPage data={dataCabangAktif} />,
+    partners: <PartnersPage data={dataCabangAktif} />,
+    faq: <FAQPage data={dataCabangAktif} />,
+  };
+
+  const renderPage = () => {
+    const PageComponent = pages[page] || pages.home;
+    return (
+      <Suspense fallback={
+        <div className="container mx-auto px-4 py-16 text-center">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/3 mx-auto mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded w-2/3 mx-auto"></div>
+          </div>
+        </div>
+      }>
+        {PageComponent}
+      </Suspense>
+    );
   };
 
   return (

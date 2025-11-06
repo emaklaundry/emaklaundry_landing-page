@@ -1,5 +1,6 @@
 import React from 'react';
 import { MapPin, Phone, Clock, Instagram, Facebook } from 'lucide-react';
+import { SafeImage } from './common/SafeImage.jsx';
 
 export const Footer = ({ setPage, data }) => {
   const footerNav = [
@@ -19,17 +20,12 @@ export const Footer = ({ setPage, data }) => {
         <div className="grid lg:grid-cols-3 gap-12">
           <div className="space-y-4">
             <button onClick={() => handleSetPage("home")} className="flex items-center gap-2">
-              <img 
+              <SafeImage 
                 src="/image/logo.png" 
                 alt="Logo Emak Laundry" 
                 className="h-16 w-auto"
-                loading="lazy"
-                onError={(e) => { 
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'block';
-                }}
               />
-              <span style={{ display: 'none' }} className="font-bold text-xl text-white">Emak Laundry</span>
+              <span className="sr-only">Emak Laundry</span>
             </button>
             <p className="text-gray-400">Kebersihan Terbaik dengan Sentuhan Kasih Ibu.</p>
             <div className="space-y-3 text-gray-300">

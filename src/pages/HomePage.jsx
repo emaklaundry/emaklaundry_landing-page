@@ -1,5 +1,6 @@
 import React from 'react';
 import { Award, CheckCircle, Clock, Sparkles, Smartphone, Star, Quote } from 'lucide-react';
+import { SafeImage } from '../components/common/SafeImage.jsx';
 
 export const HomePage = ({ setPage, data }) => {
   const keunggulan = [
@@ -40,13 +41,12 @@ export const HomePage = ({ setPage, data }) => {
             </div>
           </div>
           <div className="hidden lg:block lg:col-span-2">
-            <img 
-              src="/image/hero-pakaian-wangi.jpg" 
-              alt="Pakaian Bersih & Wangi" 
+            <SafeImage
+              src="/image/hero-pakaian-wangi.jpg"
+              alt="Pakaian Bersih & Wangi"
               className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]"
               width="1200"
               height="800"
-              onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner aspect-[3/2]"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Pakaian Bersih & Wangi</p></div></div>'; }}
             />
           </div>
         </div>

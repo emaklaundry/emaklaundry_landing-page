@@ -11,6 +11,8 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/fav-icon/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/fav-icon/apple-touch-icon.png">
     <link rel="manifest" href="/fav-icon/site.webmanifest">
+  <!-- Canonical URL: ganti domain saat live deploy -->
+  <link rel="canonical" href="https://emaklaundry.example/" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Emak Laundry - Bersih, Wangi, Sentuhan Kasih Ibu</title>
@@ -20,18 +22,43 @@
     <meta name="theme-color" content="#c02e89">
     <meta name="color-scheme" content="light">
 
+    <!-- JSON-LD: Organization & LocalBusiness -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Emak Laundry",
+        "image": "/fav-icon/android-chrome-512x512.png",
+        "url": "https://emaklaundry.example/",
+        "telephone": "+62-851-7527-9659",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Jl. Dr. Sudarsono No.43, Mekarsari",
+          "addressLocality": "Kota Banjar",
+          "addressRegion": "Jawa Barat",
+          "postalCode": "46321",
+          "addressCountry": "ID"
+        },
+        "sameAs": [
+          "https://instagram.com/emaklaundry12",
+          "https://facebook.com/emaklaundry"
+        ]
+      }
+    </script>
+
     <!-- Open Graph -->
     <meta property="og:title" content="Emak Laundry - Bersih, Wangi, Sentuhan Kasih Ibu">
     <meta property="og:description" content="Layanan laundry kiloan dan satuan profesional. Bersih, wangi, dan terpercaya dengan sentuhan kasih ibu.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://emaklaundry.example/">
-    <meta property="og:image" content="/image/hero-pakaian-wangi.jpg">
+  <meta property="og:url" content="https://emaklaundry.example/">
+  <!-- Gunakan icon besar sebagai fallback OG image agar tidak 404 jika hero belum diupload -->
+  <meta property="og:image" content="/fav-icon/android-chrome-512x512.png">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Emak Laundry - Bersih, Wangi, Sentuhan Kasih Ibu">
     <meta name="twitter:description" content="Layanan laundry kiloan dan satuan profesional. Bersih, wangi, dan terpercaya dengan sentuhan kasih ibu.">
-    <meta name="twitter:image" content="/image/hero-pakaian-wangi.jpg">
+  <meta name="twitter:image" content="/fav-icon/android-chrome-512x512.png">
 
   </head>
   <body>

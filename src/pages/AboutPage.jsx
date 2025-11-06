@@ -1,5 +1,6 @@
 import React from 'react';
 import { Camera } from 'lucide-react';
+import { SafeImage } from '../components/common/SafeImage.jsx';
 
 export const AboutPage = ({ data }) => {
   const stats = [
@@ -13,12 +14,10 @@ export const AboutPage = ({ data }) => {
     <div className="bg-white">
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32">
         <div className="absolute inset-0 opacity-10">
-          <img 
+          <SafeImage 
             src="/image/galeri-fasilitas.jpg" 
             alt="Fasilitas Emak Laundry" 
             className="w-full h-full object-cover"
-            loading="lazy"
-            onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner w-full h-full object-cover"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Fasilitas Emak Laundry</p></div></div>'; }}
           />
         </div>
         <div className="container mx-auto px-4 relative z-10 text-center">
@@ -47,14 +46,12 @@ export const AboutPage = ({ data }) => {
               </p>
             </div>
             <div className="order-first lg:order-last lg:col-span-2">
-              <img 
+              <SafeImage 
                 src="/image/tentang-tim-kami.jpg" 
                 alt="Tim Kami Siap Melayani" 
                 className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]"
-                loading="lazy"
-                width="1200"
-                height="800"
-                onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner aspect-[3/2]"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Tim Kami Siap Melayani</p></div></div>'; }}
+                width={1200}
+                height={800}
               />
             </div>
           </div>
@@ -87,15 +84,13 @@ export const AboutPage = ({ data }) => {
           </div>
           <div className="mt-16 grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             {(data.galleryImages || []).map((image, index) => (
-              <div key={index} className="overflow-hidden rounded-lg shadow-md aspect-w-3 aspect-h-2">
-                <img 
+              <div key={index} className="overflow-hidden rounded-lg shadow-md aspect-[3/2]">
+                <SafeImage 
                   src={image.src} 
                   alt={image.alt} 
                   className="h-full w-full object-cover"
-                  loading="lazy"
-                  width="800"
-                  height="533"
-                  onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner h-full w-full object-cover"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">' + image.alt + '</p></div></div>'; }}
+                  width={800}
+                  height={533}
                 />
               </div>
             ))}

@@ -1,19 +1,18 @@
 import React from 'react';
 import { CheckCircle } from 'lucide-react';
 import { PartnerLogoPlaceholder } from '../components/common/PartnerLogoPlaceholder.jsx';
+import { SafeImage } from '../components/common/SafeImage.jsx';
 
 export const PartnersPage = ({ data }) => {
   return (
     <div className="bg-white">
       <section className="relative bg-fuchsia-600 text-white py-24 lg:py-32 text-center">
         <div className="absolute inset-0 opacity-10">
-          <img 
-            src="/image/mitra-linen-hotel.jpg" 
-            alt="Kapasitas Produksi Volume Besar" 
-            className="w-full h-full object-cover"
-            loading="lazy"
-            onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner w-full h-full object-cover"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Kapasitas Produksi Volume Besar</p></div></div>'; }}
-          />
+              <SafeImage 
+                src="/image/mitra-linen-hotel.jpg" 
+                alt="Kapasitas Produksi Volume Besar" 
+                className="w-full h-full object-cover"
+              />
         </div>
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-4xl lg:text-5xl font-extrabold">Mitra Usaha {data.nama}</h1>
@@ -44,15 +43,13 @@ export const PartnersPage = ({ data }) => {
               </ul>
             </div>
             <div className="lg:col-span-2">
-              <img 
-                src="/image/mitra-linen-hotel.jpg" 
-                alt="Linen Hotel & Resto" 
-                className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]"
-                loading="lazy"
-                width="1200"
-                height="800"
-                onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center bg-fuchsia-50 border border-fuchsia-100 rounded-lg shadow-inner aspect-[3/2]"><div class="text-center text-fuchsia-400 p-4"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-image-icon"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg><p class="mt-2 text-sm font-medium">Linen Hotel & Resto</p></div></div>'; }}
-              />
+                  <SafeImage 
+                    src="/image/mitra-linen-hotel.jpg" 
+                    alt="Linen Hotel & Resto" 
+                    className="rounded-lg shadow-xl object-cover w-full aspect-[3/2]"
+                    width={1200}
+                    height={800}
+                  />
             </div>
           </div>
         </div>
@@ -68,9 +65,14 @@ export const PartnersPage = ({ data }) => {
             {(data.mitraKami || []).map((mitra) => (
               mitra.logo ? (
                 <div key={mitra.name} className="flex items-center justify-center bg-gray-50 border border-gray-200 rounded-lg p-6 aspect-[3/2]">
-                  <img src={mitra.logo} alt={mitra.name} className="max-h-24 w-auto object-contain" loading="lazy" width="300" height="160"
-                    onError={(e) => { e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="flex items-center justify-center text-center text-gray-400"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto lucide lucide-building"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01"/><path d="M16 6h.01"/><path d="M12 6h.01"/><path d="M12 10h.01"/><path d="M12 14h.01"/><path d="M16 10h.01"/><path d="M16 14h.01"/><path d="M8 10h.01"/><path d="M8 14h.01"/></svg><p class="mt-2 text-sm font-medium">' + mitra.name + '</p></div>'; }}
-                  />
+                      <SafeImage 
+                        src={mitra.logo} 
+                        alt={mitra.name} 
+                        className="max-h-24 w-auto object-contain"
+                        width={300}
+                        height={160}
+                        placeholder={<PartnerLogoPlaceholder name={mitra.name} className="w-full h-full" />}
+                      />
                 </div>
               ) : (
                 <PartnerLogoPlaceholder key={mitra.name} name={mitra.name} />
