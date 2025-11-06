@@ -68,7 +68,11 @@ export const cabangData = {
       { question: "Apa bedanya layanan Kiloan dan Satuan?", answer: "Layanan Kiloan cocok untuk pakaian sehari-hari seperti kaos, celana, dan pakaian rumah yang dihitung berdasarkan berat (kg). Layanan Satuan adalah untuk item spesial seperti jas, gaun, jaket kulit, atau sepatu yang memerlukan penanganan khusus dan detail." },
       { question: "Berapa minimal order untuk layanan kiloan?", answer: "Untuk layanan kiloan reguler (Cuci Lipat / Cuci Setrika), minimal order adalah 3 kg. Untuk layanan Setrika Saja, minimal order juga 3 kg." },
       { question: "Apakah Emak Laundry menyediakan layanan antar-jemput?", answer: "Ya, kami menyediakan layanan antar-jemput gratis untuk wilayah Kota Banjar dengan minimal order tertentu. Silakan hubungi kami via WhatsApp untuk informasi lebih lanjut dan penjadwalan." },
-      { question: "Berapa lama pengerjaan untuk item satuan seperti jas atau karpet?", answer: "Waktu pengerjaan untuk item satuan bervariasi tergantung tingkat kesulitan dan jenis bahan. Rata-rata pengerjaan adalah 2-4 hari. Untuk layanan khusus seperti perawatan noda membandel mungkin memerlukan waktu lebih lama." }
+      { question: "Berapa lama pengerjaan untuk item satuan seperti jas atau karpet?", answer: "Waktu pengerjaan untuk item satuan bervariasi tergantung tingkat kesulitan dan jenis bahan. Rata-rata pengerjaan adalah 2-4 hari. Untuk layanan khusus seperti perawatan noda membandel mungkin memerlukan waktu lebih lama." },
+      { question: "Apakah bisa cuci kilat untuk acara mendadak?", answer: "Tentu bisa! Kami menyediakan layanan Cuci Ekspres 3 Jam dengan harga Rp 25.000/kg. Pakaian Anda akan bersih, wangi, dan siap dipakai dalam waktu singkat." },
+      { question: "Bagaimana cara menghitung berat cucian kiloan?", answer: "Kami menggunakan timbangan digital yang akurat. Berat cucian dihitung setelah pakaian kering (sebelum dicuci). Berat minimal adalah 3 kg untuk layanan kiloan." },
+      { question: "Apakah aman mencuci pakaian berbahan sensitif seperti sutra atau wool?", answer: "Sangat aman! Tim kami terlatih menangani berbagai jenis bahan. Untuk bahan sensitif, kami menggunakan deterjen khusus dan teknik pencucian yang lembut untuk menjaga kualitas pakaian Anda." },
+      { question: "Bagaimana jika ada pakaian yang rusak atau hilang?", answer: "Kami sangat berhati-hati dalam menangani setiap pakaian. Namun jika terjadi kerusakan yang disebabkan oleh kesalahan kami, akan ada kompensasi sesuai kesepakatan. Untuk mencegah kehilangan, kami memiliki sistem pencatatan yang detail untuk setiap order." }
     ],
     galleryImages: [
       { src: "/image/galeri-mesin-cuci.jpg", alt: "Mesin Cuci Modern di Banjar" },
@@ -135,6 +139,8 @@ export const cabangData = {
       { question: "Apa bedanya layanan Kiloan dan Satuan?", answer: "Layanan Kiloan cocok untuk pakaian sehari-hari seperti kaos, celana, dan pakaian rumah yang dihitung berdasarkan berat (kg). Layanan Satuan adalah untuk item spesial seperti jas, gaun, jaket kulit, atau sepatu yang memerlukan penanganan khusus dan detail." },
       { question: "Minimal order di cabang Tasik berapa?", answer: "Untuk layanan kiloan reguler (Cuci Lipat / Cuci Setrika) dan Setrika Saja, minimal order adalah 3 kg." },
       { question: "Apakah cabang Tasik ada antar-jemput?", answer: "Ya, kami menyediakan layanan antar-jemput gratis untuk area Kota Tasikmalaya dengan minimal order 5kg. Silakan hubungi WA kami untuk penjadwalan." },
+      { question: "Apakah bisa cuci ekspres di cabang Tasikmalaya?", answer: "Tentu! Kami menyediakan layanan Cuci Ekspres 3 Jam dengan harga Rp 27.000/kg. Cocok untuk kebutuhan mendadak seperti acara keluarga atau perjalanan bisnis." },
+      { question: "Berapa jam operasional cabang Tasikmalaya?", answer: "Cabang Tasikmalaya buka setiap hari dari jam 07:00 - 21:00 WIB. Kami siap melayani kebutuhan laundry Anda lebih awal dan lebih lama!" }
     ],
     galleryImages: [
       { src: "/image/galeri-tasik-1.jpg", alt: "Tampak Depan Emak Laundry Tasik" },

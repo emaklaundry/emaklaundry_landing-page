@@ -22,23 +22,61 @@ export default function App() {
 
   // Update <title> dan meta description saat cabang/halaman berubah
   useEffect(() => {
-    const titlePrefix = {
-      home: '',
-      about: 'Tentang Kami - ',
-      services: 'Layanan & Harga - ',
-      partners: 'Mitra Usaha - ',
-      faq: 'FAQ - ',
-    }[page] || '';
+    const pageMetadata = {
+      home: {
+        title: `${dataCabangAktif.nama} - Jasa Laundry Kiloan & Satuan Terpercaya`,
+        description: `${dataCabangAktif.nama} melayani laundry kiloan mulai 5rb/kg, cuci setrika, cuci karpet, sepatu, boneka. Antar jemput gratis. Buka setiap hari ${dataCabangAktif.kontak.jam}. ☎ ${dataCabangAktif.kontak.telp}`,
+      },
+      about: {
+        title: `Tentang Kami - ${dataCabangAktif.nama}`,
+        description: `Profil dan sejarah ${dataCabangAktif.nama}. Komitmen kami memberikan layanan laundry berkualitas tinggi dengan harga terjangkau untuk masyarakat Jawa Barat.`,
+      },
+      services: {
+        title: `Layanan & Harga - ${dataCabangAktif.nama}`,
+        description: `Daftar lengkap layanan laundry ${dataCabangAktif.nama}: Kiloan (mulai 5rb/kg), Satuan (jas, gamis, jaket), Karpet, Sepatu, Boneka, Bed Cover, hingga layanan Mitra. Harga transparan dan kompetitif.`,
+      },
+      partners: {
+        title: `Mitra Usaha - ${dataCabangAktif.nama}`,
+        description: `${dataCabangAktif.nama} dipercaya oleh hotel, restoran, klinik, spa, dan guest house sebagai partner laundry profesional. Layanan cuci komplit mitra mulai 4rb/kg dengan kualitas terjamin.`,
+      },
+      faq: {
+        title: `FAQ & Tanya Jawab - ${dataCabangAktif.nama}`,
+        description: `Pertanyaan umum seputar layanan laundry ${dataCabangAktif.nama}. Minimal order, waktu pengerjaan, area antar jemput, dan informasi penting lainnya.`,
+      },
+    };
 
-    document.title = `${titlePrefix}${dataCabangAktif.nama}`;
+    const metadata = pageMetadata[page] || pageMetadata.home;
+    
+    document.title = metadata.title;
+    
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
-      metaDesc.setAttribute(
-        'content',
-        `Layanan laundry ${dataCabangAktif.nama}. Bersih, wangi, dan terpercaya dengan sentuhan kasih ibu.`
-      );
+      metaDesc.setAttribute('content', metadata.description);
     }
-  }, [page, dataCabangAktif]);
+
+    // Update canonical URL per halaman
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      const baseUrl = 'https://www.emaklaundry.my.id';
+      const pagePath = page === 'home' ? '/' : `/${page}`;
+      const cabangParam = cabangId !== 'banjar' ? `?cabang=${cabangId}` : '';
+      canonical.setAttribute('href', `${baseUrl}${pagePath}${cabangParam}`);
+    }
+
+    // Update OG tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    
+    if (ogTitle) ogTitle.setAttribute('content', metadata.title);
+    if (ogDesc) ogDesc.setAttribute('content', metadata.description);
+    if (ogUrl) {
+      const baseUrl = 'https://www.emaklaundry.my.id';
+      const pagePath = page === 'home' ? '/' : `/${page}`;
+      const cabangParam = cabangId !== 'banjar' ? `?cabang=${cabangId}` : '';
+      ogUrl.setAttribute('content', `${baseUrl}${pagePath}${cabangParam}`);
+    }
+  }, [page, cabangId, dataCabangAktif]);
 
   // Object map untuk halaman (lebih mudah maintain vs switch)
   const pages = {

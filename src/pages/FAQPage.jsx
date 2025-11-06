@@ -1,9 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HelpCircle } from 'lucide-react';
 import { AccordionItem } from '../components/AccordionItem.jsx';
 import { TanyaEmak } from '../components/TanyaEmak.jsx';
 
 export const FAQPage = ({ data }) => {
+  // Inject FAQ Schema untuk Rich Snippets di Google Search
+  useEffect(() => {
+    if (!data?.faqData || data.faqData.length === 0) return;
+    
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": data.faqData.map(faq => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(faqSchema);
+    script.id = 'faq-schema';
+    document.head.appendChild(script);
+
+    return () => {
+      const existingScript = document.getElementById('faq-schema');
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, [data]);
+
   return (
     <div className="bg-white py-16 lg:py-24">
       <div className="container mx-auto px-4">

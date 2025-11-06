@@ -1,4 +1,25 @@
 # Panduan Deployment Emak Laundry
+## 🚀 Domain Production: https://www.emaklaundry.my.id/
+
+---
+
+## ✅ Status Deployment
+
+**Platform:** Vercel  
+**Domain:** https://www.emaklaundry.my.id/  
+**Framework:** Vite + React  
+**Branch:** main  
+
+### Fitur Aktif
+- ✅ SEO optimization lengkap
+- ✅ Structured data (Schema.org)
+- ✅ Sitemap & robots.txt
+- ✅ Code splitting & lazy loading
+- ✅ Serverless function ready (`/api/ask-emak.js`)
+- ✅ Security headers
+- ✅ HTTPS automatic (Vercel)
+
+---
 
 ## 📋 Checklist Sebelum Deploy
 
@@ -107,25 +128,34 @@ Buka http://localhost:4173 dan test semua halaman.
 
 ---
 
-## 🚀 Deploy ke Vercel
+## 🚀 Deploy ke Vercel (SUDAH AKTIF)
 
-### Langkah Deploy
-1. **Push ke GitHub:**
+### Status: ✅ DEPLOYED
+- **Domain:** https://www.emaklaundry.my.id/
+- **Platform:** Vercel
+- **Auto-deploy:** Enabled (push ke main branch)
+
+### Update Deployment
+1. **Push perubahan ke GitHub:**
 ```powershell
 git add .
-git commit -m "feat: production-ready with security improvements"
+git commit -m "feat: update content atau fitur baru"
 git push origin main
 ```
 
-2. **Import Project di Vercel:**
-   - Buka [vercel.com/new](https://vercel.com/new)
-   - Import repository `emaklaundry/emaklaundry_landing-page`
-   - Framework Preset: **Vite**
-   - Root Directory: `./`
+2. **Vercel akan otomatis:**
+   - Detect push baru
+   - Run build
+   - Deploy ke production
+   - Update https://www.emaklaundry.my.id/
 
-3. **Set Environment Variables** (jika pakai backend proxy):
-   - Dashboard → Settings → Environment Variables
-   - Tambahkan: `GEMINI_API_KEY` = (API key baru)
+### Set Environment Variables untuk Serverless Function:
+   - Dashboard Vercel → Project → Settings → Environment Variables
+   - Tambahkan: 
+     - Key: `GEMINI_API_KEY`
+     - Value: (API key baru hasil rotasi dari Google AI Studio)
+     - Apply to: Production, Preview, Development
+   - **Setelah menambah env var, klik "Redeploy" di Vercel dashboard**
 
 4. **Deploy:**
    - Klik "Deploy"

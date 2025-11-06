@@ -12,8 +12,8 @@ export const CabangSelector = ({ cabangId, setCabangId, dataCabang }) => {
         aria-label="Pilih Cabang"
       >
         {Object.keys(dataCabang).map((key) => (
-          <option key={key} value={key}>
-            {dataCabang[key].nama}
+          <option key={key} value={key} disabled={key === 'tasikmalaya'}>
+            {dataCabang[key].nama}{key === 'tasikmalaya' ? ' (Segera Hadir)' : ''}
           </option>
         ))}
       </select>

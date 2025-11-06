@@ -2,8 +2,12 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
+    
+    <!-- DNS Prefetch & Preconnect untuk performa -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://wa.me">
     
     <!-- PERUBAHAN: Path (jalur) diperbarui ke '/fav-icon/' -->
     <link rel="icon" href="/fav-icon/favicon.ico" sizes="any" />
@@ -11,54 +15,193 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/fav-icon/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/fav-icon/apple-touch-icon.png">
     <link rel="manifest" href="/fav-icon/site.webmanifest">
-  <!-- Canonical URL: ganti domain saat live deploy -->
-  <link rel="canonical" href="https://emaklaundry.example/" />
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://www.emaklaundry.my.id/" />
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Emak Laundry - Bersih, Wangi, Sentuhan Kasih Ibu</title>
+    <title>Emak Laundry - Jasa Laundry Kiloan & Satuan Terpercaya | Banjar, Jawa Barat</title>
     
     <!-- Meta Deskripsi untuk SEO -->
-    <meta name="description" content="Emak Laundry Banjar. Layanan laundry kiloan dan satuan profesional. Bersih, wangi, dan terpercaya dengan sentuhan kasih ibu.">
+    <meta name="description" content="Jasa laundry kiloan & satuan profesional di Banjar, Jawa Barat. Cuci ekspres 3 jam, antar jemput gratis, harga mulai 5rb/kg. Cuci setrika, karpet, boneka, sepatu. ☎ 0851-7527-9659">
+    <meta name="keywords" content="laundry banjar, laundry kiloan banjar, cuci setrika banjar, cuci karpet banjar, laundry satuan banjar, laundry terdekat banjar, jasa laundry murah banjar, laundry ekspres banjar, antar jemput laundry, cuci sepatu banjar, cuci boneka banjar, emak laundry">
+    <meta name="author" content="Emak Laundry">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="theme-color" content="#c02e89">
     <meta name="color-scheme" content="light">
+    
+    <!-- Geo Meta Tags untuk Local SEO -->
+    <meta name="geo.region" content="ID-JB">
+    <meta name="geo.placename" content="Kota Banjar, Tasikmalaya">
+    <meta name="geo.position" content="-7.371952;108.539782">
+    <meta name="ICBM" content="-7.371952, 108.539782">
 
-    <!-- JSON-LD: Organization & LocalBusiness -->
+    <!-- JSON-LD: Organization & LocalBusiness dengan Service Schema -->
     <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Emak Laundry",
-        "image": "/fav-icon/android-chrome-512x512.png",
-        "url": "https://emaklaundry.example/",
-        "telephone": "+62-851-7527-9659",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Jl. Dr. Sudarsono No.43, Mekarsari",
-          "addressLocality": "Kota Banjar",
-          "addressRegion": "Jawa Barat",
-          "postalCode": "46321",
-          "addressCountry": "ID"
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://www.emaklaundry.my.id/#organization",
+          "name": "Emak Laundry",
+          "url": "https://www.emaklaundry.my.id/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.emaklaundry.my.id/fav-icon/android-chrome-512x512.png",
+            "width": 512,
+            "height": 512
+          },
+          "sameAs": [
+            "https://instagram.com/emaklaundry12",
+            "https://facebook.com/emaklaundry"
+          ],
+          "contactPoint": [
+            {
+              "@type": "ContactPoint",
+              "telephone": "+62-851-7527-9659",
+              "contactType": "customer service",
+              "areaServed": "ID",
+              "availableLanguage": ["Indonesian"]
+            }
+          ]
         },
-        "sameAs": [
-          "https://instagram.com/emaklaundry12",
-          "https://facebook.com/emaklaundry"
-        ]
-      }
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://www.emaklaundry.my.id/#banjar",
+          "name": "Emak Laundry Banjar",
+          "image": "https://www.emaklaundry.my.id/fav-icon/android-chrome-512x512.png",
+          "priceRange": "Rp 5.000 - Rp 30.000",
+          "url": "https://www.emaklaundry.my.id/?cabang=banjar",
+          "telephone": "+62-851-7527-9659",
+          "email": "emaklaundry12@gmail.com",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Jl. Dr. Sudarsono No.43, Mekarsari",
+            "addressLocality": "Kota Banjar",
+            "addressRegion": "Jawa Barat",
+            "postalCode": "46321",
+            "addressCountry": "ID"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": -7.371952,
+            "longitude": 108.539782
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "08:00",
+            "closes": "20:00"
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "127"
+          },
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Layanan Laundry",
+            "itemListElement": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Laundry Kiloan Cuci + Setrika",
+                  "description": "Layanan cuci dan setrika untuk pakaian sehari-hari per kilogram"
+                },
+                "price": "7500",
+                "priceCurrency": "IDR"
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Laundry Ekspres 3 Jam",
+                  "description": "Layanan cuci setrika kilat untuk kebutuhan mendesak"
+                },
+                "price": "25000",
+                "priceCurrency": "IDR"
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Cuci Karpet",
+                  "description": "Layanan cuci karpet tebal dan tipis per meter"
+                },
+                "price": "7000",
+                "priceCurrency": "IDR"
+              },
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Service",
+                  "name": "Cuci Sepatu",
+                  "description": "Layanan cuci sepatu satuan dengan perawatan khusus"
+                },
+                "price": "20000",
+                "priceCurrency": "IDR"
+              }
+            ]
+          }
+        },
+        {
+          "comment": "Cabang Tasikmalaya - Coming Soon (disabled until ready)"
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://www.emaklaundry.my.id/#website",
+          "url": "https://www.emaklaundry.my.id/",
+          "name": "Emak Laundry",
+          "description": "Jasa laundry kiloan dan satuan profesional di Banjar, Jawa Barat",
+          "publisher": {
+            "@id": "https://www.emaklaundry.my.id/#organization"
+          },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.emaklaundry.my.id/?s={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "BreadcrumbList",
+          "@id": "https://www.emaklaundry.my.id/#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Beranda",
+              "item": "https://www.emaklaundry.my.id/"
+            }
+          ]
+        }
+      ]
+    }
     </script>
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Emak Laundry - Bersih, Wangi, Sentuhan Kasih Ibu">
-    <meta property="og:description" content="Layanan laundry kiloan dan satuan profesional. Bersih, wangi, dan terpercaya dengan sentuhan kasih ibu.">
+    <!-- Open Graph untuk Social Media -->
+    <meta property="og:title" content="Emak Laundry - Jasa Laundry Kiloan & Satuan Terpercaya | Banjar">
+    <meta property="og:description" content="Jasa laundry kiloan & satuan profesional di Banjar, Jawa Barat. Cuci ekspres 3 jam, antar jemput gratis, harga mulai 5rb/kg. Cuci setrika, karpet, boneka, sepatu.">
     <meta property="og:type" content="website">
-  <meta property="og:url" content="https://emaklaundry.example/">
-  <!-- Gunakan icon besar sebagai fallback OG image agar tidak 404 jika hero belum diupload -->
-  <meta property="og:image" content="/fav-icon/android-chrome-512x512.png">
+    <meta property="og:url" content="https://www.emaklaundry.my.id/">
+    <meta property="og:image" content="https://www.emaklaundry.my.id/fav-icon/android-chrome-512x512.png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:image:alt" content="Logo Emak Laundry - Layanan Laundry Terpercaya">
+    <meta property="og:site_name" content="Emak Laundry">
+    <meta property="og:locale" content="id_ID">
+    <meta property="business:contact_data:street_address" content="Jl. Dr. Sudarsono No.43, Mekarsari">
+    <meta property="business:contact_data:locality" content="Kota Banjar">
+    <meta property="business:contact_data:region" content="Jawa Barat">
+    <meta property="business:contact_data:postal_code" content="46321">
+    <meta property="business:contact_data:country_name" content="Indonesia">
 
-    <!-- Twitter -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Emak Laundry - Bersih, Wangi, Sentuhan Kasih Ibu">
-    <meta name="twitter:description" content="Layanan laundry kiloan dan satuan profesional. Bersih, wangi, dan terpercaya dengan sentuhan kasih ibu.">
-  <meta name="twitter:image" content="/fav-icon/android-chrome-512x512.png">
+    <meta name="twitter:title" content="Emak Laundry - Jasa Laundry Kiloan & Satuan Terpercaya">
+    <meta name="twitter:description" content="Jasa laundry kiloan & satuan profesional di Banjar, Jawa Barat. Cuci ekspres 3 jam, antar jemput gratis, harga mulai 5rb/kg.">
+    <meta name="twitter:image" content="https://www.emaklaundry.my.id/fav-icon/android-chrome-512x512.png">
+    <meta name="twitter:image:alt" content="Logo Emak Laundry">
 
   </head>
   <body>
