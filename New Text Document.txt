@@ -1,0 +1,111 @@
+2. Cara Penggunaan di "Web Lain" (Website Pelanggan)
+Di proyek website pelanggan Anda, Anda dapat menggunakan Supabase client yang sama. Pelanggan akan memasukkan ID Transaksi mereka (yang bisa mereka dapatkan dari struk).
+
+Berikut adalah contoh kode JavaScript/TypeScript untuk memanggil fungsi tersebut di "web lain":
+
+TypeScript
+
+// Impor Supabase client Anda (menggunakan URL dan anon key yang sama)
+import { createClient } from '@supabase/supabase-js';
+
+const SUPABASE_URL = 'VITE_SUPABASE_URL_ANDA';
+const SUPABASE_ANON_KEY = 'VITE_SUPABASE_ANON_KEY_ANDA';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Fungsi untuk melacak laundry
+async function lacakLaundry(transactionId) {
+  try {
+    // Panggil fungsi RPC yang baru saja Anda buat
+    const { data, error } = await supabase.rpc('get_laundry_status', {
+      transaction_id_input: transactionId
+    });
+
+    if (error) {
+      console.error('Error memuat status:', error);
+      return null;
+    }
+
+    if (data && data.length > 0) {
+      const statusData = data[0];
+      
+      // Data yang bisa Anda tampilkan ke pelanggan:
+      console.log('Nama Pelanggan:', statusData.customerName);
+      console.log('Tanggal Masuk:', new Date(statusData.createdAt).toLocaleString('id-ID'));
+      console.log('Estimasi Selesai:', new Date(statusData.estimatedCompletionDate).toLocaleDateString('id-ID'));
+      console.log('Status Pesanan:', statusData.orderStatus); // e.g., "Diproses", "Siap Diambil"
+      console.log('Status Bayar:', statusData.paymentStatus); // e.g., "Belum Lunas", "Lunas"
+      
+      const sisaTagihan = statusData.total - statusData.amountPaid;
+      console.log('Sisa Tagihan:', `Rp ${sisaTagihan.toLocaleString('id-ID')}`);
+      
+      return statusData;
+    } else {
+      console.log('Transaksi tidak ditemukan.');
+      return null;
+    }
+
+  } catch (err) {
+    console.error('Terjadi kesalahan:', err);
+    return null;
+  }
+}
+
+// Contoh pemanggilan:
+// Asumsikan pelanggan memasukkan ID ini di input field
+// lacakLaundry('uuid-transaksi-dari-struk');
+Pendekatan ini sangat aman, profesional, dan memanfaatkan infrastruktur backend yang sudah Anda miliki tanpa perlu membuat server API baru.
+
+
+
+
+
+
+
+Langkah 2: Cara Mengambil Data di "Web Lain"
+Di website pelanggan Anda, Anda bisa memanggil fungsi ini menggunakan ID cabang yang ingin Anda tampilkan layanannya.
+
+Contoh kode JavaScript di web pelanggan:
+
+TypeScript
+
+// Impor Supabase client Anda (menggunakan URL dan anon key yang sama)
+import { createClient } from '@supabase/supabase-js';
+
+const SUPABASE_URL = 'VITE_SUPABASE_URL_ANDA';
+const SUPABASE_ANON_KEY = 'VITE_SUPABASE_ANON_KEY_ANDA';
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ID Cabang yang ingin Anda tampilkan layanannya
+// Anda bisa mendapatkan ini dari tabel 'stores' Anda
+const ID_CABANG_KOTA_BANJAR = '9b7e1c2a-1234-4bcd-8e9f-abcdef123456'; 
+
+async function tampilkanLayananPublik() {
+  try {
+    const { data, error } = await supabase.rpc('get_public_services', {
+      store_id_input: ID_CABANG_KOTA_BANJAR
+    });
+
+    if (error) {
+      console.error('Error memuat layanan:', error);
+      return;
+    }
+
+    if (data) {
+      // data akan berisi array seperti ini:
+      // [
+      //   { service_name: 'Cuci Kering Lipat', category: 'Kiloan', duration_days: 2 },
+      //   { service_name: 'Jas Pria', category: 'Satuan', duration_days: 3 }
+      // ]
+      console.log('Daftar Layanan Publik:', data);
+      
+      // Di sini Anda bisa menampilkannya di website pelanggan
+    }
+
+  } catch (err) {
+    console.error('Terjadi kesalahan:', err);
+  }
+}
+
+// Panggil fungsi ini saat halaman dimuat
+tampilkanLayananPublik();
+Dengan cara ini, "web lain" Anda bisa menampilkan daftar layanan yang ditawarkan tanpa mengekspos data harga yang sensitif dan tanpa melanggar kebijakan keamanan yang sudah Anda buat.
