@@ -1,16 +1,9 @@
 
-import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import Services from './components/Services';
-import Pricing from './components/Pricing';
-import Testimonials from './components/Testimonials';
-import Partners from './components/Partners';
-import FAQ from './components/FAQ';
-import Location from './components/Location';
-import Footer from './components/Footer';
-import WhatsAppButton from './components/WhatsAppButton';
-import Terms from './components/Terms';
+import { ThemeProvider } from './context/ThemeContext';
+import { ServicesSkeleton, PricingSkeleton, GenericSectionSkeleton } from './components/Skeletons';
 
 // Custom Hook for Intersection Observer
 const useIntersectionObserver = (options: IntersectionObserverInit) => {
@@ -65,8 +58,18 @@ const withFadeIn = <P extends object>(Component: React.ComponentType<P>) => {
     return WrappedComponent;
 };
 
+// Lazy load components that are below the fold
+const Pricing = lazy(() => import('./components/Pricing'));
+const Testimonials = lazy(() => import('./components/Testimonials'));
+const Partners = lazy(() => import('./components/Partners'));
+const FAQ = lazy(() => import('./components/FAQ'));
+const Location = lazy(() => import('./components/Location'));
+const Footer = lazy(() => import('./components/Footer'));
+const WhatsAppButton = lazy(() => import('./components/WhatsAppButton'));
+const Terms = lazy(() => import('./components/Terms'));
+const BackToTopButton = lazy(() => import('./components/BackToTopButton'));
 
-const FadedServices = withFadeIn(Services);
+
 const FadedPricing = withFadeIn(Pricing);
 const FadedTestimonials = withFadeIn(Testimonials);
 const FadedPartners = withFadeIn(Partners);
@@ -75,13 +78,6 @@ const FadedLocation = withFadeIn(Location);
 
 
 const App: React.FC = () => {
-    const [theme, setTheme] = useState(() => {
-        if (typeof window !== 'undefined') {
-            return localStorage.getItem('theme') || 'light';
-        }
-        return 'light';
-    });
-    
     const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
 
     // Show terms modal on first visit
@@ -92,41 +88,41 @@ const App: React.FC = () => {
         }
     }, []);
 
-    useEffect(() => {
-        if (theme === 'purple') {
-            document.documentElement.classList.add('dark');
-            localStorage.setItem('theme', 'purple');
-        } else {
-            document.documentElement.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-        }
-    }, [theme]);
-
-    const toggleTheme = () => {
-        setTheme(prevTheme => (prevTheme === 'light' ? 'purple' : 'light'));
-    };
-
     const handleCloseTerms = () => {
         setIsTermsModalOpen(false);
         localStorage.setItem('hasAcceptedTerms', 'true');
     };
 
     return (
-        <div className="text-zinc-800 dark:text-zinc-200">
-            <Header theme={theme} toggleTheme={toggleTheme}/>
-            <main>
-                <Hero />
-                <FadedServices />
-                <FadedPricing />
-                <FadedTestimonials />
-                <FadedPartners />
-                <FadedFAQ />
-                <FadedLocation />
-            </main>
-            <Footer onTermsClick={() => setIsTermsModalOpen(true)} />
-            <WhatsAppButton />
-            <Terms isOpen={isTermsModalOpen} onClose={handleCloseTerms} />
-        </div>
+        <ThemeProvider>
+            <div className="text-zinc-800 dark:text-zinc-200">
+                <Header />
+                <main>
+                    <Hero />
+                    <Suspense fallback={<PricingSkeleton />}>
+                        <FadedPricing />
+                    </Suspense>
+                    <Suspense fallback={<GenericSectionSkeleton />}>
+                        <FadedTestimonials />
+                    </Suspense>
+                    <Suspense fallback={<GenericSectionSkeleton />}>
+                        <FadedPartners />
+                    </Suspense>
+                     <Suspense fallback={<GenericSectionSkeleton />}>
+                        <FadedFAQ />
+                    </Suspense>
+                    <Suspense fallback={<GenericSectionSkeleton />}>
+                        <FadedLocation />
+                    </Suspense>
+                </main>
+                <Suspense fallback={null}>
+                    <Footer onTermsClick={() => setIsTermsModalOpen(true)} />
+                    <WhatsAppButton />
+                    <Terms isOpen={isTermsModalOpen} onClose={handleCloseTerms} />
+                    <BackToTopButton />
+                </Suspense>
+            </div>
+        </ThemeProvider>
     );
 };
 

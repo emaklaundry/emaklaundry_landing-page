@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { CloseIcon } from './Icons';
 
 interface TermsProps {
@@ -8,6 +8,16 @@ interface TermsProps {
 }
 
 const Terms: React.FC<TermsProps> = ({ isOpen, onClose }) => {
+    const titleRef = useRef<HTMLHeadingElement>(null);
+    
+    useEffect(() => {
+        if (isOpen) {
+            setTimeout(() => {
+                titleRef.current?.focus();
+            }, 100); // Timeout to ensure the element is in the DOM before focusing
+        }
+    }, [isOpen]);
+
     if (!isOpen) {
         return null;
     }
@@ -25,7 +35,14 @@ const Terms: React.FC<TermsProps> = ({ isOpen, onClose }) => {
                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside modal
             >
                 <div className="flex justify-between items-center p-6 border-b border-zinc-200 dark:border-custom-purple-border">
-                    <h2 id="terms-title" className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Syarat & Ketentuan</h2>
+                    <h2 
+                        id="terms-title" 
+                        className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 focus:outline-none"
+                        ref={titleRef}
+                        tabIndex={-1}
+                    >
+                        Syarat & Ketentuan
+                    </h2>
                     <button 
                         onClick={onClose} 
                         className="text-zinc-500 hover:text-zinc-800 dark:text-zinc-300 dark:hover:text-white transition-colors"

@@ -1,5 +1,8 @@
+
 import React from 'react';
 import type { PricingPlan } from '../types';
+import { SOCIAL_LINKS } from '../config/constants';
+import { SuitIcon, JacketIcon, BedIcon, ShoesIcon } from './Icons';
 
 const plans: PricingPlan[] = [
     {
@@ -24,6 +27,14 @@ const plans: PricingPlan[] = [
         isPopular: false,
     }
 ];
+
+const satuanItems = [
+    { name: 'Jas / Setelan', price: '25.000', icon: <SuitIcon /> },
+    { name: 'Jaket Kulit', price: '30.000', icon: <JacketIcon /> },
+    { name: 'Bed Cover (King/Jumbo)', price: '20.000', icon: <BedIcon /> },
+    { name: 'Sepatu (Cuci Kering)', price: '25.000', icon: <ShoesIcon /> },
+];
+
 
 const CheckIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-custom-purple" viewBox="0 0 20 20" fill="currentColor">
@@ -50,7 +61,7 @@ const PricingCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => {
                     </li>
                 ))}
             </ul>
-            <a href="https://wa.me/6285175279659" target="_blank" rel="noopener noreferrer" className={`block text-center w-full mt-10 font-bold py-3 px-6 rounded-lg transition-colors duration-300 ${plan.isPopular ? 'bg-custom-purple text-white hover:bg-custom-purple-hover' : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-custom-purple-border/50 dark:text-zinc-100 dark:hover:bg-custom-purple-border'}`}>
+            <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" className={`block text-center w-full mt-10 font-bold py-3 px-6 rounded-lg transition-colors duration-300 ${plan.isPopular ? 'bg-custom-purple text-white hover:bg-custom-purple-hover' : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-custom-purple-border/50 dark:text-zinc-100 dark:hover:bg-custom-purple-border'}`}>
                 Pesan Sekarang
             </a>
         </div>
@@ -69,6 +80,27 @@ const Pricing: React.FC = () => {
                     {plans.map((plan, index) => (
                         <PricingCard key={index} plan={plan} />
                     ))}
+                </div>
+
+                <div className="mt-20 text-center">
+                    <h3 className="text-2xl md:text-3xl font-extrabold text-zinc-900 dark:text-zinc-100">Harga Layanan Satuan</h3>
+                    <p className="text-lg text-zinc-600 dark:text-zinc-300 mt-2 max-w-2xl mx-auto">Perawatan khusus untuk barang-barang spesial Anda.</p>
+                </div>
+                <div className="mt-10 max-w-4xl mx-auto bg-white dark:bg-custom-purple-surface rounded-xl shadow-lg p-6 sm:p-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+                        {satuanItems.map((item, index) => (
+                            <div key={index} className="flex items-center justify-between py-2 border-b border-zinc-200 dark:border-custom-purple-border last:border-b-0 sm:last:border-b">
+                                <div className="flex items-center">
+                                    <div className="mr-4 text-custom-purple flex-shrink-0">{item.icon}</div>
+                                    <span className="text-zinc-700 dark:text-zinc-200">{item.name}</span>
+                                </div>
+                                <span className="font-semibold text-zinc-800 dark:text-zinc-100 whitespace-nowrap">Rp {item.price}</span>
+                            </div>
+                        ))}
+                    </div>
+                    <p className="text-center text-sm text-zinc-500 dark:text-zinc-400 mt-6">
+                        * Harga dapat bervariasi tergantung tingkat kesulitan. Hubungi kami untuk daftar harga lengkap.
+                    </p>
                 </div>
             </div>
         </section>

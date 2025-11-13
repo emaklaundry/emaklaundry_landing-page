@@ -1,12 +1,14 @@
+
 import React, { useState } from 'react';
 import type { FAQItem } from '../types';
 import { GoogleGenAI } from "@google/genai";
 import { SparklesIcon } from './Icons';
+import { CONTACT_INFO } from '../config/constants';
 
 // The API key is NOT hardcoded. It is sourced from the environment.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
 
-const systemInstruction = "Anda adalah 'Emak AI', asisten virtual dari Emak Laundry di Kota Banjar. Jawab pertanyaan pengguna seputar layanan laundry dengan ramah, informatif, dan dengan 'sentuhan kasih ibu' seperti seorang ibu yang bijak. Gunakan informasi berikut sebagai konteks: Nama laundry adalah Emak Laundry. Lokasi kami di Jl. Dr. Sudarsono No.43, Mekarsari, Kota Banjar, Jawa Barat. Buka setiap hari dari jam 08:00 pagi sampai 20:00 malam. Nomor WhatsApp kami adalah 0851 7527 9659. Kami punya layanan antar-jemput gratis untuk order minimal 5kg. Harga paket kiloan: Reguler (3 hari) Rp7.500/kg, Kilat (1 hari) Rp12.000/kg, dan Ekspres (3 jam) Rp25.000/kg. Kami juga melayani cuci satuan untuk jas, gamis, sepatu, tas, serta laundry rumah tangga seperti bed cover dan karpet. Ada juga layanan untuk bisnis (B2B) seperti hotel dan restoran. PENTING: Setelah menjawab pertanyaan pengguna, selalu akhiri jawaban Anda dengan ajakan bertindak (call-to-action) yang relevan untuk mengajak pengguna menggunakan layanan Emak Laundry. Contohnya, 'Kalau lagi buru-buru, coba deh paket Ekspres 3 jam kami, dijamin cepat dan bersih!', atau 'Jangan ragu hubungi Emak di WhatsApp untuk atur jadwal jemput gratisnya ya, Nak.', atau 'Untuk kebutuhan bisnis, kami punya penawaran spesial lho. Yuk, diskusikan lebih lanjut!'. Sesuaikan ajakan dengan konteks pertanyaan. Jawablah semua pertanyaan dalam Bahasa Indonesia dengan gaya bahasa yang sopan dan membantu. Jika Anda tidak tahu jawabannya, sarankan pengguna untuk menghubungi nomor WhatsApp kami.";
+const systemInstruction = `Anda adalah 'Emak AI', asisten virtual dari Emak Laundry di Kota Banjar. Jawab pertanyaan pengguna seputar layanan laundry dengan ramah, informatif, dan dengan 'sentuhan kasih ibu' seperti seorang ibu yang bijak. Gunakan informasi berikut sebagai konteks: Nama laundry adalah Emak Laundry. Lokasi kami di ${CONTACT_INFO.address}. Buka setiap hari dari jam 08:00 pagi sampai 20:00 malam. Nomor WhatsApp kami adalah ${CONTACT_INFO.phone}. Kami punya layanan antar-jemput gratis untuk order minimal 5kg. Harga paket kiloan: Reguler (3 hari) Rp7.500/kg, Kilat (1 hari) Rp12.000/kg, dan Ekspres (3 jam) Rp25.000/kg. Kami juga melayani cuci satuan untuk jas, gamis, sepatu, tas, serta laundry rumah tangga seperti bed cover dan karpet. Ada juga layanan untuk bisnis (B2B) seperti hotel dan restoran. PENTING: Setelah menjawab pertanyaan pengguna, selalu akhiri jawaban Anda dengan ajakan bertindak (call-to-action) yang relevan untuk mengajak pengguna menggunakan layanan Emak Laundry. Contohnya, 'Kalau lagi buru-buru, coba deh paket Ekspres 3 jam kami, dijamin cepat dan bersih!', atau 'Jangan ragu hubungi Emak di WhatsApp untuk atur jadwal jemput gratisnya ya, Nak.', atau 'Untuk kebutuhan bisnis, kami punya penawaran spesial lho. Yuk, diskusikan lebih lanjut!'. Sesuaikan ajakan dengan konteks pertanyaan. Jawablah semua pertanyaan dalam Bahasa Indonesia dengan gaya bahasa yang sopan dan membantu. Jika Anda tidak tahu jawabannya, sarankan pengguna untuk menghubungi nomor WhatsApp kami.`;
 
 const AIFAQ: React.FC = () => {
     const [question, setQuestion] = useState('');
@@ -23,14 +25,18 @@ const AIFAQ: React.FC = () => {
         setAnswer('');
 
         try {
-            const response = await ai.models.generateContent({
+            const response = await ai.models.generateContentStream({
                 model: "gemini-2.5-flash",
                 contents: question,
                 config: {
                     systemInstruction: systemInstruction,
                 }
             });
-            setAnswer(response.text);
+
+            for await (const chunk of response) {
+                setAnswer((prev) => prev + chunk.text);
+            }
+
         } catch (err) {
             console.error("Error calling Gemini API:", err);
             setError('Maaf, Emak AI sedang istirahat. Coba lagi nanti atau hubungi kami via WhatsApp.');
@@ -76,8 +82,8 @@ const AIFAQ: React.FC = () => {
             
             {error && <p className="text-red-500 mt-4">{error}</p>}
             
-            {answer && !isLoading && (
-                <div className="mt-6 p-4 bg-zinc-50 dark:bg-custom-purple-bg rounded-lg border-l-4 border-custom-purple dark:border-custom-purple-light">
+            {answer && (
+                <div aria-live="polite" className="mt-6 p-4 bg-zinc-50 dark:bg-custom-purple-bg rounded-lg border-l-4 border-custom-purple dark:border-custom-purple-light">
                     <p className="whitespace-pre-wrap text-zinc-700 dark:text-zinc-200">{answer}</p>
                 </div>
             )}
@@ -126,11 +132,9 @@ const FAQAccordionItem: React.FC<{ item: FAQItem, isOpen: boolean, onClick: () =
                 </svg>
             </button>
         </h2>
-        <div className={`grid overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-            <div className="overflow-hidden">
-                <div className="pb-5 pr-4 text-zinc-600 dark:text-zinc-300">
-                    {item.answer}
-                </div>
+        <div className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-40' : 'max-h-0'}`}>
+            <div className="pb-5 pr-4 text-zinc-600 dark:text-zinc-300">
+                {item.answer}
             </div>
         </div>
     </div>

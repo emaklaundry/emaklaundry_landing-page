@@ -1,6 +1,7 @@
 
 import React from 'react';
-import { LogoIcon, InstagramIcon, FacebookIcon, WhatsAppIcon } from './Icons';
+import { LogoIcon, InstagramIcon, FacebookIcon, WhatsAppIcon, LinkedInIcon } from './Icons';
+import { SOCIAL_LINKS, CONTACT_INFO } from '../config/constants';
 
 interface FooterProps {
     onTermsClick: () => void;
@@ -27,15 +28,15 @@ const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
                         <address className="space-y-3 text-zinc-400 dark:text-zinc-300 not-italic">
                             <p className="flex items-start">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3 mt-1 text-custom-purple-light flex-shrink-0" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>
-                                Jl. Dr. Sudarsono No.43, Mekarsari, Kec. Banjar, Kota Banjar, Jawa Barat 46321
+                                {CONTACT_INFO.address}
                             </p>
                             <p className="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3 text-custom-purple-light" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" /></svg>
-                                <a href="https://wa.me/6285175279659" className="hover:text-custom-purple-light dark:hover:text-custom-purple-light">0851 7527 9659</a>
+                                <a href={`tel:${CONTACT_INFO.phone.replace(/\s/g, '')}`} className="hover:text-custom-purple-light dark:hover:text-custom-purple-light">{CONTACT_INFO.phone}</a>
                             </p>
                             <p className="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3 text-custom-purple-light" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" /><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" /></svg>
-                                <a href="mailto:emaklaundry12@gmail.com" className="hover:text-custom-purple-light dark:hover:text-custom-purple-light">emaklaundry12@gmail.com</a>
+                                <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-custom-purple-light dark:hover:text-custom-purple-light">{CONTACT_INFO.email}</a>
                             </p>
                         </address>
                     </div>
@@ -44,17 +45,21 @@ const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
                     <div>
                         <h3 className="text-lg font-semibold mb-4">Ikuti Kami</h3>
                         <div className="flex space-x-4">
-                           <a href="https://www.instagram.com/emaklaundry12" target="_blank" rel="noopener noreferrer" className="text-zinc-400 dark:text-zinc-300 hover:text-custom-purple-light dark:hover:text-custom-purple-light transition-colors" aria-label="Instagram">
+                           <a href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer" className="text-zinc-400 dark:text-zinc-300 hover:text-custom-purple-light dark:hover:text-custom-purple-light transition-colors" aria-label="Instagram">
                                 <span className="sr-only">Instagram</span>
                                 <InstagramIcon/>
                             </a>
-                            <a href="https://www.facebook.com/emaklaundry" target="_blank" rel="noopener noreferrer" className="text-zinc-400 dark:text-zinc-300 hover:text-custom-purple-light dark:hover:text-custom-purple-light transition-colors" aria-label="Facebook">
+                            <a href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer" className="text-zinc-400 dark:text-zinc-300 hover:text-custom-purple-light dark:hover:text-custom-purple-light transition-colors" aria-label="Facebook">
                                 <span className="sr-only">Facebook</span>
                                 <FacebookIcon />
                             </a>
-                            <a href="https://wa.me/6285175279659" target="_blank" rel="noopener noreferrer" className="text-zinc-400 dark:text-zinc-300 hover:text-custom-purple-light dark:hover:text-custom-purple-light transition-colors" aria-label="WhatsApp">
+                            <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" className="text-zinc-400 dark:text-zinc-300 hover:text-custom-purple-light dark:hover:text-custom-purple-light transition-colors" aria-label="WhatsApp">
                                 <span className="sr-only">WhatsApp</span>
                                 <WhatsAppIcon />
+                            </a>
+                            <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" className="text-zinc-400 dark:text-zinc-300 hover:text-custom-purple-light dark:hover:text-custom-purple-light transition-colors" aria-label="LinkedIn">
+                                <span className="sr-only">LinkedIn</span>
+                                <LinkedInIcon />
                             </a>
                         </div>
                          <h3 className="text-lg font-semibold mb-4 mt-6">Jam Operasional</h3>
