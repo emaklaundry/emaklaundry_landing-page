@@ -1,6 +1,7 @@
+
 import React from 'react';
 import type { Service } from '../types';
-import { KiloanIcon, SatuanIcon, HouseholdIcon, B2BIcon } from './Icons';
+import { KiloanIcon, SatuanIcon, HouseholdIcon, B2BIcon, ShareIcon } from './Icons';
 
 const services: Service[] = [
     {
@@ -25,13 +26,49 @@ const services: Service[] = [
     },
 ];
 
-const ServiceCard: React.FC<{ service: Service }> = ({ service }) => (
-    <div className="bg-white dark:bg-custom-purple-surface p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2">
-        <div className="mb-6 flex justify-center">{service.icon}</div>
-        <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-100 mb-3 text-center">{service.title}</h3>
-        <p className="text-zinc-500 dark:text-zinc-300 text-center">{service.description}</p>
-    </div>
-);
+const ServiceCard: React.FC<{ service: Service }> = ({ service }) => {
+    const handleShare = async () => {
+        const shareData = {
+            title: `Layanan Emak Laundry: ${service.title}`,
+            text: `Cek layanan "${service.title}" dari Emak Laundry! Solusi cuci terbaik di Banjar.`,
+            url: window.location.href,
+        };
+        if (navigator.share) {
+            try {
+                await navigator.share(shareData);
+            } catch (err) {
+                console.error("Gagal membagikan:", err);
+            }
+        } else {
+            // Fallback for desktop browsers
+            const shareText = `${shareData.text}\nKunjungi: ${window.location.href}#services`;
+            navigator.clipboard.writeText(shareText).then(() => {
+                alert('Tautan layanan telah disalin ke clipboard!');
+            }).catch(err => {
+                console.error('Gagal menyalin teks: ', err);
+                alert('Gagal menyalin tautan.');
+            });
+        }
+    };
+
+    return (
+        <div className="relative bg-white dark:bg-custom-purple-surface p-6 sm:p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-2 flex flex-col h-full">
+            <button
+                onClick={handleShare}
+                aria-label={`Bagikan layanan ${service.title}`}
+                className="absolute top-4 right-4 p-2 rounded-full text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-custom-purple-border transition-colors z-10"
+                title="Bagikan Layanan"
+            >
+                <ShareIcon className="h-5 w-5" />
+            </button>
+            <div className="mb-6 flex justify-center pt-4 flex-shrink-0">{service.icon}</div>
+            <div className="text-center flex-grow">
+                <h3 className="text-xl font-bold text-zinc-800 dark:text-zinc-100 mb-3">{service.title}</h3>
+                <p className="text-zinc-500 dark:text-zinc-300">{service.description}</p>
+            </div>
+        </div>
+    );
+};
 
 const Services: React.FC = () => {
     return (

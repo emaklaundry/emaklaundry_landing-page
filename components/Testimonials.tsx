@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { Testimonial } from '../types';
 
@@ -6,19 +7,19 @@ const testimonials: Testimonial[] = [
         quote: "Layanannya cepat dan hasilnya luar biasa bersih! Pakaian wangi dan rapi. Sangat merekomendasikan Emak Laundry untuk para ibu rumah tangga.",
         name: 'Ibu Rina',
         role: 'Ibu Rumah Tangga, Banjar',
-        avatar: 'https://picsum.photos/100/100?random=10'
+        avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=Rina&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf'
     },
     {
         quote: "Fitur antar jemputnya sangat membantu di tengah kesibukan kerja. Timnya ramah dan profesional. Laundry jadi tidak merepotkan lagi. Mantap!",
         name: 'Ahmad Fauzi',
         role: 'Karyawan Swasta',
-        avatar: 'https://picsum.photos/100/100?random=11'
+        avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=AhmadFauzi&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf'
     },
     {
         quote: "Sebagai mitra, kami sangat puas dengan kualitas dan ketepatan waktu Emak Laundry. Linen hotel kami selalu bersih dan wangi. Pelayanan B2B terbaik!",
         name: 'Manajer Hotel Asri',
         role: 'Mitra Usaha',
-        avatar: 'https://picsum.photos/100/100?random=12'
+        avatar: 'https://api.dicebear.com/7.x/adventurer/svg?seed=HotelAsri&backgroundColor=b6e3f4,c0aede,d1d4f9,ffd5dc,ffdfbf'
     }
 ];
 
@@ -32,7 +33,7 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
         </blockquote>
         <figcaption className="flex items-center mt-auto">
             <img 
-                className="w-14 h-14 rounded-full" 
+                className="w-14 h-14 rounded-full bg-zinc-100 dark:bg-custom-purple-surface" 
                 src={testimonial.avatar} 
                 alt={testimonial.name} 
                 loading="lazy"
@@ -48,7 +49,7 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
 
 const Testimonials: React.FC = () => {
     return (
-        <section id="testimonials" className="py-20 bg-white dark:bg-custom-purple-surface">
+        <section id="testimonials" className="py-20 bg-white dark:bg-custom-purple-surface overflow-hidden">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100">Apa Kata Pelanggan Kami?</h2>
@@ -56,10 +57,10 @@ const Testimonials: React.FC = () => {
                 </div>
             </div>
              {/* Scroller Container */}
-             <div className="testimonial-scroller-container mt-12 w-full overflow-hidden">
-                <div className="flex w-max animate-scroll-testimonials">
+             <div className="testimonial-scroller-container mt-12 w-full">
+                <div className="flex w-max animate-scroll-testimonials items-stretch gap-8 py-4 pl-4 md:pl-8">
                     {scrollingTestimonials.map((testimonial, index) => (
-                        <div key={index} className="px-4 flex-shrink-0" style={{ width: 'clamp(300px, 80vw, 450px)' }}>
+                        <div key={index} className="flex-shrink-0" style={{ width: 'clamp(300px, 80vw, 450px)' }}>
                            <TestimonialCard testimonial={testimonial} />
                         </div>
                     ))}

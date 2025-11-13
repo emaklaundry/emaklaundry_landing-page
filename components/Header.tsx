@@ -2,14 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSmoothScroll } from '../utils/useSmoothScroll';
 import { LogoIcon, SunIcon, MoonIcon } from './Icons';
+import { useTheme } from '../context/ThemeContext';
 
-interface HeaderProps {
-    theme: string;
-    toggleTheme: () => void;
-}
-
-
-const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
+const Header: React.FC = () => {
+    const { theme, toggleTheme } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
     const handleNavClick = useSmoothScroll();
     
@@ -32,7 +28,6 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     };
 
     const navLinks = [
-        { name: 'Layanan', href: '#services' },
         { name: 'Harga', href: '#pricing' },
         { name: 'Testimoni', href: '#testimonials' },
         { name: 'FAQ', href: '#faq' },
