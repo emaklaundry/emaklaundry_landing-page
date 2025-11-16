@@ -1,9 +1,7 @@
-2. Cara Penggunaan di "Web Lain" (Website Pelanggan)
-Di proyek website pelanggan Anda, Anda dapat menggunakan Supabase client yang sama. Pelanggan akan memasukkan ID Transaksi mereka (yang bisa mereka dapatkan dari struk).
+// 2. Cara Penggunaan di "Web Lain" (Website Pelanggan)
+// Di proyek website pelanggan Anda, Anda dapat menggunakan Supabase client yang sama. Pelanggan akan memasukkan ID Transaksi mereka (yang bisa mereka dapatkan dari struk).
 
-Berikut adalah contoh kode JavaScript/TypeScript untuk memanggil fungsi tersebut di "web lain":
-
-TypeScript
+// Berikut adalah contoh kode JavaScript/TypeScript untuk memanggil fungsi tersebut di "web lain":
 
 // Impor Supabase client Anda (menggunakan URL dan anon key yang sama)
 import { createClient } from '@supabase/supabase-js';
@@ -12,7 +10,9 @@ const SUPABASE_URL = 'VITE_SUPABASE_URL_ANDA';
 const SUPABASE_ANON_KEY = 'VITE_SUPABASE_ANON_KEY_ANDA';
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Fungsi untuk melacak laundry
+// --------------------------------------------------------------------
+// CONTOH 1: FUNGSI UNTUK MELACAK LAUNDRY
+// --------------------------------------------------------------------
 async function lacakLaundry(transactionId) {
   try {
     // Panggil fungsi RPC yang baru saja Anda buat
@@ -53,27 +53,13 @@ async function lacakLaundry(transactionId) {
 // Contoh pemanggilan:
 // Asumsikan pelanggan memasukkan ID ini di input field
 // lacakLaundry('uuid-transaksi-dari-struk');
-Pendekatan ini sangat aman, profesional, dan memanfaatkan infrastruktur backend yang sudah Anda miliki tanpa perlu membuat server API baru.
+
+// Pendekatan ini sangat aman, profesional, dan memanfaatkan infrastruktur backend yang sudah Anda miliki tanpa perlu membuat server API baru.
 
 
-
-
-
-
-
-Langkah 2: Cara Mengambil Data di "Web Lain"
-Di website pelanggan Anda, Anda bisa memanggil fungsi ini menggunakan ID cabang yang ingin Anda tampilkan layanannya.
-
-Contoh kode JavaScript di web pelanggan:
-
-TypeScript
-
-// Impor Supabase client Anda (menggunakan URL dan anon key yang sama)
-import { createClient } from '@supabase/supabase-js';
-
-const SUPABASE_URL = 'VITE_SUPABASE_URL_ANDA';
-const SUPABASE_ANON_KEY = 'VITE_SUPABASE_ANON_KEY_ANDA';
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// --------------------------------------------------------------------
+// CONTOH 2: CARA MENGAMBIL DATA LAYANAN DI "WEB LAIN"
+// --------------------------------------------------------------------
 
 // ID Cabang yang ingin Anda tampilkan layanannya
 // Anda bisa mendapatkan ini dari tabel 'stores' Anda
@@ -108,4 +94,4 @@ async function tampilkanLayananPublik() {
 
 // Panggil fungsi ini saat halaman dimuat
 tampilkanLayananPublik();
-Dengan cara ini, "web lain" Anda bisa menampilkan daftar layanan yang ditawarkan tanpa mengekspos data harga yang sensitif dan tanpa melanggar kebijakan keamanan yang sudah Anda buat.
+// Dengan cara ini, "web lain" Anda bisa menampilkan daftar layanan yang ditawarkan tanpa mengekspos data harga yang sensitif dan tanpa melanggar kebijakan keamanan yang sudah Anda buat.
