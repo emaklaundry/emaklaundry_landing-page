@@ -4,7 +4,7 @@ import { LaundryStatus } from '../types';
 import { SearchIcon, ShieldCheckIcon } from './Icons';
 
 const TrackLaundry: React.FC = () => {
-    const [transactionId, setTransactionId] = useState('');
+    const [invoiceCode, setInvoiceCode] = useState('');
     const [statusData, setStatusData] = useState<LaundryStatus | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -12,7 +12,7 @@ const TrackLaundry: React.FC = () => {
 
     const handleTrack = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!transactionId.trim()) return;
+        if (!invoiceCode.trim()) return;
 
         setLoading(true);
         setError('');
@@ -20,8 +20,9 @@ const TrackLaundry: React.FC = () => {
         setHasSearched(true);
 
         try {
-            const { data, error } = await supabase.rpc('get_laundry_status', {
-                transaction_id_input: transactionId.trim()
+            // Cari berdasarkan kode invoice, bukan transaction id
+            const { data, error } = await supabase.rpc('get_laundry_status_by_invoice', {
+                invoice_code_input: invoiceCode.trim()
             });
 
             if (error) throw error;
@@ -29,7 +30,7 @@ const TrackLaundry: React.FC = () => {
             if (data && data.length > 0) {
                 setStatusData(data[0]);
             } else {
-                setError('Transaksi tidak ditemukan. Mohon cek kembali ID Transaksi Anda.');
+                setError('Transaksi tidak ditemukan. Mohon cek kembali Kode Invoice Anda.');
             }
 
         } catch (err) {
@@ -53,21 +54,24 @@ const TrackLaundry: React.FC = () => {
     return (
         <section id="track-laundry" className="py-20 bg-white dark:bg-custom-purple-surface relative overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-custom-purple to-transparent opacity-50"></div>
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-2 sm:px-6">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100">Lacak Pesanan Anda</h2>
                     <p className="text-lg text-zinc-600 dark:text-zinc-300 mt-4 max-w-2xl mx-auto">
-                        Masukkan kode invoice yang tertera pada struk untuk melihat status cucian.
+                        Masukkan <b>Kode Invoice</b> (contoh: <span className="font-mono">EM-X7Z9</span>) yang tertera pada struk.
                     </p>
                 </div>
                 <div className="max-w-xl mx-auto">
                     <form onSubmit={handleTrack} className="relative flex items-center mb-8">
                         <input
                             type="text"
-                            value={transactionId}
-                            onChange={(e) => setTransactionId(e.target.value)}
+                            value={invoiceCode}
+                            onChange={(e) => setInvoiceCode(e.target.value.toUpperCase())}
                             placeholder="Masukkan Kode Invoice (Contoh: EM-X7Z9)" 
-                            className="w-full px-6 py-4 pr-16 rounded-full border-2 border-zinc-200 dark:border-custom-purple-border bg-zinc-50 dark:bg-custom-purple-bg text-zinc-800 dark:text-zinc-100 focus:outline-none focus:border-custom-purple transition-colors shadow-sm"
+                            className="w-full px-6 py-5 pr-16 rounded-full border-2 border-zinc-200 dark:border-custom-purple-border bg-zinc-50 dark:bg-custom-purple-bg text-zinc-800 dark:text-zinc-100 focus:outline-none focus:border-custom-purple transition-colors shadow-sm text-lg sm:text-base"
+                            autoComplete="off"
+                            inputMode="text"
+                            pattern="[A-Za-z0-9\-]+"
                         />
                         <button
                             type="submit"
@@ -86,13 +90,13 @@ const TrackLaundry: React.FC = () => {
                         </button>
                     </form>
                     {error && (
-                        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md mb-6 animate-fade-in">
+                        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md mb-6 animate-fade-in text-base sm:text-sm">
                             <p>{error}</p>
                         </div>
                     )}
                     {statusData && (
                         <div className="bg-zinc-50 dark:bg-custom-purple-bg border border-zinc-200 dark:border-custom-purple-border rounded-2xl p-6 sm:p-8 shadow-xl animate-fade-in transform transition-all hover:-translate-y-1">
-                            <div className="flex items-center justify-between mb-6 border-b border-zinc-200 dark:border-custom-purple-border pb-4">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 border-b border-zinc-200 dark:border-custom-purple-border pb-4 gap-2">
                                 <div>
                                     <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">{statusData.customerName}</h3>
                                     <p className="text-sm text-zinc-500 dark:text-zinc-400">
@@ -103,7 +107,7 @@ const TrackLaundry: React.FC = () => {
                                     {statusData.orderStatus}
                                 </div>
                             </div>
-                            <div className="space-y-4">
+                            <div className="space-y-4 text-base sm:text-sm">
                                 <div className="flex justify-between">
                                     <span className="text-zinc-600 dark:text-zinc-400">Tanggal Masuk:</span>
                                     <span className="font-medium text-zinc-800 dark:text-zinc-200">{formatDate(statusData.createdAt)}</span>
