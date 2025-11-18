@@ -3,6 +3,15 @@ import { supabase } from "../config/supabaseClient";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 
+// Optional: Import Card, Button, Input jika ada, jika tidak gunakan fallback
+let Card = (props: any) => <div {...props} />;
+let CardHeader = (props: any) => <div {...props} />;
+let CardTitle = (props: any) => <div {...props} />;
+let CardDescription = (props: any) => <div {...props} />;
+let CardContent = (props: any) => <div {...props} />;
+let Button = (props: any) => <button {...props} />;
+let Input = (props: any) => <input {...props} />;
+
 // Tipe data dasar untuk hasil transaksi
 interface TransactionStatus {
   invoice_code_short: string;
@@ -52,6 +61,7 @@ const TrackLaundry: React.FC = () => {
         .single();
 
       if (supabaseError && supabaseError.code !== 'PGRST116') {
+        console.error("Supabase Error:", supabaseError);
         setError("Terjadi kesalahan saat mencari data. Coba lagi.");
         return;
       }
@@ -63,6 +73,7 @@ const TrackLaundry: React.FC = () => {
       }
 
     } catch (err) {
+      console.error(err);
       setError("Terjadi kesalahan koneksi. Coba periksa koneksi internet Anda.");
     } finally {
       setIsLoading(false);
@@ -86,15 +97,17 @@ const TrackLaundry: React.FC = () => {
     const formattedDueDate = format(new Date(transaction.due_date), "EEEE, dd MMMM yyyy HH:mm", { locale: id });
 
     return (
-      <div className="mt-6 border-2 shadow-lg rounded-xl bg-white dark:bg-custom-purple-surface p-6">
-        <div className="flex justify-between items-center mb-2">
-          <div className="text-xl font-bold">Status Laundry</div>
-          <span className={`text-sm font-semibold px-3 py-1 rounded-full ${color.replace('text-', 'bg-')} bg-opacity-10 ${color}`}>
-            {label}
-          </span>
-        </div>
-        <div className="text-lg font-bold mb-4">{transaction.invoice_code_short}</div>
-        <div className="space-y-2">
+      <Card className="mt-6 border-2 shadow-lg rounded-xl bg-white dark:bg-custom-purple-surface p-6">
+        <CardHeader>
+          <CardTitle className="text-xl font-bold flex justify-between items-center">
+            Status Laundry
+            <span className={`text-sm font-semibold px-3 py-1 rounded-full ${color.replace('text-', 'bg-')} bg-opacity-10 ${color}`}>
+              {label}
+            </span>
+          </CardTitle>
+          <CardDescription className="text-lg font-bold mb-4">{transaction.invoice_code_short}</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2">
           <div className="flex justify-between border-b pb-1">
             <span className="text-gray-600">Pelanggan:</span>
             <span className="font-medium">{transaction.customer_name}</span>
@@ -103,8 +116,8 @@ const TrackLaundry: React.FC = () => {
             <span className="text-gray-600">Perkiraan Selesai:</span>
             <span className="font-medium">{formattedDueDate}</span>
           </div>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     );
   };
 
@@ -113,21 +126,21 @@ const TrackLaundry: React.FC = () => {
       <div className="container mx-auto px-4 max-w-xl">
         <h2 className="text-3xl font-bold text-center mb-8">Lacak Status Laundry Anda</h2>
         <form onSubmit={handleTrack} className="flex gap-2">
-          <input
+          <Input
             type="text"
             placeholder="Masukkan Kode Invoice (Contoh: EM-AB12CD)"
             value={invoiceCode}
-            onChange={(e) => setInvoiceCode(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInvoiceCode(e.target.value)}
             className="flex-grow p-3 border rounded-lg focus:ring-custom-purple focus:border-custom-purple dark:bg-custom-purple-bg dark:text-zinc-100"
             required
           />
-          <button
+          <Button
             type="submit"
             disabled={isLoading}
             className="px-6 py-3 bg-custom-purple text-white rounded-lg hover:bg-custom-purple-hover transition duration-200 font-bold"
           >
             {isLoading ? "Mencari..." : "Lacak"}
-          </button>
+          </Button>
         </form>
         {renderStatusCard()}
       </div>
