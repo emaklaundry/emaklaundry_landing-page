@@ -12,19 +12,21 @@ let CardContent = (props: any) => <div {...props} />;
 let Button = (props: any) => <button {...props} />;
 let Input = (props: any) => <input {...props} />;
 
-// Tipe data dasar untuk hasil transaksi
+// Interface sesuai output RPC get_laundry_status
 interface TransactionStatus {
-  invoice_code_short: string;
-  status: 'processing' | 'ready' | 'done' | 'picked_up';
-  customer_name: string;
-  due_date: string; // ISO Date string
+  invoiceCode: string;
+  orderStatus: 'processing' | 'ready' | 'done' | 'picked_up' | string;
+  customerName: string;
+  estimatedCompletionDate: string;
 }
 
-const statusMap: Record<TransactionStatus['status'], { label: string; color: string }> = {
-  processing: { label: "Sedang Diproses", color: "text-blue-500" },
-  ready: { label: "Siap Diambil", color: "text-green-500" },
-  done: { label: "Selesai & Menunggu Pembayaran", color: "text-yellow-600" },
-  picked_up: { label: "Sudah Diambil", color: "text-gray-500" },
+// statusMap sesuai nilai status dari database
+const statusMap: Record<string, { label: string; color: string }> = {
+  "Diproses": { label: "Sedang Diproses", color: "text-blue-500" },
+  "Siap Diambil": { label: "Siap Diambil", color: "text-green-500" },
+  "Selesai": { label: "Selesai & Menunggu Pembayaran", color: "text-yellow-600" },
+  "Sudah Diambil": { label: "Sudah Diambil", color: "text-gray-500" },
+  // Tambahkan status lain jika ada
 };
 
 const TrackLaundry: React.FC = () => {
@@ -45,18 +47,13 @@ const TrackLaundry: React.FC = () => {
     setError(null);
     setTransaction(null);
 
-    const codeToSearch = invoiceCode.trim().toUpperCase();
+    // Kirim input apa adanya ke RPC. RPC sudah handle .toUpperCase() dan ILIKE.
+    const codeToSearch = invoiceCode.trim();
 
     try {
+      // Gunakan .rpc() untuk memanggil fungsi get_laundry_status
       const { data, error: supabaseError } = await supabase
-        .from('transactions')
-        .select(`
-          invoice_code_short, 
-          status, 
-          customer_name, 
-          due_date
-        `)
-        .eq('invoice_code_short', codeToSearch)
+        .rpc('get_laundry_status', { input_identifier: codeToSearch })
         .limit(1)
         .single();
 
@@ -67,6 +64,7 @@ const TrackLaundry: React.FC = () => {
       }
 
       if (data) {
+        // Hapus log debug di sini
         setTransaction(data as TransactionStatus);
       } else {
         setError(`Kode Invoice "${codeToSearch}" tidak ditemukan.`);
@@ -74,7 +72,7 @@ const TrackLaundry: React.FC = () => {
 
     } catch (err) {
       console.error(err);
-      setError("Terjadi kesalahan koneksi. Coba periksa koneksi internet Anda.");
+      setError("Terjadi kesalahan koneksi.");
     } finally {
       setIsLoading(false);
     }
@@ -93,8 +91,17 @@ const TrackLaundry: React.FC = () => {
       return null;
     }
 
-    const { label, color } = statusMap[transaction.status] || { label: "Status Tidak Diketahui", color: "text-gray-500" };
-    const formattedDueDate = format(new Date(transaction.due_date), "EEEE, dd MMMM yyyy HH:mm", { locale: id });
+    // Gunakan orderStatus dan estimatedCompletionDate dari RPC
+    const { label, color } = statusMap[transaction.orderStatus] || { label: "Status Tidak Diketahui", color: "text-gray-500" };
+
+    let formattedDueDate = 'N/A';
+    if (transaction.estimatedCompletionDate) {
+      try {
+        formattedDueDate = format(new Date(transaction.estimatedCompletionDate), "EEEE, dd MMMM yyyy", { locale: id });
+      } catch (e) {
+        formattedDueDate = transaction.estimatedCompletionDate;
+      }
+    }
 
     return (
       <Card className="mt-6 border-2 shadow-lg rounded-xl bg-white dark:bg-custom-purple-surface p-6">
@@ -105,12 +112,12 @@ const TrackLaundry: React.FC = () => {
               {label}
             </span>
           </CardTitle>
-          <CardDescription className="text-lg font-bold mb-4">{transaction.invoice_code_short}</CardDescription>
+          <CardDescription className="text-lg font-bold">{transaction.invoiceCode}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="flex justify-between border-b pb-1">
             <span className="text-gray-600">Pelanggan:</span>
-            <span className="font-medium">{transaction.customer_name}</span>
+            <span className="font-medium">{transaction.customerName}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">Perkiraan Selesai:</span>
