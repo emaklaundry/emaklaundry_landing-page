@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useSmoothScroll } from '../utils/useSmoothScroll';
 import { WhatsAppIcon, FacebookIcon } from './Icons';
@@ -12,7 +11,7 @@ const Hero: React.FC = () => {
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
 
     return (
-        <section className="relative bg-white dark:bg-custom-purple-surface pt-20 pb-24 lg:pt-32 lg:pb-32 overflow-hidden">
+        <section className="relative bg-white dark:bg-custom-purple-surface pt-10 pb-24 lg:pt-20 lg:pb-32 overflow-hidden">
             <div className="absolute inset-0 opacity-10 dark:opacity-5">
                 <div 
                     className="absolute inset-0 bg-cover bg-center animate-kenburns" 
@@ -36,7 +35,7 @@ const Hero: React.FC = () => {
                 </div>
 
                 {/* Social Share Section */}
-                <div className="mt-12">
+                <div className="mt-6">
                     <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">Bagikan ke teman:</p>
                     <div className="flex justify-center items-center space-x-4 mt-3">
                         <a href={whatsappShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Bagikan di WhatsApp" className="w-10 h-10 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-custom-purple-border/50 text-zinc-600 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-custom-purple-border transition-colors">

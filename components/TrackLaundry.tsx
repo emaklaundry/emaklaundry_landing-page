@@ -129,9 +129,9 @@ const TrackLaundry: React.FC = () => {
   };
 
   return (
-    <section id="track-laundry" className="py-20 bg-white dark:bg-custom-purple-surface">
+    <section id="track-laundry" className="pt-0 pb-0 bg-white dark:bg-custom-purple-surface">
       <div className="container mx-auto px-4 max-w-xl">
-        <h2 className="text-3xl font-bold text-center mb-8">Lacak Status Laundry Anda</h2>
+        <h2 className="text-3xl font-bold text-center mb-0">Lacak Status Laundry Anda</h2>
         <form onSubmit={handleTrack} className="flex gap-2">
           <Input
             type="text"
