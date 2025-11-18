@@ -8,6 +8,25 @@ This contains everything you need to run your app locally.
 
 View your app in AI Studio: https://ai.studio/apps/drive/1cEFlSJcZzmRIAAiZXaEEQ5z1esNUSNXA
 
+## Tailwind CSS in Production
+
+> **Note:**  
+> Do **not** use `cdn.tailwindcss.com` in production.  
+> Tailwind CSS is already installed as a PostCSS plugin in this project.
+
+To build Tailwind CSS for production, make sure you have the following in your `postcss.config.js`:
+
+```js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+```
+
+And your `tailwind.config.js` should be present and configured.
+
 ## Run Locally
 
 **Prerequisites:**  Node.js
