@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 // Generic Icon Prop
@@ -152,5 +151,11 @@ export const ShoesIcon: React.FC<IconProps> = ({ className = "h-6 w-6" }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v-2a3 3 0 013-3h10a3 3 0 013 3v2" />
         <path strokeLinecap="round" strokeLinejoin="round" d="M20 16H4a2 2 0 00-2 2v1a2 2 0 002 2h16a2 2 0 002-2v-1a2 2 0 00-2-2z" />
+    </svg>
+);
+
+export const SearchIcon: React.FC<IconProps> = ({ className = "h-6 w-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
     </svg>
 );

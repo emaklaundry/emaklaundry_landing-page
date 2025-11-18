@@ -173,3 +173,12 @@ const FAQ: React.FC = () => {
 };
 
 export default FAQ;
+
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-ignore
+interface ImportMeta {
+    env: {
+        VITE_GEMINI_API_KEY: string;
+        // tambahkan env lain jika perlu
+    };
+}

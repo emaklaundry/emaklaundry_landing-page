@@ -25,3 +25,15 @@ export interface FAQItem {
     question: string;
     answer: string;
 }
+
+export interface LaundryStatus {
+    id: string;
+    invoiceCode: string; // Tambahan kode invoice pendek
+    customerName: string;
+    createdAt: string; // ISO String
+    estimatedCompletionDate: string; // ISO String
+    orderStatus: string;
+    paymentStatus: string;
+    total: number;
+    amountPaid: number;
+}

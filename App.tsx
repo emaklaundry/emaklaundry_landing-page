@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, forwardRef, lazy, Suspense } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -68,6 +67,7 @@ const Footer = lazy(() => import('./components/Footer'));
 const WhatsAppButton = lazy(() => import('./components/WhatsAppButton'));
 const Terms = lazy(() => import('./components/Terms'));
 const BackToTopButton = lazy(() => import('./components/BackToTopButton'));
+const TrackLaundry = lazy(() => import('./components/TrackLaundry'));
 
 
 const FadedPricing = withFadeIn(Pricing);
@@ -75,6 +75,7 @@ const FadedTestimonials = withFadeIn(Testimonials);
 const FadedPartners = withFadeIn(Partners);
 const FadedFAQ = withFadeIn(FAQ);
 const FadedLocation = withFadeIn(Location);
+const FadedTrackLaundry = withFadeIn(TrackLaundry);
 
 
 const App: React.FC = () => {
@@ -99,6 +100,11 @@ const App: React.FC = () => {
                 <Header />
                 <main>
                     <Hero />
+                    {/* --- TrackLaundry Section --- */}
+                    <Suspense fallback={<GenericSectionSkeleton />}>
+                        <FadedTrackLaundry />
+                    </Suspense>
+                    {/* ---------------------------- */}
                     <Suspense fallback={<PricingSkeleton />}>
                         <FadedPricing />
                     </Suspense>
