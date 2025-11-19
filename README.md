@@ -1,39 +1,60 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Emak Laundry Landing Page
 
-# Run and deploy your AI Studio app
+![version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 
-This contains everything you need to run your app locally.
+Landing page untuk Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1cEFlSJcZzmRIAAiZXaEEQ5z1esNUSNXA
+## Versioning
 
-## Tailwind CSS in Production
+Versi aplikasi mengikuti [Semantic Versioning](https://semver.org/).  
+Lihat dan ubah versi pada field `"version"` di `package.json` setiap ada perubahan mayor/minor/patch.
 
-> **Note:**  
-> Do **not** use `cdn.tailwindcss.com` in production.  
-> Tailwind CSS is already installed as a PostCSS plugin in this project.
+## Fitur
+- Pelacakan status laundry dengan progress bar visual
+- Hero section dengan efek glassmorphism dan gradient
+- Kartu harga dengan highlight paket populer
+- Mode terang/gelap (dark mode)
+- Responsive dan modern UI
 
-To build Tailwind CSS for production, make sure you have the following in your `postcss.config.js`:
+## Instalasi & Pengembangan
 
-```js
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-}
-```
+1. **Install dependencies:**
+   ```
+   npm install
+   ```
 
-And your `tailwind.config.js` should be present and configured.
+2. **Jalankan development server:**
+   ```
+   npm run dev
+   ```
 
-## Run Locally
+3. **Build untuk produksi:**
+   ```
+   npm run build
+   ```
 
-**Prerequisites:**  Node.js
+4. **Preview hasil build:**
+   ```
+   npm run preview
+   ```
 
+## Struktur Versioning
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- Versi aplikasi mengikuti format di `package.json` pada field `"version"`.
+- Setiap perubahan besar/minor/patch harap update versi di `package.json`.
+- Contoh update versi:
+  - Patch: `0.0.1` → `0.0.2`
+  - Minor: `0.0.2` → `0.1.0`
+  - Major: `0.1.0` → `1.0.0`
+
+## Folder Penting
+
+- `src/` atau `components/` — Komponen utama React
+- `public/favicon/` — Favicon dan aset publik
+- `index.html` — Entry point HTML
+- `index.css` — Styling global (Tailwind + custom CSS)
+- `tailwind.config.js` — Konfigurasi Tailwind
+
+## Lisensi
+
+MIT
