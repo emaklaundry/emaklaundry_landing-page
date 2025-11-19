@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSmoothScroll } from '../utils/useSmoothScroll';
 import { LogoIcon, SunIcon, MoonIcon } from './Icons';
 import { useTheme } from '../context/ThemeContext';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header: React.FC = () => {
     const { theme, toggleTheme } = useTheme();
@@ -33,7 +33,10 @@ const Header: React.FC = () => {
         { name: 'FAQ', href: '#faq' },
         { name: 'Lokasi', href: '#location' },
         { name: 'Kontak', href: '#contact' },
+        { name: 'Layanan', href: '/layanan' },
     ];
+
+    const location = useLocation();
 
     return (
         <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm dark:bg-custom-purple-bg/80 dark:shadow-none dark:border-b dark:border-custom-purple-border">

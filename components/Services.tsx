@@ -121,7 +121,7 @@ const Services: React.FC = () => {
     }, []);
 
     return (
-        <section id="services" className="py-20 bg-zinc-50 dark:bg-custom-purple-bg">
+        <section className="py-20 bg-zinc-50 dark:bg-custom-purple-bg min-h-screen">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl md:text-4xl font-extrabold text-zinc-900 dark:text-zinc-100">

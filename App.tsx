@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, forwardRef, lazy, Suspense } from 'react';
+import React, { useState, useEffect, lazy, Suspense, useRef, forwardRef } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import { ThemeProvider } from './context/ThemeContext';
@@ -44,12 +45,12 @@ const useIntersectionObserver = (options: IntersectionObserverInit) => {
 
 // HOC to wrap components with the observer
 const withFadeIn = <P extends object>(Component: React.ComponentType<P>) => {
-    const WrappedComponent = forwardRef<HTMLDivElement, P>((props, ref) => {
+    const WrappedComponent = React.forwardRef<HTMLDivElement, P>((props, ref) => {
         const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.1 });
 
         return (
             <div ref={setNode} className={`fade-in-section ${isVisible ? 'is-visible' : ''}`}>
-                <Component {...props} />
+                <Component {...props as P} />
             </div>
         );
     });
@@ -68,6 +69,7 @@ const WhatsAppButton = lazy(() => import('./components/WhatsAppButton'));
 const Terms = lazy(() => import('./components/Terms'));
 const BackToTopButton = lazy(() => import('./components/BackToTopButton'));
 const TrackLaundry = lazy(() => import('./components/TrackLaundry'));
+const LayananPage = lazy(() => import('./pages/LayananPage'));
 
 
 const FadedPricing = withFadeIn(Pricing);
@@ -96,27 +98,44 @@ const App: React.FC = () => {
             <div className="text-zinc-800 dark:text-zinc-200 min-h-screen bg-white dark:bg-custom-purple-bg">
                 <Header />
                 <main className="w-full max-w-full">
-                    <Hero />
-                    {/* --- TrackLaundry Section --- */}
-                    <Suspense fallback={<GenericSectionSkeleton />}>
-                        <FadedTrackLaundry />
-                    </Suspense>
-                    {/* ---------------------------- */}
-                    <Suspense fallback={<PricingSkeleton />}>
-                        <FadedPricing />
-                    </Suspense>
-                    <Suspense fallback={<GenericSectionSkeleton />}>
-                        <FadedTestimonials />
-                    </Suspense>
-                    <Suspense fallback={<GenericSectionSkeleton />}>
-                        <FadedPartners />
-                    </Suspense>
-                    <Suspense fallback={<GenericSectionSkeleton />}>
-                        <FadedFAQ />
-                    </Suspense>
-                    <Suspense fallback={<GenericSectionSkeleton />}>
-                        <FadedLocation />
-                    </Suspense>
+                    <Routes>
+                        <Route
+                            path="/"
+                            element={
+                                <>
+                                    <Hero />
+                                    {/* --- TrackLaundry Section --- */}
+                                    <Suspense fallback={<GenericSectionSkeleton />}>
+                                        <FadedTrackLaundry />
+                                    </Suspense>
+                                    {/* ---------------------------- */}
+                                    <Suspense fallback={<PricingSkeleton />}>
+                                        <FadedPricing />
+                                    </Suspense>
+                                    <Suspense fallback={<GenericSectionSkeleton />}>
+                                        <FadedTestimonials />
+                                    </Suspense>
+                                    <Suspense fallback={<GenericSectionSkeleton />}>
+                                        <FadedPartners />
+                                    </Suspense>
+                                    <Suspense fallback={<GenericSectionSkeleton />}>
+                                        <FadedFAQ />
+                                    </Suspense>
+                                    <Suspense fallback={<GenericSectionSkeleton />}>
+                                        <FadedLocation />
+                                    </Suspense>
+                                </>
+                            }
+                        />
+                        <Route
+                            path="/layanan"
+                            element={
+                                <Suspense fallback={<GenericSectionSkeleton />}>
+                                    <LayananPage />
+                                </Suspense>
+                            }
+                        />
+                    </Routes>
                 </main>
                 <Suspense fallback={null}>
                     <Footer onTermsClick={() => setIsTermsModalOpen(true)} />
