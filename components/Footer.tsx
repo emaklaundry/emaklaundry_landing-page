@@ -16,7 +16,14 @@ const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
                     <div>
                         <div className="flex items-center space-x-2 mb-4">
                             <LogoIcon />
-                            <span className="text-xl font-bold">Emak Laundry</span>
+                            <img
+                                src="/public/text-logo.png"
+                                alt="Emak Laundry"
+                                className="h-7 md:h-8 object-contain"
+                                style={{ maxWidth: 160, display: 'block' }}
+                                loading="lazy"
+                                draggable={false}
+                            />
                         </div>
                         <p className="text-zinc-400 dark:text-zinc-300">"Kebersihan Terbaik dengan Sentuhan Kasih Ibu." Solusi laundry terpercaya di Kota Banjar.</p>
                     </div>

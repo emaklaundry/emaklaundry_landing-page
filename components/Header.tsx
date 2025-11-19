@@ -61,9 +61,23 @@ const Header: React.FC = () => {
             <div className="container mx-auto px-6 py-4">
                 <div className="flex justify-between items-center">
                     {/* Logo selalu arahkan ke Home */}
-                    <Link to="/" className="flex items-center space-x-2">
+                    <Link 
+                        to="/" 
+                        className="flex items-center space-x-2"
+                        onClick={() => {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }}
+                    >
                         <LogoIcon />
-                        <span className="text-xl font-bold text-zinc-800 dark:text-zinc-100">Emak Laundry</span>
+                        {/* Ganti tulisan dengan gambar */}
+                        <img
+                            src="/public/text-logo.png"
+                            alt="Emak Laundry"
+                            className="h-7 md:h-8 object-contain"
+                            style={{ maxWidth: 160, display: 'block' }}
+                            loading="lazy"
+                            draggable={false}
+                        />
                     </Link>
 
                     <div className="flex items-center space-x-2 sm:space-x-4">
