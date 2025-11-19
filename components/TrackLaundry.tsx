@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { supabase } from "../config/supabaseClient";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { ShieldCheckIcon, ClockIcon, TruckIcon, SparklesIconV2 } from "./Icons"; // Pastikan icon ini ada atau ganti dengan yang tersedia
+import { ClockIcon } from "./Icons"; // Hanya ClockIcon yang dipakai
 
 // Interface sesuai output RPC
 interface TransactionStatus {

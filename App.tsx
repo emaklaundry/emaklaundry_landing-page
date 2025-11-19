@@ -79,19 +79,16 @@ const FadedTrackLaundry = withFadeIn(TrackLaundry);
 
 
 const App: React.FC = () => {
+    // Selalu buka modal Terms setiap halaman dimuat
     const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
 
-    // Show terms modal on first visit
     useEffect(() => {
-        const hasAcceptedTerms = localStorage.getItem('hasAcceptedTerms');
-        if (!hasAcceptedTerms) {
-            setIsTermsModalOpen(true);
-        }
+        setIsTermsModalOpen(true);
     }, []);
 
     const handleCloseTerms = () => {
         setIsTermsModalOpen(false);
-        localStorage.setItem('hasAcceptedTerms', 'true');
+        // localStorage.setItem('hasAcceptedTerms', 'true'); // Dihapus/dikomentari
     };
 
     return (
@@ -114,7 +111,7 @@ const App: React.FC = () => {
                     <Suspense fallback={<GenericSectionSkeleton />}>
                         <FadedPartners />
                     </Suspense>
-                     <Suspense fallback={<GenericSectionSkeleton />}>
+                    <Suspense fallback={<GenericSectionSkeleton />}>
                         <FadedFAQ />
                     </Suspense>
                     <Suspense fallback={<GenericSectionSkeleton />}>
