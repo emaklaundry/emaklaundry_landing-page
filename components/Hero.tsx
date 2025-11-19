@@ -20,7 +20,7 @@ const Hero: React.FC = () => {
 
             <div className="container mx-auto px-6 relative z-10 pt-20">
                 <div className="max-w-4xl mx-auto text-center">
-                    <div className="inline-block mb-4 px-4 py-1 rounded-full bg-custom-purple/10 text-custom-purple dark:bg-custom-purple-light/10 dark:text-custom-purple-light font-semibold text-sm tracking-wide animate-fade-in-up">
+                    <div className="inline-block mb-0.5 px-4 py-1 rounded-full bg-custom-purple/10 text-custom-purple dark:bg-custom-purple-light/10 dark:text-custom-purple-light font-semibold text-sm tracking-wide animate-fade-in-up">
                         ✨ Laundry Kiloan & Satuan Terbaik di Banjar
                     </div>
                     <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 leading-tight mb-6 tracking-tight">
