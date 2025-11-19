@@ -84,7 +84,7 @@ const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
                 </div>
             </div>
             <div className="mt-8 text-center text-xs text-custom-purple opacity-50 select-none">
-                v1.0.0
+                v1.0.1
             </div>
         </footer>
     );

@@ -1,60 +1,68 @@
-# Emak Laundry Landing Page
+# Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar
 
-![version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+Aplikasi landing page untuk Emak Laundry, layanan laundry kiloan & satuan di Kota Banjar.
 
-Landing page untuk Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar.
+## Fitur Utama
 
-## Versioning
-
-Versi aplikasi mengikuti [Semantic Versioning](https://semver.org/).  
-Lihat dan ubah versi pada field `"version"` di `package.json` setiap ada perubahan mayor/minor/patch.
-
-## Fitur
-- Pelacakan status laundry dengan progress bar visual
-- Hero section dengan efek glassmorphism dan gradient
-- Kartu harga dengan highlight paket populer
-- Mode terang/gelap (dark mode)
-- Responsive dan modern UI
+- **Responsive Design**: Tampilan modern, mobile-friendly, dan dark mode.
+- **Navigasi SPA**: Navigasi antar halaman tanpa reload.
+- **Pencarian & Filter Layanan**: Cari dan filter layanan secara instan.
+- **Tampilan Grid/List**: Toggle tampilan layanan (galeri atau daftar).
+- **Order via WhatsApp**: Pesan layanan langsung ke admin.
+- **Bagikan Layanan**: Fitur share ke sosial media/clipboard.
+- **SEO & Social Meta**: Sudah dioptimasi untuk SEO dan social sharing.
+- **Lazy Loading**: Komponen berat di-load secara dinamis.
+- **Syarat & Ketentuan**: Modal popup untuk Terms.
 
 ## Instalasi & Pengembangan
 
-1. **Install dependencies:**
+1. **Clone repo**
+   ```bash
+   git clone https://github.com/yourusername/emaklaundry_landing-page.git
+   cd emaklaundry_landing-page
    ```
+
+2. **Install dependencies**
+   ```bash
    npm install
    ```
 
-2. **Jalankan development server:**
-   ```
+3. **Atur environment**
+   - Copy `.env.local` dan isi variabel Supabase & Store ID sesuai kebutuhan.
+
+4. **Jalankan lokal**
+   ```bash
    npm run dev
    ```
 
-3. **Build untuk produksi:**
-   ```
+5. **Build untuk produksi**
+   ```bash
    npm run build
    ```
 
-4. **Preview hasil build:**
-   ```
-   npm run preview
-   ```
+## Struktur Folder
 
-## Struktur Versioning
+- `src/components/` - Komponen UI (Header, Footer, Services, dsb)
+- `src/pages/` - Halaman utama & layanan
+- `public/favicon/` - Favicon & text-logo.png
+- `index.html` - Entry point
+- `index.css` - Global styles
 
-- Versi aplikasi mengikuti format di `package.json` pada field `"version"`.
-- Setiap perubahan besar/minor/patch harap update versi di `package.json`.
-- Contoh update versi:
-  - Patch: `0.0.1` → `0.0.2`
-  - Minor: `0.0.2` → `0.1.0`
-  - Major: `0.1.0` → `1.0.0`
+## Branding
 
-## Folder Penting
+- Logo text: gunakan `/favicon/text-logo.png` di header & footer.
+- Warna utama: Ungu (`#B740B7`), mendukung dark mode.
 
-- `src/` atau `components/` — Komponen utama React
-- `public/favicon/` — Favicon dan aset publik
-- `index.html` — Entry point HTML
-- `index.css` — Styling global (Tailwind + custom CSS)
-- `tailwind.config.js` — Konfigurasi Tailwind
+## Versioning
 
-## Lisensi
+- **Versi saat ini:** `1.0.0`
+- Lihat bagian bawah footer untuk info versi aplikasi.
 
-MIT
+## Kontribusi
+
+Pull request & issue sangat diterima!
+
+---
+
+**Copyright**
+&copy; Emak Laundry. All rights reserved.
