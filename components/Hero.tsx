@@ -1,49 +1,70 @@
 import React from 'react';
 import { useSmoothScroll } from '../utils/useSmoothScroll';
-import { WhatsAppIcon, FacebookIcon } from './Icons';
-import { SOCIAL_LINKS, SHARE_INFO } from '../config/constants';
+import { WhatsAppIcon } from './Icons';
+import { SOCIAL_LINKS } from '../config/constants';
 
 const Hero: React.FC = () => {
     const handleLinkClick = useSmoothScroll();
     
-    const { url: shareUrl, text: shareText } = SHARE_INFO;
-    const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
-    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-
     return (
-        <section className="relative bg-white dark:bg-custom-purple-surface pt-10 pb-24 lg:pt-20 lg:pb-32 overflow-hidden">
-            <div className="absolute inset-0 opacity-10 dark:opacity-5">
+        <section className="relative min-h-[90vh] flex items-center bg-white dark:bg-custom-purple-surface overflow-hidden">
+            {/* Background Image dengan Parallax Effect Sederhana */}
+            <div className="absolute inset-0 z-0">
                 <div 
-                    className="absolute inset-0 bg-cover bg-center animate-kenburns" 
+                    className="absolute inset-0 bg-cover bg-center animate-kenburns opacity-30 dark:opacity-20" 
                     style={{backgroundImage: "url('https://images.unsplash.com/photo-1582735689369-4fe89db7fb15?q=80&w=2070&auto=format=fit=crop')"}}
                 ></div>
+                {/* Gradient Overlay agar teks terbaca jelas */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white dark:from-custom-purple-bg/80 dark:via-custom-purple-bg/90 dark:to-custom-purple-bg"></div>
             </div>
-            <div className="container mx-auto px-6 text-center relative z-10">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-zinc-900 dark:text-zinc-100 leading-tight mb-4">
-                    Kebersihan Terbaik dengan Sentuhan Kasih Ibu.
-                </h1>
-                <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-300 max-w-3xl mx-auto mb-8">
-                    Emak Laundry hadir di Kota Banjar untuk merawat pakaian Anda. Telah melayani 1000+ pelanggan setia, kami jamin hasil cuci bersih, wangi, dan rapi. Nikmati waktu Anda, serahkan cucian pada ahlinya.
-                </p>
-                <div className="flex flex-col sm:flex-row justify-center items-center sm:space-x-4 space-y-4 sm:space-y-0">
-                    <a href="#pricing" onClick={handleLinkClick} className="bg-custom-purple text-white font-bold py-3 px-8 rounded-full hover:bg-custom-purple-hover transition-all duration-300 transform hover:scale-105 shadow-lg w-full sm:w-auto">
-                        Lihat Harga
-                    </a>
-                    <a href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer" className="font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 w-full sm:w-auto ring-2 ring-inset ring-custom-purple text-custom-purple dark:ring-custom-purple-light dark:text-custom-purple-light hover:bg-custom-purple hover:text-white dark:hover:bg-custom-purple-light dark:hover:text-custom-purple-bg">
-                        Hubungi via WA
-                    </a>
-                </div>
 
-                {/* Social Share Section */}
-                <div className="mt-6">
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400 font-medium">Bagikan ke teman:</p>
-                    <div className="flex justify-center items-center space-x-4 mt-3">
-                        <a href={whatsappShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Bagikan di WhatsApp" className="w-10 h-10 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-custom-purple-border/50 text-zinc-600 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-custom-purple-border transition-colors">
-                            <WhatsAppIcon className="h-5 w-5" />
+            <div className="container mx-auto px-6 relative z-10 pt-20">
+                <div className="max-w-4xl mx-auto text-center">
+                    <div className="inline-block mb-0.5 px-4 py-1 rounded-full bg-custom-purple/10 text-custom-purple dark:bg-custom-purple-light/10 dark:text-custom-purple-light font-semibold text-sm tracking-wide animate-fade-in-up">
+                        ✨ Laundry Kiloan & Satuan Terbaik di Banjar
+                    </div>
+                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-zinc-900 dark:text-zinc-100 leading-tight mb-6 tracking-tight">
+                        Kebersihan Terbaik <br/>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-custom-purple to-pink-500">
+                            Sentuhan Kasih Ibu.
+                        </span>
+                    </h1>
+                    <p className="text-lg md:text-xl text-zinc-600 dark:text-zinc-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                        Serahkan urusan pakaian kotor pada ahlinya. Kami menjamin hasil cuci bersih, wangi tahan lama, dan rapi dalam waktu singkat.
+                    </p>
+                    
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+                        <a 
+                            href="#pricing" 
+                            onClick={handleLinkClick} 
+                            className="w-full sm:w-auto px-8 py-4 bg-custom-purple text-white font-bold rounded-full hover:bg-custom-purple-hover hover:shadow-lg hover:shadow-custom-purple/30 transition-all duration-300 transform hover:-translate-y-1"
+                        >
+                            Lihat Paket Harga
                         </a>
-                        <a href={facebookShareUrl} target="_blank" rel="noopener noreferrer" aria-label="Bagikan di Facebook" className="w-10 h-10 flex items-center justify-center rounded-full bg-zinc-100 dark:bg-custom-purple-border/50 text-zinc-600 dark:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-custom-purple-border transition-colors">
-                            <FacebookIcon className="h-5 w-5" />
+                        <a 
+                            href={SOCIAL_LINKS.whatsapp} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="w-full sm:w-auto px-8 py-4 flex items-center justify-center gap-2 bg-white text-custom-purple border-2 border-custom-purple/20 font-bold rounded-full hover:border-custom-purple hover:bg-custom-purple/5 transition-all duration-300 dark:bg-transparent dark:text-white dark:border-white/20 dark:hover:bg-white/10"
+                        >
+                            <WhatsAppIcon className="w-5 h-5" />
+                            Pesan via WhatsApp
                         </a>
+                    </div>
+
+                    <div className="mt-12 grid grid-cols-3 gap-4 text-center max-w-lg mx-auto divide-x divide-zinc-200 dark:divide-zinc-700">
+                        <div>
+                            <p className="text-2xl font-bold text-custom-purple">1000+</p>
+                            <p className="text-xs text-zinc-500 uppercase mt-1">Pelanggan</p>
+                        </div>
+                        <div>
+                            <p className="text-2xl font-bold text-custom-purple">3 Jam</p>
+                            <p className="text-xs text-zinc-500 uppercase mt-1">Layanan Kilat</p>
+                        </div>
+                        <div>
+                            <p className="text-2xl font-bold text-custom-purple">4.9</p>
+                            <p className="text-xs text-zinc-500 uppercase mt-1">Rating</p>
+                        </div>
                     </div>
                 </div>
             </div>

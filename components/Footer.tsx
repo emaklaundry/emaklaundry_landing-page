@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { LogoIcon, InstagramIcon, FacebookIcon, WhatsAppIcon, LinkedInIcon } from './Icons';
 import { SOCIAL_LINKS, CONTACT_INFO } from '../config/constants';
@@ -76,6 +75,9 @@ const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
                         Syarat & Ketentuan
                     </button>
                 </div>
+            </div>
+            <div className="mt-8 text-center text-xs text-custom-purple opacity-50 select-none">
+                v1.0.0
             </div>
         </footer>
     );

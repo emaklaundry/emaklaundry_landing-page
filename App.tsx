@@ -96,9 +96,9 @@ const App: React.FC = () => {
 
     return (
         <ThemeProvider>
-            <div className="text-zinc-800 dark:text-zinc-200">
+            <div className="text-zinc-800 dark:text-zinc-200 min-h-screen bg-white dark:bg-custom-purple-bg">
                 <Header />
-                <main>
+                <main className="w-full max-w-full">
                     <Hero />
                     {/* --- TrackLaundry Section --- */}
                     <Suspense fallback={<GenericSectionSkeleton />}>
