@@ -12,11 +12,11 @@
     <link rel="canonical" href="https://www.emaklaundry.my.id/" />
     
     <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/public/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/public/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/public/favicon/site.webmanifest">
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
     <!-- Inline SVG fallback -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z' fill='%23B740B7'/></svg>">
     
@@ -31,8 +31,8 @@
     <!-- <link rel="preload" as="image" href="https://images.unsplash.com/photo-1582735689369-4fe89db7fb15?q=80&w=2070&auto=format&fit=crop" /> -->
 
     <script>
-        // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-        if (localStorage.theme === 'purple') {
+        // Script ini mencegah "flash" warna putih saat reload di mode gelap
+        if (localStorage.theme === 'purple' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark')
         } else {
             document.documentElement.classList.remove('dark')
@@ -173,11 +173,7 @@
 </script>
 <link rel="stylesheet" href="index.css">
 </head>
-<body class="bg-zinc-50 text-zinc-700 dark:bg-custom-purple-bg dark:text-zinc-200">
-    <!-- Logo Emak Laundry -->
-    <div style="display:flex;justify-content:center;align-items:center;margin-top:1.5rem;">
-        <img src="/public/logo.png" alt="Logo Emak Laundry" style="height:64px;width:auto;" loading="lazy" />
-    </div>
+<body class="bg-secondary text-zinc-700 dark:bg-custom-purple-bg dark:text-zinc-200">
     <div id="root"></div>
 <script type="module" src="/index.tsx"></script>
 </body>

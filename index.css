@@ -8,6 +8,8 @@ html {
 }
 body {
     font-family: 'Poppins', sans-serif;
+    color: theme('colors.zinc.700');
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Animasi kustom */
@@ -63,6 +65,26 @@ body {
     opacity: 1;
     transform: none;
     visibility: visible;
+}
+
+/* Tambahan: Utility warna untuk background dan teks */
+.bg-custom-purple {
+    background-color: #B740B7 !important;
+}
+.bg-custom-purple-light {
+    background-color: #E9D8F7 !important;
+}
+.bg-custom-purple-dark {
+    background-color: #7C2A7C !important;
+}
+.bg-custom-purple-bg {
+    background-color: #F7F3FA !important;
+}
+.text-custom-purple {
+    color: #B740B7 !important;
+}
+.text-custom-purple-dark {
+    color: #7C2A7C !important;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

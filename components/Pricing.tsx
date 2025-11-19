@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { PricingPlan } from '../types';
 import { SOCIAL_LINKS } from '../config/constants';
@@ -43,11 +42,24 @@ const CheckIcon = () => (
 );
 
 const PricingCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => {
-    const cardClasses = `bg-white dark:bg-custom-purple-surface rounded-xl shadow-lg p-6 sm:p-8 transform transition-all duration-300 relative ${plan.isPopular ? 'border-4 border-custom-purple md:scale-105' : 'hover:scale-105'}`;
+    // Styling yang diperbarui
+    const cardClasses = `
+        relative flex flex-col p-8 bg-white dark:bg-custom-purple-surface rounded-2xl transition-all duration-300
+        ${plan.isPopular 
+            ? 'border-2 border-custom-purple shadow-2xl shadow-custom-purple/20 scale-105 z-10' 
+            : 'border border-zinc-100 dark:border-custom-purple-border shadow-lg hover:shadow-xl hover:-translate-y-1'
+        }
+    `;
 
     return (
         <div className={cardClasses}>
-            {plan.isPopular && <span className="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-custom-purple text-white text-xs font-bold px-3 py-1 rounded-full uppercase">Paling Laris</span>}
+            {plan.isPopular && (
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-gradient-to-r from-custom-purple to-pink-600 text-white text-sm font-bold px-4 py-1 rounded-full shadow-md">
+                        Paling Laris 🔥
+                    </span>
+                </div>
+            )}
             <h3 className="text-2xl font-bold text-center text-zinc-800 dark:text-zinc-100">{plan.name}</h3>
             <p className="text-center text-zinc-500 dark:text-zinc-300 mt-2">
                 <span className="text-4xl font-extrabold text-zinc-900 dark:text-zinc-100">Rp {plan.price}</span>
