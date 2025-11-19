@@ -5,7 +5,7 @@ export const WHATSAPP_MESSAGE = 'Halo%20Emak%20Laundry,%20saya%20mau%20tanya%20s
 
 export const SOCIAL_LINKS = {
     instagram: 'https://www.instagram.com/emaklaundry12',
-    facebook: 'https://www.facebook.com/emaklaundry',
+    facebook: 'https://www.facebook.com/',
     linkedin: 'https://www.linkedin.com/in/emaklaundry12/',
     whatsapp: `${WHATSAPP_LINK}?text=${WHATSAPP_MESSAGE}`,
 };
