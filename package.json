@@ -1,7 +1,7 @@
 {
   "name": "emak-laundry---jasa-laundry-kiloan-&-satuan-di-banjar",
   "private": true,
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,6 +14,7 @@
     "date-fns": "^3.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^7.9.6"
   },
   "devDependencies": {
