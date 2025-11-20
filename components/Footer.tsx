@@ -17,7 +17,7 @@ const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
                         <div className="flex items-center space-x-2 mb-4">
                             <LogoIcon />
                             <img
-                                src="/public/text-logo.png"
+                                src="/text-logo.png"
                                 alt="Emak Laundry"
                                 className="h-7 md:h-8 object-contain"
                                 style={{ maxWidth: 160, display: 'block' }}
