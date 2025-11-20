@@ -13,7 +13,7 @@ const plans: PricingPlan[] = [
     },
     {
         name: 'Kilat',
-        price: '12.000',
+        price: '15.000',
         priceUnit: '/ kg',
         features: ['Cuci & Kering', 'Setrika Uap', 'Pewangi Premium', 'Selesai dalam 1 Hari', 'Prioritas Pengerjaan'],
         isPopular: true,
@@ -29,9 +29,9 @@ const plans: PricingPlan[] = [
 
 const satuanItems = [
     { name: 'Jas / Setelan', price: '25.000', icon: <SuitIcon /> },
-    { name: 'Jaket Kulit', price: '30.000', icon: <JacketIcon /> },
-    { name: 'Bed Cover (King/Jumbo)', price: '20.000', icon: <BedIcon /> },
-    { name: 'Sepatu (Cuci Kering)', price: '25.000', icon: <ShoesIcon /> },
+    { name: 'Jaket Kulit', price: '20.000', icon: <JacketIcon /> },
+    { name: 'Bed Cover (King/Jumbo)', price: '25.000', icon: <BedIcon /> },
+    { name: 'Sepatu (Cuci Kering)', price: '20.000', icon: <ShoesIcon /> },
 ];
 
 
