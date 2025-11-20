@@ -1,4 +1,5 @@
 
+
 # Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar
 
 Landing page modern untuk Emak Laundry, layanan laundry kiloan & satuan di Kota Banjar.
@@ -8,6 +9,9 @@ Landing page modern untuk Emak Laundry, layanan laundry kiloan & satuan di Kota 
 - **Responsive Design**: Tampilan modern, mobile-friendly, dan dark mode.
 - **Navigasi SPA**: Navigasi antar halaman tanpa reload.
 - **Order via WhatsApp**: Pesan layanan langsung ke admin.
+- **SEO Dinamis**: Meta tag title & description tiap halaman otomatis (react-helmet-async).
+- **robots.txt & sitemap.xml**: Siap untuk Google Search Console.
+- **Optimasi Gambar**: Hero pakai webp, alt text SEO-friendly.
 - **SEO & Social Meta**: Optimasi SEO dan social sharing.
 - **Lazy Loading**: Komponen berat di-load secara dinamis.
 - **Syarat & Ketentuan**: Modal popup untuk Terms.
@@ -52,9 +56,10 @@ Landing page modern untuk Emak Laundry, layanan laundry kiloan & satuan di Kota 
 - Logo text: gunakan `/text-logo.png` di header & footer.
 - Warna utama: Ungu (`#B740B7`), mendukung dark mode.
 
+
 ## Versioning
 
-- **Versi saat ini:** `1.0.1`
+- **Versi saat ini:** `1.0.3`
 - Lihat bagian bawah footer untuk info versi aplikasi.
 
 ## Kontribusi
