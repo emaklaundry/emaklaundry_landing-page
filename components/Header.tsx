@@ -71,7 +71,7 @@ const Header: React.FC = () => {
                         <LogoIcon />
                         {/* Ganti tulisan dengan gambar */}
                         <img
-                            src="/public/text-logo.png"
+                            src="/text-logo.png"
                             alt="Emak Laundry"
                             className="h-7 md:h-8 object-contain"
                             style={{ maxWidth: 160, display: 'block' }}
