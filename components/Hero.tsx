@@ -9,10 +9,12 @@ const Hero: React.FC = () => {
     return (
         <section className="relative min-h-[90vh] flex items-center bg-white dark:bg-custom-purple-surface overflow-hidden">
             {/* Background Image dengan Parallax Effect Sederhana */}
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0" aria-label="Laundry Banjar - Background Cuci Bersih">
                 <div 
                     className="absolute inset-0 bg-cover bg-center animate-kenburns opacity-30 dark:opacity-20" 
-                    style={{backgroundImage: "url('https://images.unsplash.com/photo-1582735689369-4fe89db7fb15?q=80&w=2070&auto=format=fit=crop')"}}
+                    style={{backgroundImage: "url('https://images.unsplash.com/photo-1582735689369-4fe89db7fb15?q=80&w=2070&auto=format&fit=crop&fm=webp')"}}
+                    role="img"
+                    aria-label="Layanan Laundry Banjar Jawa Barat - Background Cuci Bersih"
                 ></div>
                 {/* Gradient Overlay agar teks terbaca jelas */}
                 <div className="absolute inset-0 bg-gradient-to-b from-white/50 via-white/80 to-white dark:from-custom-purple-bg/80 dark:via-custom-purple-bg/90 dark:to-custom-purple-bg"></div>

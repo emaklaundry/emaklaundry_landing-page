@@ -18,7 +18,7 @@ const Footer: React.FC<FooterProps> = ({ onTermsClick }) => {
                             <LogoIcon />
                             <img
                                 src="/text-logo.png"
-                                alt="Emak Laundry"
+                                alt="Logo Emak Laundry Jasa Cuci Banjar"
                                 className="h-7 md:h-8 object-contain"
                                 style={{ maxWidth: 160, display: 'block' }}
                                 loading="lazy"
