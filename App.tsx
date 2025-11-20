@@ -1,6 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense, useRef, forwardRef } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
+import SEO from './components/SEO';
 import Hero from './components/Hero';
 import { ThemeProvider } from './context/ThemeContext';
 import { ServicesSkeleton, PricingSkeleton, GenericSectionSkeleton } from './components/Skeletons';
@@ -103,6 +104,11 @@ const App: React.FC = () => {
                             path="/"
                             element={
                                 <>
+                                    <SEO 
+                                        title="Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar"
+                                        description="Emak Laundry menyediakan layanan laundry kiloan dan satuan terbaik di Kota Banjar dengan sentuhan kasih ibu. Cepat, bersih, dan wangi."
+                                        canonical="https://www.emaklaundry.my.id/"
+                                    />
                                     <Hero />
                                     {/* --- TrackLaundry Section --- */}
                                     <Suspense fallback={<GenericSectionSkeleton />}>
