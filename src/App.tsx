@@ -5,6 +5,7 @@ import SEO from './components/SEO';
 import Hero from './components/Hero';
 import { ThemeProvider } from './context/ThemeContext';
 import { ServicesSkeleton, PricingSkeleton, GenericSectionSkeleton } from './components/Skeletons';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Custom Hook for Intersection Observer
 const useIntersectionObserver = (options: IntersectionObserverInit) => {
@@ -96,7 +97,8 @@ const App: React.FC = () => {
 
     return (
         <ThemeProvider>
-            <div className="text-zinc-800 dark:text-zinc-200 min-h-screen bg-white dark:bg-custom-purple-bg">
+            <ErrorBoundary>
+                <div className="text-zinc-800 dark:text-zinc-200 min-h-screen bg-white dark:bg-custom-purple-bg">
                 <Header />
                 <main className="w-full max-w-full">
                     <Routes>
@@ -150,6 +152,7 @@ const App: React.FC = () => {
                     <BackToTopButton />
                 </Suspense>
             </div>
+            </ErrorBoundary>
         </ThemeProvider>
     );
 };

@@ -1,7 +1,7 @@
 
 export const WHATSAPP_NUMBER = '6285175279659';
 export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
-export const WHATSAPP_MESSAGE = 'Halo%20Emak%20Laundry,%20saya%20mau%20tanya%20soal%20layanan.';
+export const WHATSAPP_MESSAGE = 'Halo%20Emak%20Laundry,%20saya%20mau%20tanya%20soal%20layanan.%0A%0AKritik%20dan%20Saran:%20https://forms.gle/8JnjZZ4cu5oTXGYr9';
 
 export const SOCIAL_LINKS = {
     instagram: 'https://www.instagram.com/emaklaundry12',
@@ -20,3 +20,5 @@ export const SHARE_INFO = {
     url: "https://www.emaklaundry.my.id/",
     text: "Cek Emak Laundry, solusi laundry terbaik di Banjar!",
 };
+
+export const FEEDBACK_FORM_URL = 'https://forms.gle/8JnjZZ4cu5oTXGYr9';
