@@ -22,6 +22,8 @@ export default {
         "scroll-testimonials": "scroll-testimonials 60s linear infinite",
         "fade-in-up": "fadeInUp 0.6s ease-out",
         fadeIn: "fadeIn 0.5s ease-out",
+        wiggle: "wiggle 1s ease-in-out infinite",
+        float: "float 3s ease-in-out infinite",
       },
       keyframes: {
         kenburns: {
@@ -59,6 +61,14 @@ export default {
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
         },
       },
       screens: {

@@ -1,78 +1,96 @@
-import React, { useState, useEffect, lazy, Suspense, useRef, forwardRef } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import SEO from './components/SEO';
-import Hero from './components/Hero';
-import { ThemeProvider } from './context/ThemeContext';
-import { ServicesSkeleton, PricingSkeleton, GenericSectionSkeleton } from './components/Skeletons';
-import ErrorBoundary from './components/ErrorBoundary';
+import React, {
+  useState,
+  useEffect,
+  lazy,
+  Suspense,
+  useRef,
+  forwardRef,
+} from "react";
+import { Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import SEO from "./components/SEO";
+import Hero from "./components/Hero";
+import { ThemeProvider } from "./context/ThemeContext";
+import {
+  AnimationProvider,
+  useAnimationContext,
+} from "./context/AnimationContext";
+import {
+  ServicesSkeleton,
+  PricingSkeleton,
+  GenericSectionSkeleton,
+} from "./components/Skeletons";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Custom Hook for Intersection Observer
 const useIntersectionObserver = (options: IntersectionObserverInit) => {
-    const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
-    const [node, setNode] = useState<HTMLElement | null>(null);
+  const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
+  const [node, setNode] = useState<HTMLElement | null>(null);
 
-    const observer = useRef<IntersectionObserver | null>(null);
+  const observer = useRef<IntersectionObserver | null>(null);
 
-    useEffect(() => {
-        if (observer.current) {
-            observer.current.disconnect();
+  useEffect(() => {
+    if (observer.current) {
+      observer.current.disconnect();
+    }
+
+    observer.current = new window.IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setEntry(entry);
+        if (node && observer.current) {
+          observer.current.unobserve(node);
         }
+      }
+    }, options);
 
-        observer.current = new window.IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) {
-                setEntry(entry);
-                if (node && observer.current) {
-                    observer.current.unobserve(node);
-                }
-            }
-        }, options);
+    const { current: currentObserver } = observer;
 
-        const { current: currentObserver } = observer;
+    if (node) {
+      currentObserver.observe(node);
+    }
 
-        if (node) {
-            currentObserver.observe(node);
-        }
+    return () => {
+      if (currentObserver) {
+        currentObserver.disconnect();
+      }
+    };
+  }, [node, options]);
 
-        return () => {
-            if (currentObserver) {
-                currentObserver.disconnect();
-            }
-        };
-    }, [node, options]);
-
-    return [setNode, entry?.isIntersecting] as const;
+  return [setNode, entry?.isIntersecting] as const;
 };
-
 
 // HOC to wrap components with the observer
 const withFadeIn = <P extends object>(Component: React.ComponentType<P>) => {
-    const WrappedComponent = React.forwardRef<HTMLDivElement, P>((props, ref) => {
-        const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.1 });
+  const WrappedComponent = React.forwardRef<HTMLDivElement, P>((props, ref) => {
+    const [setNode, isVisible] = useIntersectionObserver({ threshold: 0.1 });
 
-        return (
-            <div ref={setNode} className={`fade-in-section ${isVisible ? 'is-visible' : ''}`}>
-                <Component {...props as P} />
-            </div>
-        );
-    });
-    WrappedComponent.displayName = `withFadeIn(${Component.displayName || Component.name})`;
-    return WrappedComponent;
+    return (
+      <div
+        ref={setNode}
+        className={`fade-in-section ${isVisible ? "is-visible" : ""}`}
+      >
+        <Component {...(props as P)} />
+      </div>
+    );
+  });
+  WrappedComponent.displayName = `withFadeIn(${
+    Component.displayName || Component.name
+  })`;
+  return WrappedComponent;
 };
 
 // Lazy load components that are below the fold
-const Pricing = lazy(() => import('./components/Pricing'));
-const Testimonials = lazy(() => import('./components/Testimonials'));
-const Partners = lazy(() => import('./components/Partners'));
-const FAQ = lazy(() => import('./components/FAQ'));
-const Location = lazy(() => import('./components/Location'));
-const Footer = lazy(() => import('./components/Footer'));
-const WhatsAppButton = lazy(() => import('./components/WhatsAppButton'));
-const Terms = lazy(() => import('./components/Terms'));
-const BackToTopButton = lazy(() => import('./components/BackToTopButton'));
-const TrackLaundry = lazy(() => import('./components/TrackLaundry'));
-const LayananPage = lazy(() => import('./pages/LayananPage'));
-
+const Pricing = lazy(() => import("./components/Pricing"));
+const Testimonials = lazy(() => import("./components/Testimonials"));
+const Partners = lazy(() => import("./components/Partners"));
+const FAQ = lazy(() => import("./components/FAQ"));
+const Location = lazy(() => import("./components/Location"));
+const Footer = lazy(() => import("./components/Footer"));
+const WhatsAppButton = lazy(() => import("./components/WhatsAppButton"));
+const Terms = lazy(() => import("./components/Terms"));
+const BackToTopButton = lazy(() => import("./components/BackToTopButton"));
+const TrackLaundry = lazy(() => import("./components/TrackLaundry"));
+const LayananPage = lazy(() => import("./pages/LayananPage"));
 
 const FadedPricing = withFadeIn(Pricing);
 const FadedTestimonials = withFadeIn(Testimonials);
@@ -81,80 +99,90 @@ const FadedFAQ = withFadeIn(FAQ);
 const FadedLocation = withFadeIn(Location);
 const FadedTrackLaundry = withFadeIn(TrackLaundry);
 
+const AppContent: React.FC = () => {
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+  const { enableAnimations } = useAnimationContext();
+
+  useEffect(() => {
+    setIsTermsModalOpen(true);
+  }, []);
+
+  const handleCloseTerms = () => {
+    setIsTermsModalOpen(false);
+    // Enable animations setelah modal ditutup
+    setTimeout(() => {
+      enableAnimations();
+    }, 100);
+  };
+
+  return (
+    <div className="text-zinc-800 dark:text-zinc-200 min-h-screen bg-white dark:bg-custom-purple-bg">
+      <Header />
+      <main className="w-full max-w-full">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <SEO
+                  title="Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar"
+                  description="Emak Laundry menyediakan layanan laundry kiloan dan satuan terbaik di Kota Banjar dengan sentuhan kasih ibu. Cepat, bersih, dan wangi."
+                  canonical="https://www.emaklaundry.my.id/"
+                />
+                <Hero />
+                {/* --- TrackLaundry Section --- */}
+                <Suspense fallback={<GenericSectionSkeleton />}>
+                  <FadedTrackLaundry />
+                </Suspense>
+                {/* ---------------------------- */}
+                <Suspense fallback={<PricingSkeleton />}>
+                  <FadedPricing />
+                </Suspense>
+                <Suspense fallback={<GenericSectionSkeleton />}>
+                  <FadedTestimonials />
+                </Suspense>
+                <Suspense fallback={<GenericSectionSkeleton />}>
+                  <FadedPartners />
+                </Suspense>
+                <Suspense fallback={<GenericSectionSkeleton />}>
+                  <FadedFAQ />
+                </Suspense>
+                <Suspense fallback={<GenericSectionSkeleton />}>
+                  <FadedLocation />
+                </Suspense>
+              </>
+            }
+          />
+          <Route
+            path="/layanan"
+            element={
+              <Suspense fallback={<GenericSectionSkeleton />}>
+                <LayananPage />
+              </Suspense>
+            }
+          />
+        </Routes>
+      </main>
+      <Suspense fallback={null}>
+        <Footer onTermsClick={() => setIsTermsModalOpen(true)} />
+        <WhatsAppButton />
+        <Terms isOpen={isTermsModalOpen} onClose={handleCloseTerms} />
+        <BackToTopButton />
+      </Suspense>
+    </div>
+  );
+};
 
 const App: React.FC = () => {
-    // Selalu buka modal Terms setiap halaman dimuat
-    const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
-
-    useEffect(() => {
-        setIsTermsModalOpen(true);
-    }, []);
-
-    const handleCloseTerms = () => {
-        setIsTermsModalOpen(false);
-        // localStorage.setItem('hasAcceptedTerms', 'true'); // Dihapus/dikomentari
-    };
-
-    return (
-        <ThemeProvider>
-            <ErrorBoundary>
-                <div className="text-zinc-800 dark:text-zinc-200 min-h-screen bg-white dark:bg-custom-purple-bg">
-                <Header />
-                <main className="w-full max-w-full">
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={
-                                <>
-                                    <SEO 
-                                        title="Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar"
-                                        description="Emak Laundry menyediakan layanan laundry kiloan dan satuan terbaik di Kota Banjar dengan sentuhan kasih ibu. Cepat, bersih, dan wangi."
-                                        canonical="https://www.emaklaundry.my.id/"
-                                    />
-                                    <Hero />
-                                    {/* --- TrackLaundry Section --- */}
-                                    <Suspense fallback={<GenericSectionSkeleton />}>
-                                        <FadedTrackLaundry />
-                                    </Suspense>
-                                    {/* ---------------------------- */}
-                                    <Suspense fallback={<PricingSkeleton />}>
-                                        <FadedPricing />
-                                    </Suspense>
-                                    <Suspense fallback={<GenericSectionSkeleton />}>
-                                        <FadedTestimonials />
-                                    </Suspense>
-                                    <Suspense fallback={<GenericSectionSkeleton />}>
-                                        <FadedPartners />
-                                    </Suspense>
-                                    <Suspense fallback={<GenericSectionSkeleton />}>
-                                        <FadedFAQ />
-                                    </Suspense>
-                                    <Suspense fallback={<GenericSectionSkeleton />}>
-                                        <FadedLocation />
-                                    </Suspense>
-                                </>
-                            }
-                        />
-                        <Route
-                            path="/layanan"
-                            element={
-                                <Suspense fallback={<GenericSectionSkeleton />}>
-                                    <LayananPage />
-                                </Suspense>
-                            }
-                        />
-                    </Routes>
-                </main>
-                <Suspense fallback={null}>
-                    <Footer onTermsClick={() => setIsTermsModalOpen(true)} />
-                    <WhatsAppButton />
-                    <Terms isOpen={isTermsModalOpen} onClose={handleCloseTerms} />
-                    <BackToTopButton />
-                </Suspense>
-            </div>
-            </ErrorBoundary>
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider>
+      <AnimationProvider>
+        <ErrorBoundary>
+          <AppContent />
+        </ErrorBoundary>
+      </AnimationProvider>
+    </ThemeProvider>
+  );
 };
 
 export default App;
