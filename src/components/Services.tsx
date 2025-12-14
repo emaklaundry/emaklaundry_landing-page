@@ -7,6 +7,7 @@ import {
   ShareIcon,
 } from "./Icons";
 import { supabase } from "../config/supabaseClient";
+import { useScrollAnimation } from "../utils/useScrollAnimation";
 
 // --- KONFIGURASI ---
 const WHATSAPP_NUMBER = "6285175279659";
@@ -88,8 +89,11 @@ interface ServiceDisplay {
 const ServiceCard: React.FC<{
   service: ServiceDisplay;
   viewMode: "grid" | "list";
-}> = ({ service, viewMode }) => {
+  index: number;
+}> = ({ service, viewMode, index }) => {
   const isList = viewMode === "list";
+
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
 
   const handleShare = async () => {
     const shareData = {
@@ -127,12 +131,19 @@ const ServiceCard: React.FC<{
 
   return (
     <div
-      className={`relative bg-white dark:bg-custom-purple-surface rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 border border-zinc-100 dark:border-zinc-800 group animate-fadeIn
+      ref={ref}
+      className={`relative bg-white dark:bg-custom-purple-surface rounded-xl shadow-lg hover:shadow-xl transition-all duration-700 border border-zinc-100 dark:border-zinc-800 group
+            ${
+              isVisible
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-12"
+            }
             ${
               isList
                 ? "flex flex-col md:flex-row items-start md:items-center p-6 text-left"
                 : "flex flex-col h-full p-6 sm:p-8"
             }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
     >
       {/* Tombol Share */}
       <button
@@ -470,7 +481,12 @@ const Services: React.FC = () => {
                     `}
           >
             {filteredServices.map((service, index) => (
-              <ServiceCard key={index} service={service} viewMode={viewMode} />
+              <ServiceCard
+                key={index}
+                service={service}
+                viewMode={viewMode}
+                index={index}
+              />
             ))}
           </div>
         )}

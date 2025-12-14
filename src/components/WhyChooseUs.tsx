@@ -1,5 +1,6 @@
 import React from "react";
 import { TruckIcon, ShieldCheckIcon, SparklesIconV2, ClockIcon } from "./Icons";
+import { useScrollAnimation } from "../utils/useScrollAnimation";
 
 const features = [
   {
@@ -28,11 +29,21 @@ const features = [
   },
 ];
 
-const FeatureCard: React.FC<{ feature: (typeof features)[0] }> = ({
-  feature,
-}) => {
+const FeatureCard: React.FC<{
+  feature: (typeof features)[0];
+  index: number;
+}> = ({ feature, index }) => {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+
   return (
-    <div className="bg-white dark:bg-custom-purple-surface p-4 sm:p-6 rounded-xl text-center transition-all duration-300 transform hover:scale-105 hover:shadow-xl h-full">
+    <div
+      ref={ref}
+      className={`bg-white dark:bg-custom-purple-surface p-4 sm:p-6 rounded-xl text-center transition-all duration-700 transform hover:scale-105 hover:shadow-xl h-full
+        ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        }`}
+      style={{ transitionDelay: `${index * 100}ms` }}
+    >
       <div className="mb-3 sm:mb-4 inline-block">{feature.icon}</div>
       <h3 className="text-lg sm:text-xl font-bold text-zinc-800 dark:text-zinc-100 mb-2">
         {feature.title}
@@ -61,7 +72,7 @@ const WhyChooseUs: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-6xl mx-auto">
           {features.map((feature, index) => (
-            <FeatureCard key={index} feature={feature} />
+            <FeatureCard key={index} feature={feature} index={index} />
           ))}
         </div>
       </div>

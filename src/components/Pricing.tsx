@@ -2,6 +2,7 @@ import React from "react";
 import type { PricingPlan } from "../types";
 import { SOCIAL_LINKS } from "../config/constants";
 import { SuitIcon, JacketIcon, BedIcon, ShoesIcon } from "./Icons";
+import { useScrollAnimation } from "../utils/useScrollAnimation";
 
 const plans: PricingPlan[] = [
   {
@@ -66,10 +67,16 @@ const CheckIcon = () => (
   </svg>
 );
 
-const PricingCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => {
+const PricingCard: React.FC<{ plan: PricingPlan; index: number }> = ({
+  plan,
+  index,
+}) => {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.2 });
+
   // Styling yang diperbarui dengan mobile optimization
   const cardClasses = `
-        relative flex flex-col p-4 sm:p-6 lg:p-8 bg-white dark:bg-custom-purple-surface rounded-2xl transition-all duration-300
+        relative flex flex-col p-4 sm:p-6 lg:p-8 bg-white dark:bg-custom-purple-surface rounded-2xl transition-all duration-700
+        ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}
         ${
           plan.isPopular
             ? "border-2 border-custom-purple shadow-2xl shadow-custom-purple/20 sm:scale-105 z-10"
@@ -78,7 +85,11 @@ const PricingCard: React.FC<{ plan: PricingPlan }> = ({ plan }) => {
     `;
 
   return (
-    <div className={cardClasses}>
+    <div
+      ref={ref}
+      className={cardClasses}
+      style={{ transitionDelay: `${index * 150}ms` }}
+    >
       {plan.isPopular && (
         <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
           <span className="bg-gradient-to-r from-custom-purple to-pink-600 text-white text-xs sm:text-sm font-bold px-3 sm:px-4 py-1 rounded-full shadow-md whitespace-nowrap">
@@ -140,7 +151,7 @@ const Pricing: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 items-stretch max-w-6xl mx-auto">
           {plans.map((plan, index) => (
-            <PricingCard key={index} plan={plan} />
+            <PricingCard key={index} plan={plan} index={index} />
           ))}
         </div>
       </div>

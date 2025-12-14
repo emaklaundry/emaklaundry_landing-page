@@ -1,10 +1,15 @@
 import React from "react";
 import { useSmoothScroll } from "../utils/useSmoothScroll";
+import { useScrollAnimation } from "../utils/useScrollAnimation";
+import { useCountUp } from "../utils/useCountUp";
 import { WhatsAppIcon } from "./Icons";
 import { SOCIAL_LINKS } from "../config/constants";
 
 const Hero: React.FC = () => {
   const handleLinkClick = useSmoothScroll();
+  const { ref: statsRef, isVisible } = useScrollAnimation({ threshold: 0.3 });
+  const customerCount = useCountUp({ end: 1000, duration: 2500, start: 0 });
+  const ratingCount = useCountUp({ end: 4.9, duration: 2000, decimals: 1 });
 
   return (
     <section className="relative min-h-[85vh] sm:min-h-[90vh] flex items-center bg-white dark:bg-custom-purple-surface overflow-hidden">
@@ -61,16 +66,33 @@ const Hero: React.FC = () => {
             </a>
           </div>
 
-          <div className="mt-8 sm:mt-10 lg:mt-12 grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 text-center max-w-2xl mx-auto">
-            <div className="p-3 sm:p-4 rounded-lg bg-white/50 dark:bg-custom-purple-surface/50 backdrop-blur-sm">
+          <div
+            ref={statsRef}
+            className="mt-8 sm:mt-10 lg:mt-12 grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 text-center max-w-2xl mx-auto"
+          >
+            <div
+              className={`p-3 sm:p-4 rounded-lg bg-white/50 dark:bg-custom-purple-surface/50 backdrop-blur-sm transition-all duration-700 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: "0ms" }}
+            >
               <p className="text-2xl sm:text-3xl font-bold text-custom-purple">
-                1000+
+                {isVisible ? customerCount : "0"}+
               </p>
               <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 uppercase mt-1">
                 Pelanggan
               </p>
             </div>
-            <div className="p-3 sm:p-4 rounded-lg bg-white/50 dark:bg-custom-purple-surface/50 backdrop-blur-sm">
+            <div
+              className={`p-3 sm:p-4 rounded-lg bg-white/50 dark:bg-custom-purple-surface/50 backdrop-blur-sm transition-all duration-700 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: "150ms" }}
+            >
               <p className="text-2xl sm:text-3xl font-bold text-custom-purple">
                 3 Jam
               </p>
@@ -78,9 +100,16 @@ const Hero: React.FC = () => {
                 Layanan Kilat
               </p>
             </div>
-            <div className="p-3 sm:p-4 rounded-lg bg-white/50 dark:bg-custom-purple-surface/50 backdrop-blur-sm">
+            <div
+              className={`p-3 sm:p-4 rounded-lg bg-white/50 dark:bg-custom-purple-surface/50 backdrop-blur-sm transition-all duration-700 ${
+                isVisible
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8"
+              }`}
+              style={{ transitionDelay: "300ms" }}
+            >
               <p className="text-2xl sm:text-3xl font-bold text-custom-purple">
-                4.9
+                {isVisible ? ratingCount : "0"}
               </p>
               <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 uppercase mt-1">
                 Rating

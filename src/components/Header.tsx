@@ -84,7 +84,9 @@ const Header: React.FC = () => {
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            <LogoIcon />
+            <div className="rounded-full overflow-hidden flex-shrink-0">
+              <LogoIcon />
+            </div>
             {/* Ganti tulisan dengan gambar */}
             <img
               src="/text-logo.png"
