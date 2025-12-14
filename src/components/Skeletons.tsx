@@ -11,7 +11,7 @@ const CardSkeleton: React.FC = () => (
 );
 
 export const ServicesSkeleton: React.FC = () => (
-    <section className="py-20 bg-zinc-50 dark:bg-custom-purple-bg">
+    <section className="py-10 sm:py-12 bg-zinc-50 dark:bg-custom-purple-bg">
         <div className="container mx-auto px-6">
             <div className="text-center mb-12">
                 <div className="h-10 w-1/2 bg-zinc-200 dark:bg-custom-purple-border rounded-md mx-auto mb-4 animate-pulse"></div>
@@ -28,7 +28,7 @@ export const ServicesSkeleton: React.FC = () => (
 );
 
 export const PricingSkeleton: React.FC = () => (
-    <section className="py-20 bg-zinc-50 dark:bg-custom-purple-bg">
+    <section className="py-10 sm:py-12 bg-zinc-50 dark:bg-custom-purple-bg">
         <div className="container mx-auto px-6">
              <div className="text-center mb-12">
                 <div className="h-10 w-1/2 bg-zinc-200 dark:bg-custom-purple-border rounded-md mx-auto mb-4 animate-pulse"></div>
@@ -44,7 +44,7 @@ export const PricingSkeleton: React.FC = () => (
 );
 
 export const GenericSectionSkeleton: React.FC = () => (
-     <section className="py-20 bg-white dark:bg-custom-purple-surface">
+     <section className="py-10 sm:py-12 bg-white dark:bg-custom-purple-surface">
         <div className="container mx-auto px-6">
              <div className="text-center mb-12">
                 <div className="h-10 w-1/2 bg-zinc-200 dark:bg-custom-purple-border rounded-md mx-auto mb-4 animate-pulse"></div>
