@@ -1,4 +1,3 @@
-
 export const WHATSAPP_NUMBER = '6285175279659';
 export const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}`;
 export const WHATSAPP_MESSAGE = 'Halo%20Emak%20Laundry,%20saya%20mau%20tanya%20soal%20layanan.%0A%0AKritik%20dan%20Saran:%20https://forms.gle/8JnjZZ4cu5oTXGYr9';

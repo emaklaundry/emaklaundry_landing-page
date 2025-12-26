@@ -85,11 +85,6 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({ isOpen, onClose }) => {
             width="100%"
             height="100%"
             title="Form Kritik dan Saran Emak Laundry"
-            frameBorder="0"
-            marginHeight={0}
-            marginWidth={0}
-            className="min-h-[700px]"
-            title="Form Kritik dan Saran Emak Laundry"
           >
             Memuat…
           </iframe>

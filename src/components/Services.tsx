@@ -238,7 +238,7 @@ const Services: React.FC = () => {
     []
   );
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Semua");
+  const [selectedWashType, setSelectedWashType] = useState("Semua");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid"); // Default Grid
 
   const [loading, setLoading] = useState(true);
@@ -290,14 +290,18 @@ const Services: React.FC = () => {
           })
         );
 
-        const uniqueCategories = [
+        const uniqueWashTypes = [
           "Semua",
-          ...new Set(formattedData.map((item) => item.category)),
-        ];
+          ...new Set(formattedData.map((item) => item.washType)),
+        ].sort((a, b) => {
+          if (a === "Semua") return -1;
+          if (b === "Semua") return 1;
+          return a.localeCompare(b, 'id');
+        });
 
         setServices(formattedData);
         setFilteredServices(formattedData);
-        setCategories(uniqueCategories);
+        setCategories(uniqueWashTypes);
       } catch (err: any) {
         setError(
           err?.message || "Gagal memuat layanan. Silakan refresh halaman."
@@ -316,8 +320,8 @@ const Services: React.FC = () => {
   useEffect(() => {
     let result = services;
 
-    if (selectedCategory !== "Semua") {
-      result = result.filter((s) => s.category === selectedCategory);
+    if (selectedWashType !== "Semua") {
+      result = result.filter((s) => s.washType === selectedWashType);
     }
 
     if (searchTerm) {
@@ -330,7 +334,7 @@ const Services: React.FC = () => {
     }
 
     setFilteredServices(result);
-  }, [searchTerm, selectedCategory, services]);
+  }, [searchTerm, selectedWashType, services]);
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 bg-zinc-50 dark:bg-custom-purple-bg min-h-screen transition-colors duration-300">
@@ -392,15 +396,15 @@ const Services: React.FC = () => {
               </div>
             </div>
 
-            {/* Baris Bawah: Kategori */}
+            {/* Baris Bawah: Jenis Cucian */}
             <div className="flex flex-wrap justify-center gap-2">
               {categories.map((cat) => (
                 <button
                   key={cat}
-                  onClick={() => setSelectedCategory(cat)}
+                  onClick={() => setSelectedWashType(cat)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 
                                         ${
-                                          selectedCategory === cat
+                                          selectedWashType === cat
                                             ? "bg-indigo-600 text-white shadow-md transform scale-105"
                                             : "bg-white text-zinc-600 hover:bg-zinc-100 dark:bg-custom-purple-surface dark:text-zinc-300 dark:hover:bg-custom-purple-border border border-zinc-200 dark:border-zinc-700"
                                         }`}
@@ -467,7 +471,7 @@ const Services: React.FC = () => {
             <button
               onClick={() => {
                 setSearchTerm("");
-                setSelectedCategory("Semua");
+                setSelectedWashType("Semua");
               }}
               className="mt-4 text-indigo-600 hover:text-indigo-700 font-medium"
             >

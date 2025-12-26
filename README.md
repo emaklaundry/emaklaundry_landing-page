@@ -1,6 +1,6 @@
 # Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar
 
-[![Version](https://img.shields.io/badge/version-1.0.3-blue)](package.json)
+[![Version](https://img.shields.io/badge/version-1.1.1-blue)](package.json)
 [![React](https://img.shields.io/badge/react-19.2.0-61dafb)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/typescript-5.8.2-blue)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/vite-6.2.0-646cff)](https://vitejs.dev/)
@@ -121,16 +121,16 @@ emaklaundry_landing-page/
 
 ## 🔧 Tech Stack
 
-| Kategori | Teknologi |
-|----------|-----------|
-| **Frontend** | React 19 + TypeScript 5 |
-| **Build Tool** | Vite 6 (SWC) |
-| **Styling** | TailwindCSS 3 |
-| **Routing** | React Router DOM 7 |
-| **Backend** | Supabase (PostgreSQL) |
-| **SEO** | React Helmet Async + JSON-LD |
-| **Utilities** | date-fns |
-| **AI** | Google Gemini API |
+| Kategori       | Teknologi                    |
+| -------------- | ---------------------------- |
+| **Frontend**   | React 19 + TypeScript 5      |
+| **Build Tool** | Vite 6 (SWC)                 |
+| **Styling**    | TailwindCSS 3                |
+| **Routing**    | React Router DOM 7           |
+| **Backend**    | Supabase (PostgreSQL)        |
+| **SEO**        | React Helmet Async + JSON-LD |
+| **Utilities**  | date-fns                     |
+| **AI**         | Google Gemini API            |
 
 ### Animasi yang Tersedia
 
@@ -181,20 +181,26 @@ Output ada di folder `dist/`.
 ## 🐛 Troubleshooting
 
 ### Error: "supabaseUrl is required"
+
 **Solusi**: Pastikan `.env` sudah dibuat dan terisi. Restart dev server.
 
 ### Error: "Store ID belum disetting"
+
 **Solusi**: Tambahkan `VITE_STORE_ID` ke `.env`. Get ID dari Supabase `stores` table.
 
 ### Animasi tidak jalan
+
 **Solusi**: Clear cache Vite dan restart:
+
 ```bash
 rm -rf node_modules/.vite
 npm run dev
 ```
 
 ### Build Error
+
 **Solusi**:
+
 ```bash
 # Clear semua cache
 rm -rf node_modules dist .vite
@@ -205,6 +211,7 @@ npx tsc --noEmit
 ```
 
 ### Module resolution error
+
 **Solusi**: Pastikan struktur folder sesuai dengan `tsconfig.json` dan semua import path benar.
 
 ---
