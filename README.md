@@ -1,6 +1,6 @@
 # Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar
 
-[![Version](https://img.shields.io/badge/version-1.1.1-blue)](package.json)
+[![Version](https://img.shields.io/badge/version-1.1.2-blue)](package.json)
 [![React](https://img.shields.io/badge/react-19.2.0-61dafb)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/typescript-5.8.2-blue)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/vite-6.2.0-646cff)](https://vitejs.dev/)
