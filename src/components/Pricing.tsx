@@ -122,6 +122,7 @@ const PricingCard: React.FC<{ plan: PricingPlan; index: number }> = ({
         href={SOCIAL_LINKS.whatsapp}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={`Pesan paket ${plan.name} melalui WhatsApp`}
         className={`block text-center w-full mt-8 sm:mt-10 font-bold py-3 sm:py-3.5 px-6 rounded-lg transition-all duration-300 active:scale-95 text-sm sm:text-base ${
           plan.isPopular
             ? "bg-custom-purple text-white hover:bg-custom-purple-hover"

@@ -6,7 +6,13 @@ interface IconProps {
 }
 
 export const LogoIcon: React.FC<IconProps> = ({ className = "w-8 h-8" }) => (
-  <img src="/logo.png" alt="Emak Laundry Logo" className={className} />
+  <img
+    src="/logo.png"
+    alt="Emak Laundry Logo"
+    width={32}
+    height={32}
+    className={className}
+  />
 );
 
 export const SunIcon: React.FC<IconProps> = ({ className = "h-6 w-6" }) => (

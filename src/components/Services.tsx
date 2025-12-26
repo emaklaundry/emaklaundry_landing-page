@@ -75,6 +75,7 @@ const WhatsAppIconSmall = () => (
 interface DBService {
   service_name: string;
   category: string;
+  wash_type: string;
   duration_days: number;
 }
 
@@ -83,6 +84,7 @@ interface ServiceDisplay {
   title: string;
   description: string;
   category: string;
+  washType: string;
 }
 
 // --- SERVICE CARD COMPONENT ---
@@ -105,10 +107,8 @@ const ServiceCard: React.FC<{
       try {
         await navigator.share(shareData);
       } catch (err) {
-        const errorMsg = "Gagal membagikan layanan";
-        if (navigator.share) {
-          // Share cancelled, tidak perlu error
-        } else if (process.env.NODE_ENV === "development") {
+        // Share cancelled by user or failed - silent fail for better UX
+        if (process.env.NODE_ENV === "development") {
           console.error("Share error:", err);
         }
       }
@@ -280,7 +280,12 @@ const Services: React.FC = () => {
           (item) => ({
             title: item.service_name,
             category: item.category,
-            description: `Layanan ${item.category} profesional dengan estimasi pengerjaan ${item.duration_days} hari.`,
+            washType: item.wash_type || item.category,
+            description: `Layanan ${
+              item.wash_type || item.category
+            } profesional dengan estimasi pengerjaan ${
+              item.duration_days
+            } hari.`,
             icon: getIconByCategory(item.category),
           })
         );
@@ -470,25 +475,61 @@ const Services: React.FC = () => {
             </button>
           </div>
         ) : (
-          // LOGIKA RENDER GRID VS LIST
-          <div
-            className={`
-                        ${
-                          viewMode === "grid"
-                            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
-                            : "flex flex-col gap-4 max-w-4xl mx-auto"
-                        }
+          (() => {
+            // Group services by washType
+            const groupedServices: Record<string, ServiceDisplay[]> = {};
+            filteredServices.forEach((service) => {
+              const washType = service.washType || "Lainnya";
+              if (!groupedServices[washType]) {
+                groupedServices[washType] = [];
+              }
+              groupedServices[washType].push(service);
+            });
+
+            // Convert to array and sort by wash type name
+            const sortedGroups = Object.entries(groupedServices).sort(
+              ([a], [b]) => a.localeCompare(b, "id")
+            );
+
+            return (
+              <div className="space-y-12">
+                {sortedGroups.map(([washType, services]) => (
+                  <div key={washType} className="animate-fade-in-up">
+                    {/* Wash Type Header */}
+                    <div className="mb-6 pb-3 border-b-2 border-custom-purple/20 dark:border-custom-purple-light/20">
+                      <h3 className="text-2xl md:text-3xl font-bold text-custom-purple dark:text-custom-purple-light flex items-center gap-3">
+                        <span className="inline-block w-2 h-8 bg-custom-purple dark:bg-custom-purple-light rounded-full"></span>
+                        {washType}
+                        <span className="text-sm font-normal text-zinc-500 dark:text-zinc-400 ml-auto">
+                          ({services.length} layanan)
+                        </span>
+                      </h3>
+                    </div>
+
+                    {/* Services Grid/List */}
+                    <div
+                      className={`
+                      ${
+                        viewMode === "grid"
+                          ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8"
+                          : "flex flex-col gap-4 max-w-4xl mx-auto"
+                      }
                     `}
-          >
-            {filteredServices.map((service, index) => (
-              <ServiceCard
-                key={index}
-                service={service}
-                viewMode={viewMode}
-                index={index}
-              />
-            ))}
-          </div>
+                    >
+                      {services.map((service, index) => (
+                        <ServiceCard
+                          key={index}
+                          service={service}
+                          viewMode={viewMode}
+                          index={index}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            );
+          })()
         )}
       </div>
     </section>

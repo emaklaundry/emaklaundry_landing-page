@@ -46,7 +46,7 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({
       <img
         className="w-14 h-14 rounded-full bg-zinc-100 dark:bg-custom-purple-surface transition-transform duration-300 group-hover:scale-110"
         src={testimonial.avatar}
-        alt={testimonial.name}
+        alt={`Foto profil ${testimonial.name}, ${testimonial.role}`}
         loading="lazy"
         decoding="async"
       />
