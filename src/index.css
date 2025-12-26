@@ -203,6 +203,42 @@ textarea:focus-visible {
   animation: whatsapp-pulse 2s infinite;
 }
 
+/* Flame animation for popular badge */
+@keyframes flame {
+  0%,
+  100% {
+    transform: scale(1) rotate(-5deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(5deg);
+  }
+  50% {
+    transform: scale(1.15) rotate(-3deg);
+  }
+  75% {
+    transform: scale(1.05) rotate(3deg);
+  }
+}
+
+/* Fire glow animation for popular pricing card */
+@keyframes fire-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.4),
+      0 0 40px rgba(249, 115, 22, 0.2), 0 0 60px rgba(249, 115, 22, 0.1),
+      0 10px 30px rgba(183, 64, 183, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.6),
+      0 0 60px rgba(249, 115, 22, 0.4), 0 0 90px rgba(249, 115, 22, 0.2),
+      0 10px 40px rgba(183, 64, 183, 0.5);
+  }
+}
+
+.popular-card-glow {
+  animation: fire-glow 2s ease-in-out infinite;
+}
+
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   *:not(.testimonial-scroll):not(.partner-scroll):not(.hero-kenburns):not(

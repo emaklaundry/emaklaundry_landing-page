@@ -79,7 +79,7 @@ const PricingCard: React.FC<{ plan: PricingPlan; index: number }> = ({
         ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}
         ${
           plan.isPopular
-            ? "border-2 border-custom-purple shadow-2xl shadow-custom-purple/20 sm:scale-105 z-10"
+            ? "border-2 border-custom-purple shadow-2xl sm:scale-105 z-10 popular-card-glow"
             : "border border-zinc-100 dark:border-custom-purple-border shadow-lg hover:shadow-xl hover:-translate-y-1"
         }
     `;
@@ -93,7 +93,7 @@ const PricingCard: React.FC<{ plan: PricingPlan; index: number }> = ({
       {plan.isPopular && (
         <div className="absolute -top-3 sm:-top-4 left-1/2 transform -translate-x-1/2">
           <span className="bg-gradient-to-r from-custom-purple to-pink-600 text-white text-xs sm:text-sm font-bold px-3 sm:px-4 py-1 rounded-full shadow-md whitespace-nowrap">
-            Paling Laris 🔥
+            Paling Laris <span className="inline-block animate-flame">🔥</span>
           </span>
         </div>
       )}

@@ -24,6 +24,7 @@ export default {
         fadeIn: "fadeIn 0.5s ease-out",
         wiggle: "wiggle 1s ease-in-out infinite",
         float: "float 3s ease-in-out infinite",
+        flame: "flame 0.8s ease-in-out infinite",
       },
       keyframes: {
         kenburns: {
@@ -69,6 +70,12 @@ export default {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
+          flame: {
+            "0%, 100%": { transform: "scale(1) rotate(-5deg)" },
+            "25%": { transform: "scale(1.1) rotate(5deg)" },
+            "50%": { transform: "scale(1.15) rotate(-3deg)" },
+            "75%": { transform: "scale(1.05) rotate(3deg)" },
+          },
         },
       },
       screens: {
