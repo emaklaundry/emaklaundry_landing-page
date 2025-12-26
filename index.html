@@ -1,35 +1,90 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <!-- Enhanced mobile viewport with better scaling control -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#B740B7">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#B740B7" />
     <title>Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar</title>
-    
+
+    <!-- Google Analytics (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-26HDF431XD"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-26HDF431XD");
+    </script>
+
     <!-- SEO & Social Sharing Tags -->
-    <meta name="description" content="Emak Laundry menyediakan layanan laundry kiloan dan satuan terbaik di Kota Banjar dengan sentuhan kasih ibu. Cepat, bersih, dan wangi." />
-    <meta name="keywords" content="laundry banjar jawa barat, laundry mekarsari banjar, cuci karpet banjar, laundry antar jemput banjar, emak laundry, laundry kiloan banjar, jasa laundry kota banjar, cuci setrika banjar" />
+    <meta
+      name="description"
+      content="Emak Laundry menyediakan layanan laundry kiloan dan satuan terbaik di Kota Banjar dengan sentuhan kasih ibu. Cepat, bersih, dan wangi."
+    />
+    <meta
+      name="keywords"
+      content="laundry banjar jawa barat, laundry mekarsari banjar, cuci karpet banjar, laundry antar jemput banjar, emak laundry, laundry kiloan banjar, jasa laundry kota banjar, cuci setrika banjar"
+    />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://www.emaklaundry.my.id/" />
-    
-    <meta name="google-site-verification" content="2xTEhMS1BrilzTIevEYKV9YjJqw6FwuOERrdjwZThHM" />
-    
+
+    <meta
+      name="google-site-verification"
+      content="2xTEhMS1BrilzTIevEYKV9YjJqw6FwuOERrdjwZThHM"
+    />
+
     <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="manifest" href="/favicon/site.webmanifest">
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="/favicon/site.webmanifest" />
     <!-- Inline SVG fallback -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z' fill='%23B740B7'/></svg>">
-    
-    <meta property="og:title" content="Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar" />
-    <meta property="og:description" content="Cucian bersih, wangi, dan rapi dengan sentuhan kasih ibu. Layanan antar-jemput tersedia." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1582735689369-4fe89db7fb15?q=80&w=1200&auto=format&fit=crop" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z' fill='%23B740B7'/></svg>"
+    />
+
+    <meta
+      property="og:title"
+      content="Emak Laundry - Jasa Laundry Kiloan & Satuan di Banjar"
+    />
+    <meta
+      property="og:description"
+      content="Cucian bersih, wangi, dan rapi dengan sentuhan kasih ibu. Layanan antar-jemput tersedia."
+    />
+    <meta
+      property="og:image"
+      content="https://images.unsplash.com/photo-1582735689369-4fe89db7fb15?q=80&w=1200&auto=format&fit=crop"
+    />
     <meta property="og:url" content="https://www.emaklaundry.my.id/" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="id_ID" />
@@ -38,86 +93,98 @@
     <!-- <link rel="preload" as="image" href="https://images.unsplash.com/photo-1582735689369-4fe89db7fb15?q=80&w=2070&auto=format&fit=crop" /> -->
 
     <script>
-        // Script ini mencegah "flash" warna putih saat reload di mode gelap
-        if (localStorage.theme === 'purple' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark')
-        } else {
-            document.documentElement.classList.remove('dark')
-        }
+      // Script ini mencegah "flash" warna putih saat reload di mode gelap
+      if (
+        localStorage.theme === "purple" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0"
-  }
-}
-</script>
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "DryCleaningOrLaundry",
-    "name": "Emak Laundry",
-    "description": "Jasa laundry kiloan dan satuan di Kota Banjar dengan layanan antar-jemput. Cepat, bersih, wangi, dengan sentuhan kasih ibu.",
-    "image": "https://images.unsplash.com/photo-1582735689369-4fe89db7fb15?q=80&w=1200&auto=format&fit=crop",
-    "url": "https://www.emaklaundry.my.id/",
-    "telephone": "+6285175279659",
-    "priceRange": "Rp7.500 - Rp25.000",
-    "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Jl. Dr. Sudarsono No.43, Mekarsari",
-        "addressLocality": "Kecamatan Banjar",
-        "addressRegion": "Jawa Barat",
-        "postalCode": "46321",
-        "addressCountry": "ID"
-    },
-    "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": -7.3722044,
-        "longitude": 108.5394668
-    },
-    "areaServed": [
-        {
+
+    <!-- Performance: Preconnect to critical origins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="importmap">
+      {
+        "imports": {
+          "react/": "https://aistudiocdn.com/react@^19.2.0/",
+          "react": "https://aistudiocdn.com/react@^19.2.0",
+          "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+          "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.0"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "DryCleaningOrLaundry",
+        "name": "Emak Laundry",
+        "description": "Jasa laundry kiloan dan satuan di Kota Banjar dengan layanan antar-jemput. Cepat, bersih, wangi, dengan sentuhan kasih ibu.",
+        "image": "https://images.unsplash.com/photo-1582735689369-4fe89db7fb15?q=80&w=1200&auto=format&fit=crop",
+        "url": "https://www.emaklaundry.my.id/",
+        "telephone": "+6285175279659",
+        "priceRange": "Rp7.500 - Rp25.000",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Jl. Dr. Sudarsono No.43, Mekarsari",
+          "addressLocality": "Kecamatan Banjar",
+          "addressRegion": "Jawa Barat",
+          "postalCode": "46321",
+          "addressCountry": "ID"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -7.3722044,
+          "longitude": 108.5394668
+        },
+        "areaServed": [
+          {
             "@type": "City",
             "name": "Banjar"
-        },
-        {
+          },
+          {
             "@type": "City",
             "name": "Mekarsari"
-        }
-    ],
-    "openingHoursSpecification": [
-        {
+          }
+        ],
+        "openingHoursSpecification": [
+          {
             "@type": "OpeningHoursSpecification",
             "dayOfWeek": [
-                "Monday",
-                "Tuesday",
-                "Wednesday",
-                "Thursday",
-                "Friday",
-                "Saturday",
-                "Sunday"
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
             ],
             "opens": "08:00",
             "closes": "20:00"
+          }
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+6285175279659",
+          "contactType": "customer service"
         }
-    ],
-    "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+6285175279659",
-        "contactType": "customer service"
-    }
-}
-</script>
-<link rel="stylesheet" href="/src/index.css">
-</head>
-<body class="bg-secondary text-zinc-700 dark:bg-custom-purple-bg dark:text-zinc-200" style="margin-top:0;">
+      }
+    </script>
+    <link rel="stylesheet" href="/src/index.css" />
+  </head>
+  <body
+    class="bg-secondary text-zinc-700 dark:bg-custom-purple-bg dark:text-zinc-200"
+    style="margin-top: 0"
+  >
     <div id="root"></div>
-<script type="module" src="/src/index.tsx"></script>
-</body>
+    <script type="module" src="/src/index.tsx"></script>
+  </body>
 </html>

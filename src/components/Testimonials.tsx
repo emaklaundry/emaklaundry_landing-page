@@ -46,7 +46,7 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({
       <img
         className="w-14 h-14 rounded-full bg-zinc-100 dark:bg-custom-purple-surface transition-transform duration-300 group-hover:scale-110"
         src={testimonial.avatar}
-        alt={testimonial.name}
+        alt={`Foto profil ${testimonial.name}, ${testimonial.role}`}
         loading="lazy"
         decoding="async"
       />
@@ -63,8 +63,6 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({
 );
 
 const Testimonials: React.FC = () => {
-  const [isPaused, setIsPaused] = React.useState(false);
-
   return (
     <section
       id="testimonials"
@@ -94,13 +92,8 @@ const Testimonials: React.FC = () => {
           style={{
             width: "max-content",
             animation: "scroll-testimonials 40s linear infinite",
-            animationPlayState: isPaused ? "paused" : "running",
             willChange: "transform",
           }}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
         >
           {scrollingTestimonials.map((testimonial, index) => (
             <div

@@ -13,8 +13,6 @@ const partnerList = [
 const partners = [...partnerList, ...partnerList, ...partnerList];
 
 const Partners: React.FC = () => {
-  const [isPaused, setIsPaused] = React.useState(false);
-
   return (
     <section
       id="partners"
@@ -42,13 +40,8 @@ const Partners: React.FC = () => {
             style={{
               width: "max-content",
               animation: "marquee 35s linear infinite",
-              animationPlayState: isPaused ? "paused" : "running",
               willChange: "transform",
             }}
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            onTouchStart={() => setIsPaused(true)}
-            onTouchEnd={() => setIsPaused(false)}
           >
             {partners.map((partner, index) => (
               <div

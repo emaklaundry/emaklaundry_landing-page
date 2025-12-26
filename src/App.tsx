@@ -104,11 +104,20 @@ const AppContent: React.FC = () => {
   const { enableAnimations } = useAnimationContext();
 
   useEffect(() => {
-    setIsTermsModalOpen(true);
-  }, []);
+    // Check if user has already accepted terms in this session
+    const termsAccepted = sessionStorage.getItem("termsAccepted");
+    if (!termsAccepted) {
+      setIsTermsModalOpen(true);
+    } else {
+      // If terms already accepted, enable animations immediately
+      enableAnimations();
+    }
+  }, [enableAnimations]);
 
   const handleCloseTerms = () => {
     setIsTermsModalOpen(false);
+    // Store acceptance in sessionStorage (persists for browser session)
+    sessionStorage.setItem("termsAccepted", "true");
     // Enable animations setelah modal ditutup
     setTimeout(() => {
       enableAnimations();

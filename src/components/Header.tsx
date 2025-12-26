@@ -91,6 +91,8 @@ const Header: React.FC = () => {
             <img
               src="/text-logo.png"
               alt="Logo Emak Laundry Jasa Cuci Banjar"
+              width={160}
+              height={47}
               className="h-7 md:h-8 object-contain"
               style={{ maxWidth: 160, display: "block" }}
               loading="lazy"
